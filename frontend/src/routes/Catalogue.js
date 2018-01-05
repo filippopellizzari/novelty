@@ -1,7 +1,9 @@
 import React from 'react';
+import axios from 'axios';
 import Search from '../components/Search'
 import SelectedList from '../components/SelectedList'
-import movies from '../movies.json'
+//import movies from '../movies.json'
+import survey from '../survey_between.json'
 import {Row, Col, Button} from 'react-bootstrap';
 
 class Catalogue extends React.Component {
@@ -9,16 +11,22 @@ class Catalogue extends React.Component {
   constructor(){
     super();
     this.state = {
+      movies: [],
       selectedMovies: [],
       selects: 0
     };
   }
 
+  componentDidMount(){
+    axios.get(/movies/)
+      .then((response) => this.setState({movies:response.data}))
+      .catch((error) => console.log(error))
+  }
+
   addSelect(newMovie){
-    let moviesToSelect=5;
     //selected movies are limited and are not duplicated
     if(this.state.selectedMovies.indexOf(newMovie) === -1 &&
-    this.state.selects < moviesToSelect){
+    this.state.selects < survey.moviesToSelect){
       this.setState({
         selectedMovies: [...this.state.selectedMovies, newMovie ],
         selects: this.state.selects + 1
@@ -37,13 +45,11 @@ class Catalogue extends React.Component {
 
   render() {
 
-    let moviesToSelect=5;
-
     return (
       <div className="container">
         <Row style={{marginTop: 30}}>
           <Col xs={12} md={8}>
-            <Search movies={movies}
+            <Search movies={this.state.movies}
               onSelectMovie={this.addSelect.bind(this)}
             />
           </Col>
@@ -53,7 +59,7 @@ class Catalogue extends React.Component {
             />
             <div style={{textAlign:'center'}}>
               <Button bsStyle="primary" bsSize="large" href="/survey/1"
-                hidden={this.state.selects !== moviesToSelect}>Start!
+                hidden={this.state.selects !== survey.moviesToSelect}>Start!
               </Button>
             </div>
           </Col>

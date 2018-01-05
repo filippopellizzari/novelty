@@ -87,6 +87,7 @@ class Search extends React.Component {
               <select onChange={this.updateSort.bind(this)}>
                 <option value="year">Release Year</option>
                 <option value="title">Title</option>
+                <option value="imdb_rating">IMDb Rating</option>
               </select>
             </div>
           </Col>

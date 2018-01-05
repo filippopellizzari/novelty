@@ -1,9 +1,10 @@
 {
-  "id": "1",
+  "id": 1,
   "type": "between-subject",
+  "moviesToSelect": 5,
   "questions": [
     {
-      "id": "1",
+      "id": 1,
       "genre": "accuracy",
       "text": "Which list contains more movies that you like?",
       "options":[
@@ -22,7 +23,7 @@
       ]
     },
     {
-      "id": "2",
+      "id": 2,
       "genre": "novelty",
       "text": "Which list contains more movies that you have already watched?",
       "options":[
@@ -41,7 +42,7 @@
       ]
     },
     {
-      "id": "3",
+      "id": 3,
       "genre": "novelty",
       "text": "Which list contains more movies that you already knew about?",
       "options":[
@@ -60,7 +61,7 @@
       ]
     },
     {
-      "id": "4",
+      "id": 4,
       "genre": "diversity",
       "text": "Which list contains more movies that are similar to each other?",
       "options":[
@@ -79,7 +80,7 @@
       ]
     },
     {
-      "id": "5",
+      "id": 5,
       "genre": "diversity",
       "text": "Which list contains more movies that are similar to your tastes?",
       "options":[
@@ -98,7 +99,7 @@
       ]
     },
     {
-      "id": "6",
+      "id": 6,
       "genre": "satisfaction",
       "text": "Which list would better help you find movies to watch?",
       "options":[
@@ -117,7 +118,7 @@
       ]
     },
     {
-      "id": "7",
+      "id": 7,
       "genre": "satisfaction",
       "text": "Which list of recommendations do you find more valuable?",
       "options":[
