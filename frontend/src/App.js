@@ -2,6 +2,8 @@ import React from 'react'
 import {BrowserRouter, Route} from 'react-router-dom';
 import Base from './routes/Base';
 import Home from './routes/Home';
+import Login from './routes/Login';
+import Signup from './routes/Signup';
 import Welcome from './routes/Welcome';
 import Catalogue from './routes/Catalogue';
 import Survey from './routes/Survey';
@@ -12,6 +14,8 @@ const App = () => (
         <div>
             <Route path="/" component={Base} />
             <Route path="/home" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
             <Route path="/welcome" component={Welcome} />
             <Route path="/catalogue" component={Catalogue} />
             <Route path="/survey" component={Survey} />
