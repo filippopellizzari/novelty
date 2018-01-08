@@ -1,5 +1,6 @@
 import React from 'react';
 import {FormGroup, FormControl, ControlLabel, Button, Checkbox, Radio} from 'react-bootstrap';
+import axios from 'axios';
 
 class Signup extends React.Component {
 
@@ -13,14 +14,29 @@ class Signup extends React.Component {
     }
   }
 
-  handleChange (event){
+  handleChange (e){
     this.setState({
-      [event.target.id]: event.target.value
+      [e.target.id]: e.target.value
     });
   }
 
-  handleSubmit (event){
-    event.preventDefault();
+  handleGender(e){
+    this.setState({gender: e.target.value});
+  }
+
+
+  handleSubmit (e){
+    e.preventDefault();
+
+    axios.post(/users/, {
+      email: this.state.email,
+      password: this.state.password,
+      gender:this.state.gender
+    })
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error));
+
+
   }
 
   render() {
@@ -58,26 +74,26 @@ class Signup extends React.Component {
                   />
                 </FormGroup>
 
-                <FormGroup>
+                <FormGroup controlId="gender">
                   <h6>Gender</h6>
-                    <div>
-                      <input type="radio" name="gender" value="Male"
-                        onChange={this.handleChange.bind(this)} checked/> Male
-                    </div>
-                    <div>
-                      <input type="radio" name="gender" value="Female"
-                        onChange={this.handleChange.bind(this)}/> Female
-                    </div>
+                  <select value={this.state.value}
+                    onChange={this.handleGender.bind(this)}>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                  </select>
                 </FormGroup>
 
                 <Button block href="/welcome"
-                  bsSize="large" bsStyle="primary">
+                  bsSize="large" bsStyle="primary"
+                  onClick={this.handleSubmit.bind(this)}>
                   Signup
                 </Button>
+
               </form>
               <div className="card-footer text-muted text-center">
                 Already have an account? <a href="/login">Log in</a>
               </div>
+
             </div>
           </div>
         </div>

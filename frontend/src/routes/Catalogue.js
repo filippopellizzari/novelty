@@ -20,7 +20,7 @@ class Catalogue extends React.Component {
   componentDidMount(){
     axios.get(/movies/)
       .then((response) => this.setState({movies:response.data}))
-      .catch((error) => console.log(error))
+      .catch((error) => console.log(error));
   }
 
   addSelect(newMovie){

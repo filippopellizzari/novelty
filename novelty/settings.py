@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'webpack_loader',
     'rest_framework',
+    'rest_framework.authtoken',
+    'accounts',
     'movies',
 ]
 
@@ -102,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -128,4 +129,12 @@ WEBPACK_LOADER = {
             'BUNDLE_DIR_NAME': 'bundles/',
             'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
         }
+}
+
+AUTH_USER_MODEL = 'accounts.User'
+
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': (
+      'rest_framework.authentication.TokenAuthentication',
+    )
 }

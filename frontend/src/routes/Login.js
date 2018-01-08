@@ -1,6 +1,10 @@
 import React from 'react';
 import {FormGroup, FormControl, ControlLabel, Button, Checkbox, Radio} from 'react-bootstrap';
 
+import Form from 'react-validation/build/form';
+import Input from 'react-validation/build/input';
+import validator from 'validator';
+
 class Login extends React.Component {
 
   constructor(){
@@ -19,12 +23,12 @@ class Login extends React.Component {
 
   handleSubmit (event){
     event.preventDefault();
+    //POST
   }
 
 
   render() {
     return (
-    <div>
       <div className="row justify-content-center">
         <div className="col-lg-4 col-md-6 col-sm-8">
           <div className="card">
@@ -62,9 +66,6 @@ class Login extends React.Component {
           </div>
         </div>
       </div>
-
-    </div>
-
     );
   }
 }
