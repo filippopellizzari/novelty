@@ -11,7 +11,7 @@ class Home extends React.Component {
                 <h2 className="display-3">Novelty Survey</h2>
                 <p className="lead">Online study on how the user perceives
                   novelty in recommender systems</p>
-                <form class="form-inline">
+                <form className="form-inline">
                   <div className="container" style={{textAlign:'center'}}>
                     <a className="btn btn-primary btn-lg"
                       href="/login">Login</a>

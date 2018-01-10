@@ -1,6 +1,6 @@
 import React from 'react';
-import {FormGroup, FormControl, ControlLabel, Button, Checkbox, Radio} from 'react-bootstrap';
-import axios from 'axios';
+import {FormGroup, FormControl, Button} from 'react-bootstrap';
+//import axios from 'axios';
 
 class Signup extends React.Component {
 
@@ -27,7 +27,7 @@ class Signup extends React.Component {
 
   handleSubmit (e){
     e.preventDefault();
-
+    /*
     axios.post(/users/, {
       email: this.state.email,
       password: this.state.password,
@@ -35,7 +35,7 @@ class Signup extends React.Component {
     })
     .then((response) => console.log(response))
     .catch((error) => console.log(error));
-
+*/
 
   }
 
@@ -84,8 +84,7 @@ class Signup extends React.Component {
                 </FormGroup>
 
                 <Button block href="/welcome"
-                  bsSize="large" bsStyle="primary"
-                  onClick={this.handleSubmit.bind(this)}>
+                  bsSize="large" bsStyle="primary">
                   Signup
                 </Button>
 

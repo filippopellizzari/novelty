@@ -1,9 +1,6 @@
 import React from 'react';
-import {FormGroup, FormControl, ControlLabel, Button, Checkbox, Radio} from 'react-bootstrap';
+import {FormGroup, FormControl, Button} from 'react-bootstrap';
 
-import Form from 'react-validation/build/form';
-import Input from 'react-validation/build/input';
-import validator from 'validator';
 
 class Login extends React.Component {
 
@@ -15,14 +12,14 @@ class Login extends React.Component {
     }
   }
 
-  handleChange (event){
+  handleChange (e){
     this.setState({
-      [event.target.id]: event.target.value
+      [e.target.id]: e.target.value
     });
   }
 
-  handleSubmit (event){
-    event.preventDefault();
+  handleSubmit (e){
+    e.preventDefault();
     //POST
   }
 

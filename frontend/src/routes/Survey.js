@@ -1,7 +1,8 @@
 import React from 'react';
-import RecList from '../components/RecList'
-import Questions from '../components/Questions'
 import {Row, Col} from 'react-bootstrap'
+
+import RecList from '../components/survey/RecList'
+import Questions from '../components/survey/Questions'
 import recsA from '../recsA.json'
 import recsB from '../recsB.json'
 import survey from '../survey_between.json'

@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import Search from '../components/Search'
-import SelectedList from '../components/SelectedList'
-//import movies from '../movies.json'
-import survey from '../survey_between.json'
 import {Row, Col, Button} from 'react-bootstrap';
+
+import Search from '../components/catalogue/Search'
+import SelectedList from '../components/catalogue/SelectedList'
+import survey from '../survey_between.json'
 
 class Catalogue extends React.Component {
 
@@ -24,7 +24,9 @@ class Catalogue extends React.Component {
   }
 
   addSelect(newMovie){
-    //selected movies are limited and are not duplicated
+    /*
+    * selected movies are limited and are not duplicated
+    */
     if(this.state.selectedMovies.indexOf(newMovie) === -1 &&
     this.state.selects < survey.moviesToSelect){
       this.setState({

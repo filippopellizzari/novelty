@@ -1,6 +1,8 @@
 import React from 'react';
-import Poster from './Poster'
 import { Grid, Row, Col} from 'react-bootstrap';
+
+import Poster from '../Poster'
+
 
 class MovieList extends React.Component {
 

@@ -31,7 +31,7 @@ class SingleQuestion extends React.Component {
           onClick={this.keepAnswer.bind(this)}>Submit</Button>
       } else{
         nextButton = <Button className="nextButton" bsStyle="primary" bsSize="lg"
-          href={"/survey/" + (+this.props.question.id + 1).toString()}
+          href={"/survey/" + (this.props.question.id + 1).toString()}
           hidden={!this.state.isValid}
           onClick={this.keepAnswer.bind(this)}>Next</Button>
       }

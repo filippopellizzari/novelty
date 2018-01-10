@@ -1,6 +1,7 @@
 import React from 'react';
-import SelectedItem from './SelectedItem'
 import {Table} from 'react-bootstrap';
+
+import SelectedItem from './SelectedItem'
 
 class SelectedList extends React.Component {
 

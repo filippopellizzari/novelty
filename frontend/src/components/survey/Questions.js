@@ -1,5 +1,6 @@
 import React from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
+
 import SingleQuestion from './SingleQuestion'
 
 class Questions extends React.Component {
@@ -21,7 +22,7 @@ class Questions extends React.Component {
 
   render() {
 
-    let numberOfQuestions = this.props.questions.length.toString();
+    let numberOfQuestions = this.props.questions.length;
 
     return(
       <div>

@@ -1,6 +1,7 @@
 import React from 'react';
-import MovieList from './MovieList'
 import {Row, Col, Button} from 'react-bootstrap';
+
+import MovieList from './MovieList'
 
 class Search extends React.Component {
 
