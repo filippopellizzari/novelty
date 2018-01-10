@@ -26,14 +26,16 @@ class RecList extends React.Component {
       let movies = this.props.recs.map(
         (movie) =>
           <div key={movie.id}>
-            <Poster id={movie.id}
+            <Poster
+              id={movie.id}
               path={movie.poster}
               heigth="250"
               width="150"
-              onClick={ this.handleSelect.bind(this, movie)}
+              onClick={this.handleSelect.bind(this)}
             />
         </div>
       );
+
       return (
       <div>
         <h3>List {this.props.name}</h3>

@@ -27,12 +27,12 @@ class SingleQuestion extends React.Component {
       if(this.props.question.id === this.props.numberOfQuestions){
         nextButton = <Button className="submit" bsStyle="primary" bsSize="lg"
           href="/thanks"
-          hidden={!this.state.isValid}
+          disabled={!this.state.isValid}
           onClick={this.keepAnswer.bind(this)}>Submit</Button>
       } else{
         nextButton = <Button className="nextButton" bsStyle="primary" bsSize="lg"
           href={"/survey/" + (this.props.question.id + 1).toString()}
-          hidden={!this.state.isValid}
+          disabled={!this.state.isValid}
           onClick={this.keepAnswer.bind(this)}>Next</Button>
       }
 

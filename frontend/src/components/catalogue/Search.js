@@ -5,13 +5,18 @@ import MovieList from './MovieList'
 
 class Search extends React.Component {
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
+
     this.state = {
       searched: '',
       sortBy: 'year',
       order: 'desc'
     };
+
+    this.updateSearch = this.updateSearch.bind(this);
+    this.updateSort = this.updateSort.bind(this);
+    this.updateOrder = this.updateOrder.bind(this);
   }
 
   updateSearch(e){
@@ -75,9 +80,10 @@ class Search extends React.Component {
         <Row>
           <Col>
             <div className="searchBar">
-              <input type="text"
+              <input
+                type="text"
                 value={this.state.search}
-                onChange={this.updateSearch.bind(this)}
+                onChange={this.updateSearch}
                 placeholder="Search"
               />
             </div>
@@ -85,7 +91,7 @@ class Search extends React.Component {
           <Col>
             <div className="sortBy" style={{marginLeft:20}}>
               <span>Sort by  </span>
-              <select onChange={this.updateSort.bind(this)}>
+              <select onChange={this.updateSort}>
                 <option value="year">Release Year</option>
                 <option value="title">Title</option>
                 <option value="imdb_rating">IMDb Rating</option>
@@ -94,10 +100,12 @@ class Search extends React.Component {
           </Col>
           <Col>
             <div className="orderButton" style={{marginLeft:20}}>
-              <Button bsStyle="info" bsSize="small"
-                onClick={this.updateOrder.bind(this)}>
-                  {this.state.order}
-                </Button>
+              <Button
+                bsStyle="info"
+                bsSize="small"
+                onClick={this.updateOrder}>
+                {this.state.order}
+              </Button>
             </div>
           </Col>
         </Row>

@@ -12,12 +12,13 @@ class SelectedList extends React.Component {
   render(){
     return(
       <div>
-        <h4>Selected Movies</h4>
+        <h4>My Preferences</h4>
         <Table>
           <tbody>
             {this.props.selectedMovies.map(
                 (movie) =>
-                <SelectedItem key={movie.id}
+                <SelectedItem
+                  key={movie.id}
                   onRemove={this.handleRemove.bind(this, movie)}
                   movie={movie}
                 />
