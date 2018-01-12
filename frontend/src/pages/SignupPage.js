@@ -1,0 +1,36 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import SignupForm from "../forms/SignupForm";
+import { signup } from "../actions/users";
+
+class SignupPage extends React.Component {
+  submit = data =>
+    this.props.signup(data).then(() => this.props.history.push("/welcome"));
+
+  render() {
+    return (
+      <div className="row justify-content-center">
+        <div className="col-lg-4 col-md-6 col-sm-8">
+          <div className="card">
+            <div className="card-body">
+              <SignupForm submit={this.submit} />
+              <div className="card-footer text-muted text-center">
+                Already have an account? <a href="/login">Log in</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+SignupPage.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
+  signup: PropTypes.func.isRequired
+};
+
+export default connect(null, { signup })(SignupPage);
