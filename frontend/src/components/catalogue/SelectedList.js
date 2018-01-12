@@ -1,6 +1,5 @@
 import React from 'react';
-import {Table} from 'react-bootstrap';
-
+import { List } from 'semantic-ui-react'
 import SelectedItem from './SelectedItem'
 
 class SelectedList extends React.Component {
@@ -12,19 +11,17 @@ class SelectedList extends React.Component {
   render(){
     return(
       <div>
-        <h4>My Preferences</h4>
-        <Table>
-          <tbody>
-            {this.props.selectedMovies.map(
-                (movie) =>
-                <SelectedItem
-                  key={movie.id}
-                  onRemove={this.handleRemove.bind(this, movie)}
-                  movie={movie}
-                />
-            )}
-          </tbody>
-        </Table>
+        <h3>My Preferences</h3>
+        <List celled>
+          {this.props.selectedMovies.map(
+              (movie) =>
+              <SelectedItem
+                key={movie.id}
+                onRemove={this.handleRemove.bind(this, movie)}
+                movie={movie}
+              />
+          )}
+        </List>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, ProgressBar} from 'react-bootstrap';
+import { Button, Form, Checkbox, Progress } from 'semantic-ui-react';
 
 class SingleQuestion extends React.Component {
 
@@ -9,10 +9,12 @@ class SingleQuestion extends React.Component {
         'selectedOption': '',
         'isValid': false
       };
+      this.onChange = this.onChange.bind(this);
+      this.keepAnswer = this.keepAnswer.bind(this);
     }
 
-    onOptionSelect (e){
-      this.setState({selectedOption: e.target.value})
+    onChange (e, data){
+      this.setState({selectedOption: data.value})
       this.setState({isValid: true})
     }
 
@@ -25,38 +27,55 @@ class SingleQuestion extends React.Component {
       var nextButton;
 
       if(this.props.question.id === this.props.numberOfQuestions){
-        nextButton = <Button className="submit" bsStyle="primary" bsSize="lg"
+        nextButton =
+        <Button
+          primary
           href="/thanks"
           disabled={!this.state.isValid}
-          onClick={this.keepAnswer.bind(this)}>Submit</Button>
+          onClick={this.keepAnswer}>
+          Submit
+        </Button>
       } else{
-        nextButton = <Button className="nextButton" bsStyle="primary" bsSize="lg"
+        nextButton =
+        <Button
+          primary
           href={"/survey/" + (this.props.question.id + 1).toString()}
           disabled={!this.state.isValid}
-          onClick={this.keepAnswer.bind(this)}>Next</Button>
+          onClick={this.keepAnswer}>
+          Next
+        </Button>
       }
 
       return(
         <div>
-          <h5>{this.props.question.text}</h5>
-          <div className="options">
+          <Form>
+            <Form.Field>
+              <h3>{this.props.question.id + ". "}{this.props.question.text}</h3>
+            </Form.Field>
             {this.props.question.options.map(
               (option) =>
-              <div key={option.id}>
-                <input
-                  type="radio"
+              <Form.Field key={option.id}>
+                <Checkbox
+                  radio
+                  label={option.name}
                   name="{option.id}"
                   value={option.name}
-                  onChange={this.onOptionSelect.bind(this)}
-                /> {option.name}
-              </div>
+                  checked={this.state.selectedOption === option.name}
+                  onChange={this.onChange}
+                />
+              </Form.Field>
             )}
-          </div>
+          </Form>
+
           <div className="progressBar" style={{marginTop:30}}>
-            <ProgressBar
-              now={(this.props.question.id/this.props.numberOfQuestions)*100}
+            <Progress
+              percent={(this.props.question.id/this.props.numberOfQuestions)*100}
+              color='blue'
             />
           </div>
+
+
+
           <div style={{marginTop:30, textAlign:'center'}}>
             {nextButton}
           </div>

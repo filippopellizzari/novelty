@@ -92,8 +92,7 @@ class SignupForm extends React.Component {
           {errors.passwordConfirmation &&
             <InlineError text={errors.passwordConfirmation} />}
         </Form.Field>
-
-        <Button primary>Sign Up</Button>
+        <Button primary fluid>Signup</Button>
       </Form>
     );
   }

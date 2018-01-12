@@ -1,9 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom';
 import PropTypes from "prop-types";
-
-import UserRoute from "./routes/UserRoute";
-
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -23,7 +20,7 @@ const App = ({ location }) => (
             <Route location={location} path="/signup" component={SignupPage} />
             <Route location={location} path="/forgot" component={ForgotPasswordPage} />
             <Route location={location} path="/reset" component={ResetPasswordPage} />
-            <UserRoute location={location} path="/welcome" component={Welcome} />
+            <Route location={location} path="/welcome" component={Welcome} />
             <Route location={location} path="/catalogue" component={Catalogue} />
             <Route location={location} path="/survey" component={Survey} />
             <Route location={location} path="/thanks" component={Thanks} />

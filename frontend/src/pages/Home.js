@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from 'semantic-ui-react'
 
 class Home extends React.Component {
 
@@ -13,12 +14,10 @@ class Home extends React.Component {
                   novelty in recommender systems</p>
                 <form className="form-inline">
                   <div className="container" style={{textAlign:'center'}}>
-                    <a className="btn btn-primary btn-lg"
-                      href="/login">Login</a>
-                    <a className="btn btn-secondary btn-lg"
-                        href="/signup">Signup</a>
+                    <Button primary size="large"  href="/login">Login</Button>
+                    <Button color="grey" size="large"href="/login">Signup</Button>
                   </div>
-                  </form>
+                </form>
               </div>
             </div>
         </div>

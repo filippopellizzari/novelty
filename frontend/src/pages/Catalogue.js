@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import {Row, Col, Button} from 'react-bootstrap';
-
+import {Row, Col} from 'react-bootstrap';
+import {Button} from 'semantic-ui-react';
 import SearchCatalogue from '../components/catalogue/SearchCatalogue'
 import SelectedList from '../components/catalogue/SelectedList'
 import survey from '../survey_between.json'
@@ -56,17 +56,16 @@ class Catalogue extends React.Component {
               onSelectMovie={this.addSelect.bind(this)}
             />
           </Col>
-          <Col xs={6} md={4} style={{paddingLeft: 50}}>
+          <Col xs={6} md={4} style={{paddingLeft: 50, marginTop:70}}>
             <SelectedList
               selectedMovies={this.state.selectedMovies}
               onRemove={this.removeSelect.bind(this)}
-            />
-            <div style={{textAlign:'center'}}>
+          />
+            <div style={{textAlign:'center', marginTop:20}}>
               <Button
-                bsStyle="primary"
-                bsSize="large"
+                primary
                 href="/survey/1"
-                hidden={this.state.selects !== survey.moviesToSelect}>Start!
+                hidden={this.state.selects !== survey.moviesToSelect}>Start
               </Button>
             </div>
           </Col>

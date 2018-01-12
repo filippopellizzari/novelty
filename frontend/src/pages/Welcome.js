@@ -1,5 +1,6 @@
 import React from 'react';
-import survey from '../survey_between.json'
+import survey from '../survey_between.json';
+import { Button} from 'semantic-ui-react';
 
 class Welcome extends React.Component {
   render() {
@@ -10,7 +11,7 @@ class Welcome extends React.Component {
               <h2 className="display-3">Welcome!</h2>
               <p className="lead">Before starting the survey,
                 please select {survey.moviesToSelect} movies that you like.</p>
-              <a className="btn btn-primary btn-lg" href="/catalogue" role="button">Next</a>
+              <Button primary size="large" href="/catalogue">Next</Button>
             </div>
           </div>
       </div>

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col} from 'react-bootstrap';
-
+import {Grid} from 'semantic-ui-react';
 import Poster from '../Poster'
 
 
@@ -13,7 +12,7 @@ class MovieList extends React.Component {
   render(){
     let movies = this.props.movies.map(
       (movie) =>
-      <Col xs={6} sm={4} md={3} key={movie.id} >
+      <Grid.Column key={movie.id} >
         <Poster
           id={movie.id}
           path={movie.poster}
@@ -21,15 +20,18 @@ class MovieList extends React.Component {
           width="150"
           onClick={this.handleSelect.bind(this, movie)}
         />
-      </Col>
+    </Grid.Column>
     );
+
+    var columnsNumber = (movies.length < 4 && movies.length > 0) ?
+    movies.length : 4;
 
     return(
       <div>
-        <Grid fluid={true}>
-          <Row>
+        <Grid>
+          <Grid.Row columns={columnsNumber}>
             {movies}
-          </Row>
+          </Grid.Row>
         </Grid>
       </div>
     );
