@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {Row, Col, Button} from 'react-bootstrap';
 
-import Search from '../components/catalogue/Search'
+import SearchCatalogue from '../components/catalogue/SearchCatalogue'
 import SelectedList from '../components/catalogue/SelectedList'
 import survey from '../survey_between.json'
 
@@ -51,16 +51,21 @@ class Catalogue extends React.Component {
       <div className="container">
         <Row style={{marginTop: 30}}>
           <Col xs={12} md={8}>
-            <Search movies={this.state.movies}
+            <SearchCatalogue
+              movies={this.state.movies}
               onSelectMovie={this.addSelect.bind(this)}
             />
           </Col>
           <Col xs={6} md={4} style={{paddingLeft: 50}}>
-            <SelectedList selectedMovies={this.state.selectedMovies}
+            <SelectedList
+              selectedMovies={this.state.selectedMovies}
               onRemove={this.removeSelect.bind(this)}
             />
             <div style={{textAlign:'center'}}>
-              <Button bsStyle="primary" bsSize="large" href="/survey/1"
+              <Button
+                bsStyle="primary"
+                bsSize="large"
+                href="/survey/1"
                 hidden={this.state.selects !== survey.moviesToSelect}>Start!
               </Button>
             </div>
