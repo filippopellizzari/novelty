@@ -15,7 +15,7 @@ class Home extends React.Component {
                 <form className="form-inline">
                   <div className="container" style={{textAlign:'center'}}>
                     <Button primary size="large"  href="/login">Login</Button>
-                    <Button color="grey" size="large"href="/login">Signup</Button>
+                    <Button color="grey" size="large"href="/signup">Signup</Button>
                   </div>
                 </form>
               </div>
