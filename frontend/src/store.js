@@ -1,33 +1,28 @@
-import storage from 'redux-persist/es/storage'
-import { apiMiddleware } from 'redux-api-middleware';
-import { applyMiddleware, createStore} from 'redux';
+import storage from 'redux-persist/es/storage';
+import { persistStore, persistReducer } from 'redux-persist';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { createFilter   } from 'redux-persist-transform-filter';
-import { persistReducer, persistStore } from 'redux-persist'
+import { applyMiddleware, createStore} from 'redux';
 import { routerMiddleware } from 'react-router-redux'
+import { apiMiddleware } from 'redux-api-middleware';
+
 import rootReducer from './reducers'
 
-export default (history) => {
+const config = {
+  key: 'root',
+  storage
+}
 
-  const persistedFilter = createFilter(
-    'auth', ['access', 'refresh']);
+const reducer = persistReducer(config,rootReducer)
 
-  const reducer = persistReducer(
-    {
-      key: 'polls',
-      storage: storage,
-      whitelist: ['auth'],
-      transforms: [persistedFilter]
-    },
-    rootReducer)
+export default function configureStore (history) {
 
-  const store = createStore(
+  let store = createStore(
     reducer, {}, composeWithDevTools(
       applyMiddleware(apiMiddleware,routerMiddleware(history))
     )
   )
+  let persistor = persistStore(store)
 
-  persistStore(store)
 
-  return store
+  return { persistor, store }
 }
