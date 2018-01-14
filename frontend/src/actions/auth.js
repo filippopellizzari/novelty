@@ -1,39 +1,32 @@
-import { USER_LOGGED_IN, USER_LOGGED_OUT } from "../types";
-import api from "../api";
-import setAuthorizationHeader from "../utils/setAuthorizationHeader";
+import { RSAA } from 'redux-api-middleware';
 
-export const userLoggedIn = user => ({
-  type: USER_LOGGED_IN,
-  user
-});
+export const LOGIN_REQUEST = '@@auth/LOGIN_REQUEST';
+export const LOGIN_SUCCESS = '@@auth/LOGIN_SUCCESS';
+export const LOGIN_FAILURE = '@@auth/LOGIN_FAILURE';
+export const TOKEN_REQUEST = '@@auth/TOKEN_REQUEST';
+export const TOKEN_RECEIVED = '@@auth/TOKEN_RECEIVED';
+export const TOKEN_FAILURE = '@@auth/TOKEN_FAILURE';
 
-export const userLoggedOut = () => ({
-  type: USER_LOGGED_OUT
-});
+export const login = (username, password) => ({
+  [RSAA]: {
+    endpoint: '/api/auth/token/obtain/',
+    method: 'POST',
+    body: JSON.stringify({username,password}),
+    headers: { 'Content-Type': 'application/json' },
+    types: [
+      LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE
+    ]
+  }
+})
 
-export const login = credentials => dispatch =>
-  api.user.login(credentials).then(user => {
-    localStorage.JWT = user.token;
-    setAuthorizationHeader(user.token);
-    dispatch(userLoggedIn(user));
-  });
-
-export const logout = () => dispatch => {
-  localStorage.removeItem("JWT");
-  setAuthorizationHeader();
-  dispatch(userLoggedOut());
-};
-
-
-export const confirm = token => dispatch =>
-  api.user.confirm(token).then(user => {
-    localStorage.JWT = user.token;
-    dispatch(userLoggedIn(user));
-  });
-
-export const resetPasswordRequest = ({ email }) => () =>
-  api.user.resetPasswordRequest(email);
-
-export const validateToken = token => () => api.user.validateToken(token);
-
-export const resetPassword = data => () => api.user.resetPassword(data);
+export const refreshAccessToken = (token) => ({
+  [RSAA]: {
+    endpoint: '/api/auth/token/refresh/',
+    method: 'POST',
+    body: JSON.stringify({refresh: token}),
+    headers: { 'Content-Type': 'application/json' },
+    types: [
+      TOKEN_REQUEST, TOKEN_RECEIVED, TOKEN_FAILURE
+    ]
+  }
+})

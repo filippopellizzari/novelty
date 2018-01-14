@@ -1,6 +1,5 @@
 import React from 'react';
 import Slider from 'react-slick';
-
 import Poster from '../Poster';
 import PrevArrow from './PrevArrow';
 import NextArrow from './NextArrow';

@@ -1,9 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { Message } from "semantic-ui-react";
 import ResetPasswordForm from "../forms/ResetPasswordForm";
-import { validateToken, resetPassword } from "../actions/auth";
 
 class ResetPasswordPage extends React.Component {
   state = {
@@ -44,19 +41,5 @@ class ResetPasswordPage extends React.Component {
   }
 }
 
-ResetPasswordPage.propTypes = {
-  validateToken: PropTypes.func.isRequired,
-  resetPassword: PropTypes.func.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      token: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired
-};
 
-export default connect(null, { validateToken, resetPassword })(
-  ResetPasswordPage
-);
+export default ResetPasswordPage;

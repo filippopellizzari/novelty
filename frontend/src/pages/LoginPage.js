@@ -1,22 +1,24 @@
 import React from 'react';
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
+
 import LoginForm from '../forms/LoginForm';
-import { login } from "../actions/auth";
+import {login} from  '../actions/auth'
+import {authErrors, isAuthenticated} from '../reducers'
 
-class LoginPage extends React.Component {
-  submit = data =>
-   this.props.login(data).then(() => this.props.history.push("/welcome"));
-
-
-  render() {
+const LoginPage = (props) => {
+  if(props.isAuthenticated) {
+    return (
+      <Redirect to='/welcome' />
+    )
+  } else {
     return (
       <div className="row justify-content-center">
         <div className="col-lg-4 col-md-6 col-sm-8">
           <div className="card">
             <div className="card-body">
-              <LoginForm submit={this.submit} />
+              <LoginForm {...props}/>
               <div className="card-footer text-muted text-center">
                 <Link to="/forgot">Forgot Password?</Link>
               </div>
@@ -24,15 +26,19 @@ class LoginPage extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-LoginPage.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired,
-  login: PropTypes.func.isRequired
-};
+const mapStateToProps = (state) => ({
+  errors: authErrors(state),
+  isAuthenticated: isAuthenticated(state)
+})
 
-export default connect(null, { login })(LoginPage);
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit: (username, password) => {
+    dispatch(login(username, password))
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
