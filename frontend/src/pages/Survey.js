@@ -3,9 +3,9 @@ import {Row, Col} from 'react-bootstrap'
 
 import RecList from '../components/survey/RecList'
 import Questions from '../components/survey/Questions'
-import recsA from '../recsA.json'
-import recsB from '../recsB.json'
-import survey from '../survey_between.json'
+import recsA from '../data/recsA.json'
+import recsB from '../data/recsB.json'
+import survey from '../data/survey_between.json'
 
 class Survey extends React.Component {
   render() {

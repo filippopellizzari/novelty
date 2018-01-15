@@ -1,13 +1,16 @@
 import React from "react";
-import { Form, Button, Message } from "semantic-ui-react";
+import { Form, Button } from "semantic-ui-react";
+import PropTypes from "prop-types";
+
 import InlineError from "../messages/InlineError";
 
 
 class LoginForm extends React.Component {
+
   state = {
     data: {
-      username: '',
-      password: '',
+      username: "",
+      password: ""
     },
     loading: false,
     errors: {}
@@ -22,11 +25,9 @@ class LoginForm extends React.Component {
   onSubmit = () => {
     const errors = this.validate(this.state.data);
     this.setState({ errors });
-
     if (Object.keys(errors).length === 0) {
-      const data = this.state.data;
       this.setState({ loading: true });
-      this.props.onSubmit(data.username, data.password);
+      this.props.submit(this.state.data);
     }
   };
 
@@ -42,12 +43,6 @@ class LoginForm extends React.Component {
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
-        {errors.global && (
-          <Message negative>
-            <Message.Header>Something went wrong</Message.Header>
-            <p>{errors.global}</p>
-          </Message>
-        )}
         <Form.Field error={!!errors.username}>
           <label htmlFor="username">Username</label>
           <input
@@ -70,11 +65,14 @@ class LoginForm extends React.Component {
           />
           {errors.password && <InlineError text={errors.password} />}
         </Form.Field>
-        <Button primary fluid>Login</Button>
+        <Button primary fluid disabled={loading}>Login</Button>
       </Form>
     );
   }
 }
 
+LoginForm.propTypes = {
+  submit: PropTypes.func.isRequired
+};
 
 export default LoginForm;

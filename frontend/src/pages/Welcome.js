@@ -1,5 +1,5 @@
 import React from 'react';
-import survey from '../survey_between.json';
+import survey from '../data/survey_between.json';
 import { Button} from 'semantic-ui-react';
 
 class Welcome extends React.Component {

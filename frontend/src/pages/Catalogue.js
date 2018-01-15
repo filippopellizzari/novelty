@@ -4,7 +4,7 @@ import {Row, Col} from 'react-bootstrap';
 import {Button} from 'semantic-ui-react';
 import SearchCatalogue from '../components/catalogue/SearchCatalogue'
 import SelectedList from '../components/catalogue/SelectedList'
-import survey from '../survey_between.json'
+import survey from '../data/survey_between.json'
 
 class Catalogue extends React.Component {
 

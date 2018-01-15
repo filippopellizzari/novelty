@@ -1,6 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route } from 'react-router-dom';
-
+import { Route } from 'react-router-dom';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -12,8 +11,7 @@ import Survey from './pages/Survey';
 import Thanks from './pages/Thanks';
 import Navbar from './components/Navbar';
 
-const App = ({ location }) => (
-      <BrowserRouter>
+const App = () => (
         <div>
             <Navbar />
             <Route exact path="/" component={Home} />
@@ -26,7 +24,6 @@ const App = ({ location }) => (
             <Route path="/survey" component={Survey} />
             <Route path="/thanks" component={Thanks} />
         </div>
-      </BrowserRouter>
   )
 
 export default App;
