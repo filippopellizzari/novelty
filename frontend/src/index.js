@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'semantic-ui-css/semantic.min.css';
 import App from './App';
 import rootReducer from "./reducers/rootReducer";
-import jwtRefresh from './utils/jwtRefresh';
+import jwtUpdate from './utils/jwtUpdate';
 
 
 const store = createStore(
@@ -18,7 +18,7 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 );
 
-jwtRefresh(store);
+jwtUpdate(store);
 
 ReactDOM.render(
   <BrowserRouter>
