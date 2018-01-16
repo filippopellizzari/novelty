@@ -13,7 +13,6 @@ function expirationTime(jwt){
 function refreshUpdate(store){
   if (localStorage.jwtRefresh) {
     var exp = expirationTime(localStorage.jwtRefresh);
-    console.log(exp);
     if(exp < 10000){ //time in milliseconds
       //console.log("refreshExpired");
       localStorage.removeItem('jwtAccess');
@@ -25,7 +24,6 @@ function refreshUpdate(store){
 function accessUpdate(store){
   if (localStorage.jwtAccess) {
     var exp = expirationTime(localStorage.jwtAccess);
-    console.log(exp);
     if(exp < 10000){ //time in milliseconds
       //console.log("accessExpired");
       const body = {"refresh": localStorage.jwtRefresh};
