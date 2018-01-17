@@ -2,13 +2,9 @@ from rest_framework.views import APIView
 from .serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.authentication import BasicAuthentication
 from django.contrib.auth.models import User
 
-from .utils import CsrfExemptSessionAuthentication
-
 class UserCreate(APIView):
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
 
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)
