@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button } from "semantic-ui-react";
+import { Form, Button, Message } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 import InlineError from "../messages/InlineError";
@@ -13,7 +13,8 @@ class LoginForm extends React.Component {
       password: ""
     },
     loading: false,
-    errors: {}
+    errors: {},
+    serverError:""
   };
 
   onChange = e =>
@@ -27,22 +28,33 @@ class LoginForm extends React.Component {
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
       this.setState({ loading: true });
-      this.props.submit(this.state.data);
+      this.props.submit(this.state.data)
+      .catch(err =>
+        this.setState(
+          { serverError: err.response.data.non_field_errors, loading: false }
+        )
+      );
     }
   };
 
   validate = data => {
     const errors = {};
-    if (!data.username) errors.username = "Can't be blank";
-    if (!data.password) errors.password = "Can't be blank";
+    if (!data.username) errors.username = "Can't be blank.";
+    if (!data.password) errors.password = "Can't be blank.";
     return errors;
   };
 
   render() {
-    const { data, errors, loading } = this.state;
+    const { data, errors, loading, serverError} = this.state;
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
+        {serverError && (
+          <Message negative>
+            <Message.Header>Something went wrong</Message.Header>
+            <p>{serverError}</p>
+          </Message>
+        )}
         <Form.Field error={!!errors.username}>
           <label htmlFor="username">Username</label>
           <input

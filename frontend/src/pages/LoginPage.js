@@ -22,6 +22,9 @@ class LoginPage extends React.Component{
               <div className="card-footer text-muted text-center">
                 <Link to="/forgot">Forgot Password?</Link>
               </div>
+              <div className="card-footer text-muted text-center">
+                New to Novelty Survey? <Link to="/signup">Signup now</Link>
+              </div>
             </div>
           </div>
         </div>

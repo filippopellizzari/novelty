@@ -1,8 +1,15 @@
 import React from "react";
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+
 import SignupForm from "../forms/SignupForm";
+import { signup } from "../actions/registerActions";
 
 
 class SignupPage extends React.Component {
+
+  submit = data =>
+    this.props.signup(data).then(() => this.props.history.push("/login"));
 
   render() {
     return (
@@ -10,7 +17,7 @@ class SignupPage extends React.Component {
         <div className="col-lg-4 col-md-6 col-sm-8">
           <div className="card">
             <div className="card-body">
-              <SignupForm/>
+              <SignupForm submit={this.submit}/>
               <div className="card-footer text-muted text-center">
                 Already have an account? <a href="/login">Log in</a>
               </div>
@@ -22,5 +29,11 @@ class SignupPage extends React.Component {
   }
 }
 
+SignupPage.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
+  signup: PropTypes.func.isRequired
+};
 
-export default SignupPage;
+export default connect(null, { signup })(SignupPage);

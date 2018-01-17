@@ -1,17 +1,21 @@
 import React from "react";
-import { Form, Button } from "semantic-ui-react";
+import { Form, Button} from "semantic-ui-react";
 import Validator from "validator";
+import PropTypes from "prop-types";
+
 import InlineError from "../messages/InlineError";
 
 class SignupForm extends React.Component {
   state = {
     data: {
+      username:"",
       email: "",
-      password: "",
-      passwordConfirmation: ""
+      password: ""
     },
+    passwordConfirmation: "",
     loading: false,
-    errors: {}
+    errors: {},
+    serverErrors: {},
   };
 
   onChange = e =>
@@ -20,41 +24,79 @@ class SignupForm extends React.Component {
       data: { ...this.state.data, [e.target.name]: e.target.value }
     });
 
+  onChangePasswordConfirm = e =>
+    this.setState({passwordConfirmation: e.target.value});
+
   onSubmit = e => {
     e.preventDefault();
     const errors = this.validate(this.state.data);
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
       this.setState({ loading: true });
-      this.props
-        .submit(this.state.data)
-        .catch(err =>
-          this.setState({ errors: err.response.data.errors, loading: false })
+      this.props.submit(this.state.data)
+      .catch(err =>
+        this.serverErrors(err.response.data)
+
+          //{ serverError: err.response.data.non_field_errors, loading: false}
         );
     }
   };
 
+  serverErrors = data => {
+    const errors = {};
+
+    if(data.username) {
+      errors.username = data.username.toString()
+    }
+    if(data.email) {
+      errors.email = data.email.toString()
+    }
+    if(data.password) {
+      errors.password = data.password.toString()
+    }
+    this.setState({errors});
+    this.setState({loading: false});
+    console.log(errors);
+  }
+
   validate = data => {
     const errors = {};
 
+    if (!data.username) {
+      errors.username = "Can't be blank.";
+    }
     if (!Validator.isEmail(data.email)) {
-      errors.email = "Invalid email";
+      errors.email = "Invalid email.";
     }
     if (!data.password) {
-      errors.password = "Can't be blank";
+      errors.password = "Can't be blank.";
     }
-    if (data.password !== data.passwordConfirmation) {
-      errors.passwordConfirmation = "Passwords must match";
+    if (data.password.length < 8) {
+      errors.password = "Password must be at least 8 characters in length.";
+    }
+    if (data.password !== this.state.passwordConfirmation) {
+      errors.passwordConfirmation = "Passwords don't match.";
     }
 
     return errors;
   };
 
   render() {
-    const { data, errors, loading } = this.state;
+    const { data, passwordConfirmation, errors, loading } = this.state;
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
+        <Form.Field error={!!errors.username}>
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={data.username}
+            onChange={this.onChange}
+          />
+        {errors.username && <InlineError text={errors.username} />}
+        </Form.Field>
         <Form.Field error={!!errors.email}>
           <label htmlFor="email">Email</label>
           <input
@@ -85,8 +127,8 @@ class SignupForm extends React.Component {
             type="password"
             id="passwordConfirmation"
             name="passwordConfirmation"
-            value={data.passwordConfirmation}
-            onChange={this.onChange}
+            value={passwordConfirmation}
+            onChange={this.onChangePasswordConfirm}
           />
           {errors.passwordConfirmation &&
             <InlineError text={errors.passwordConfirmation} />}
@@ -97,5 +139,8 @@ class SignupForm extends React.Component {
   }
 }
 
+SignupForm.propTypes = {
+  submit: PropTypes.func.isRequired
+};
 
 export default SignupForm;

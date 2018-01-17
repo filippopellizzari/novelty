@@ -1,15 +1,19 @@
-from rest_framework import viewsets, views, status
+from rest_framework.views import APIView
 from .serializers import UserSerializer
-from .serializers import MessageSerializer
-from django.contrib.auth.models import User
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.authentication import BasicAuthentication
+from django.contrib.auth.models import User
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+from .utils import CsrfExemptSessionAuthentication
 
-class EchoView(views.APIView):
-    def post(self, request, *args, **kwargs):
-        serializer = MessageSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+class UserCreate(APIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+
+    def post(self, request, format='json'):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
