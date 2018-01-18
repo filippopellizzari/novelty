@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'webpack_loader',
     'rest_framework',
     'movies',
+    'djoser',
+    'rest_framework.authtoken',
+    'rest_auth',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +133,10 @@ WEBPACK_LOADER = {
 }
 
 CSRF_COOKIE_NAME = "csrftoken"
+
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': 'reset/{uid}/{token}',
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND' : True,
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

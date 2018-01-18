@@ -1,27 +1,34 @@
 import React from "react";
-import { Message } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { PropTypes } from "prop-types";
+import { Message, Button } from "semantic-ui-react";
+
 import ResetPasswordForm from "../forms/ResetPasswordForm";
+import { validateToken, resetPassword } from "../actions/registerActions";
 
 class ResetPasswordPage extends React.Component {
+
   state = {
-    loading: true,
     success: false
   };
 
   componentDidMount() {
+    const uid = this.props.match.params.uid;
+    const token = this.props.match.params.token;
     this.props
-      .validateToken(this.props.match.params.token)
-      .then(() => this.setState({ loading: false, success: true }))
-      .catch(() => this.setState({ loading: false, success: false }));
+      .validateToken({"uid":uid, "token":token} )
+      .catch(() => this.props.history.push("/forgot"));
   }
 
-  submit = data =>
+  submit = password =>
     this.props
-      .resetPassword(data)
-      .then(() => this.props.history.push("/login"));
+      .resetPassword(password)
+      .then(() => this.setState({ success: true }));
+
 
   render() {
-    const { loading, success } = this.state;
+    const { success } = this.state;
+    const uid = this.props.match.params.uid;
     const token = this.props.match.params.token;
 
     return (
@@ -29,10 +36,18 @@ class ResetPasswordPage extends React.Component {
         <div className="col-lg-4 col-md-6 col-sm-8">
           <div className="card">
             <div className="card-body">
-              {loading && <Message>Loading</Message>}
-              {!loading &&
-              success && <ResetPasswordForm submit={this.submit} token={token} />}
-              {!loading && !success && <Message>Invalid Token</Message>}
+              {!success &&
+                <ResetPasswordForm
+                  submit={this.submit}
+                  uid={uid}
+                  token={token}
+                />}
+              {success &&
+                <div>
+                  <Message success> The password has been reset successfully.</Message>
+                  <Button primary fluid href="/login">Login</Button>
+                </div>
+              }
             </div>
           </div>
         </div>
@@ -41,5 +56,19 @@ class ResetPasswordPage extends React.Component {
   }
 }
 
+ResetPasswordPage.propTypes = {
+  validateToken: PropTypes.func.isRequired,
+  resetPassword: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      uid: PropTypes.string.isRequired,
+      token: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
 
-export default ResetPasswordPage;
+};
+
+export default connect(null, { validateToken, resetPassword })(ResetPasswordPage);

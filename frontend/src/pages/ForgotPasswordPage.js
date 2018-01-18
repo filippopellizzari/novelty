@@ -1,12 +1,20 @@
 import React from "react";
 import { Message } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { PropTypes } from "prop-types";
 import ForgotPasswordForm from "../forms/ForgotPasswordForm";
+import { resetPasswordRequest } from "../actions/registerActions";
 
 class ForgotPasswordPage extends React.Component {
+
   state = {
     success: false
   };
 
+  submit = data =>
+    this.props
+      .resetPasswordRequest(data)
+      .then(() => this.setState({ success: true }));
 
   render() {
     return (
@@ -15,9 +23,9 @@ class ForgotPasswordPage extends React.Component {
           <div className="card">
             <div className="card-body">
               {this.state.success ? (
-                <Message>Email has been sent.</Message>
+                <Message success>Email has been sent. Check your inbox.</Message>
               ) : (
-                <ForgotPasswordForm />
+                <ForgotPasswordForm submit={this.submit}/>
               )}
             </div>
           </div>
@@ -27,5 +35,8 @@ class ForgotPasswordPage extends React.Component {
   }
 }
 
+ForgotPasswordPage.propTypes = {
+  resetPasswordRequest: PropTypes.func.isRequired
+};
 
-export default ForgotPasswordPage;
+export default connect(null, { resetPasswordRequest })(ForgotPasswordPage);

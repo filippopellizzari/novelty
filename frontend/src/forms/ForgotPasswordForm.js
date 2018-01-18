@@ -1,6 +1,7 @@
 import React from "react";
-import { Form, Button, Message } from "semantic-ui-react";
+import { Form, Button } from "semantic-ui-react";
 import isEmail from "validator/lib/isEmail";
+
 import InlineError from "../messages/InlineError";
 
 class ForgotPasswordForm extends React.Component {
@@ -24,17 +25,24 @@ class ForgotPasswordForm extends React.Component {
     this.setState({ errors });
     if (Object.keys(errors).length === 0) {
       this.setState({ loading: true });
-      this.props
-        .submit(this.state.data)
+      this.props.submit(this.state.data)
         .catch(err =>
-          this.setState({ errors: err.response.data.errors, loading: false })
+          this.serverErrors(err.response.data)
         );
+
     }
+  };
+
+  serverErrors = data => {
+    const errors = {};
+    errors.email = data.email.toString();
+    this.setState({errors});
+    this.setState({loading: false});
   };
 
   validate = data => {
     const errors = {};
-    if (!isEmail(data.email)) errors.email = "Invalid email";
+    if (!isEmail(data.email)) errors.email = "Invalid email.";
     return errors;
   };
 
@@ -43,10 +51,10 @@ class ForgotPasswordForm extends React.Component {
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
-        {!!errors.global && <Message negative>{errors.global}</Message>}
+        <h4>Enter your email address to reset the password.</h4>
         <Form.Field error={!!errors.email}>
-          <label htmlFor="email">Email</label>
           <input
+            placeholder="Email"
             type="email"
             id="email"
             name="email"

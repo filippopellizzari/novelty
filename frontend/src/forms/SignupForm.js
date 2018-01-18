@@ -36,8 +36,6 @@ class SignupForm extends React.Component {
       this.props.submit(this.state.data)
       .catch(err =>
         this.serverErrors(err.response.data)
-
-          //{ serverError: err.response.data.non_field_errors, loading: false}
         );
     }
   };
@@ -56,7 +54,6 @@ class SignupForm extends React.Component {
     }
     this.setState({errors});
     this.setState({loading: false});
-    console.log(errors);
   }
 
   validate = data => {
@@ -72,7 +69,7 @@ class SignupForm extends React.Component {
       errors.password = "Can't be blank.";
     }
     if (data.password.length < 8) {
-      errors.password = "Password must be at least 8 characters in length.";
+      errors.password = "This password is too short. It must contain at least 8 characters.";
     }
     if (data.password !== this.state.passwordConfirmation) {
       errors.passwordConfirmation = "Passwords don't match.";

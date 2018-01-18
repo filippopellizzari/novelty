@@ -22,7 +22,7 @@ const App = ({location}) => (
             <GuestRoute location={location} path="/login" component={LoginPage} />
             <GuestRoute location={location} path="/signup" component={SignupPage} />
             <GuestRoute location={location} path="/forgot" component={ForgotPasswordPage} />
-            <GuestRoute location={location} path="/reset" component={ResetPasswordPage} />
+            <GuestRoute location={location} path="/reset/:uid/:token" component={ResetPasswordPage} />
             <UserRoute location={location} path="/welcome" component={Welcome} />
             <UserRoute location={location} path="/catalogue" component={Catalogue} />
             <UserRoute location={location} path="/survey" component={Survey} />
