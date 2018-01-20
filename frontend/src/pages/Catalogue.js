@@ -64,7 +64,7 @@ class Catalogue extends React.Component {
             <div style={{textAlign:'center', marginTop:20}}>
               <Button
                 primary
-                href="/survey/1"
+                href="/survey"
                 hidden={this.state.selects !== survey.moviesToSelect}>Start
               </Button>
             </div>

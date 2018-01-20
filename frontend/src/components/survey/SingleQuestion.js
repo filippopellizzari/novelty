@@ -1,58 +1,36 @@
 import React from 'react';
-import { Button, Form, Checkbox, Progress } from 'semantic-ui-react';
+import { Form, Checkbox } from 'semantic-ui-react';
 
 class SingleQuestion extends React.Component {
 
     constructor(){
       super();
       this.state = {
-        'selectedOption': '',
-        'isValid': false
+        'selectedOption': ""
       };
       this.onChange = this.onChange.bind(this);
-      this.keepAnswer = this.keepAnswer.bind(this);
     }
 
-    onChange (e, data){
-      this.setState({selectedOption: data.value})
-      this.setState({isValid: true})
+    onChange(e, data){
+      this.setState({selectedOption: data.value});
+      this.props.onValidChange(true);
+      this.props.answer(data.value);
     }
 
-    keepAnswer(){
-      this.props.answer(this.state.selectedOption)
-    }
 
     render() {
+      const question = this.props.question;
+      const { selectedOption } = this.state;
 
-      var nextButton;
-
-      if(this.props.question.id === this.props.numberOfQuestions){
-        nextButton =
-        <Button
-          primary
-          href="/thanks"
-          disabled={!this.state.isValid}
-          onClick={this.keepAnswer}>
-          Submit
-        </Button>
-      } else{
-        nextButton =
-        <Button
-          primary
-          href={"/survey/" + (this.props.question.id + 1).toString()}
-          disabled={!this.state.isValid}
-          onClick={this.keepAnswer}>
-          Next
-        </Button>
-      }
+      var display = (this.props.display) ? " " : "none";
 
       return(
-        <div>
+        <div style={{display:display}}>
           <Form>
             <Form.Field>
-              <h3>{this.props.question.id + ". "}{this.props.question.text}</h3>
+              <h3>{question.id + ". "}{question.text}</h3>
             </Form.Field>
-            {this.props.question.options.map(
+            {question.options.map(
               (option) =>
               <Form.Field key={option.id}>
                 <Checkbox
@@ -60,29 +38,13 @@ class SingleQuestion extends React.Component {
                   label={option.name}
                   name="{option.id}"
                   value={option.name}
-                  checked={this.state.selectedOption === option.name}
+                  checked={selectedOption === option.name}
                   onChange={this.onChange}
                 />
               </Form.Field>
             )}
           </Form>
-
-          <div className="progressBar" style={{marginTop:30}}>
-            <Progress
-              percent={(this.props.question.id/this.props.numberOfQuestions)*100}
-              color='blue'
-            />
-          </div>
-
-
-
-          <div style={{marginTop:30, textAlign:'center'}}>
-            {nextButton}
-          </div>
-
         </div>
-
-
       )
     }
 }
