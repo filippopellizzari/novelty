@@ -9,7 +9,7 @@ class Questions extends React.Component {
     questionNumber: 1,
     isValid: false,
     currentAnswer:"",
-    answers:{}
+    answers:[]
   };
 
   currentAnswer = (newAnswer) =>
@@ -18,16 +18,23 @@ class Questions extends React.Component {
   isValid = () =>
     this.setState({isValid:true})
 
-  nextQuestion = () => {
-    let answers = {...this.state.answers};
-    answers[this.state.questionNumber] = this.state.currentAnswer;
-    this.setState({answers});
+  addAnswer = () => {
+    const answer = {}
+    answer.question_number = this.state.questionNumber;
+    answer.answer_text = this.state.currentAnswer;
+    this.setState({
+      answers: [...this.state.answers, answer]
+    })
+  }
 
+  nextQuestion = () => {
+    this.addAnswer();
     this.setState({questionNumber: this.state.questionNumber + 1});
     this.setState({isValid: false});
   }
 
   onSubmit = () => {
+    this.addAnswer();
     this.props.submit(this.state.answers);
   }
 
@@ -50,7 +57,7 @@ class Questions extends React.Component {
     var nextButton;
     if(questionNumber === numberOfQuestions){
       nextButton =
-      <Button primary href="/thanks" disabled={!isValid} onClick={this.onSubmit}>
+      <Button primary disabled={!isValid} onClick={this.onSubmit}>
         Submit
       </Button>
     } else {

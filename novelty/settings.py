@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework.authtoken',
     'rest_auth',
+    'surveys',
 ]
 
 MIDDLEWARE = [

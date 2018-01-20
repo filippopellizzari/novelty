@@ -16,9 +16,10 @@ class Survey extends React.Component {
   submit = answers =>{
     const data = {};
     data.survey_id = survey.id;
-    data.answers = answers;
-    console.log(data);
-    this.props.submitSurvey(data).then(() => this.props.history.push("/welcome"));
+    //data.answers = answers;
+    this.props.submitSurvey(data)
+      .then(() => this.props.history.push("/thanks"))
+      .catch( (err) => console.log(err));
   }
 
   render() {

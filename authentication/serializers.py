@@ -35,7 +35,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'email', 'password')
 
 
-
 class ValidateTokenResetSerializer(serializers.Serializer):
     uid = serializers.CharField()
     token = serializers.CharField()
