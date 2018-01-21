@@ -18,7 +18,7 @@ class Catalogue extends React.Component {
   }
 
   componentDidMount(){
-    axios.get(/movies/)
+    axios.get("/api/movies")
       .then((response) => this.setState({movies:response.data}))
       .catch((error) => console.log(error));
   }

@@ -44,10 +44,10 @@ class SignupForm extends React.Component {
     const errors = {};
 
     if(data.username) {
-      errors.username = data.username.toString()
+      errors.username = "This username already exists. Please use a different one."
     }
     if(data.email) {
-      errors.email = data.email.toString()
+      errors.email = "This email has already been used."
     }
     if(data.password) {
       errors.password = data.password.toString()

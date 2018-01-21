@@ -6,11 +6,13 @@ import PropTypes from "prop-types";
 import LoginForm from '../forms/LoginForm';
 import { login } from "../actions/authActions";
 
-
 class LoginPage extends React.Component{
 
-  submit = data =>
+  submit = (data) => {
+    localStorage.setItem('username', data.username);
     this.props.login(data).then(() => this.props.history.push("/welcome"));
+  }
+
 
   render(){
     return (

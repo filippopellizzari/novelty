@@ -14,9 +14,9 @@ function refreshUpdate(store){
   if (localStorage.jwtRefresh) {
     var exp = expirationTime(localStorage.jwtRefresh);
     if(exp < 10000){ //time in milliseconds
-      //console.log("refreshExpired");
       localStorage.removeItem('jwtAccess');
       localStorage.removeItem('jwtRefresh');
+      localStorage.removeItem('username');
     }
   }
 }
@@ -25,7 +25,6 @@ function accessUpdate(store){
   if (localStorage.jwtAccess) {
     var exp = expirationTime(localStorage.jwtAccess);
     if(exp < 10000){ //time in milliseconds
-      //console.log("accessExpired");
       const body = {"refresh": localStorage.jwtRefresh};
       axios.post('/api/auth/token/refresh/', body).then(res => {
         const newJwtAccess = res.data.access;

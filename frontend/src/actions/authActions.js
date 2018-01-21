@@ -28,6 +28,7 @@ export function logout() {
   return dispatch => {
     localStorage.removeItem('jwtAccess');
     localStorage.removeItem('jwtRefresh');
+    localStorage.removeItem('username');
     setAuthorizationToken(false);
     dispatch(setCurrentUser({}));
   }

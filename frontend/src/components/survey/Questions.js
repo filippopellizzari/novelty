@@ -57,7 +57,7 @@ class Questions extends React.Component {
     var nextButton;
     if(questionNumber === numberOfQuestions){
       nextButton =
-      <Button primary disabled={!isValid} onClick={this.onSubmit}>
+      <Button primary href="/thanks" disabled={!isValid} onClick={this.onSubmit}>
         Submit
       </Button>
     } else {
