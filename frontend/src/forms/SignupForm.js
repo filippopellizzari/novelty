@@ -112,6 +112,7 @@ class SignupForm extends React.Component {
             type="password"
             id="password"
             name="password"
+            placeholder="Minimum length of 8 characters"
             value={data.password}
             onChange={this.onChange}
           />
@@ -119,7 +120,7 @@ class SignupForm extends React.Component {
         </Form.Field>
 
         <Form.Field error={!!errors.passwordConfirmation}>
-          <label htmlFor="passwordConfirmation">Password Confirmation</label>
+          <label htmlFor="passwordConfirmation">Confirm Password</label>
           <input
             type="password"
             id="passwordConfirmation"

@@ -1,9 +1,14 @@
 from rest_framework.views import APIView
-from .serializers import SurveyResponseSerializer
-from .models import SurveyResponse
+from rest_framework.viewsets import ModelViewSet
+from .serializers import *
+from .models import *
 from rest_framework import status
 from rest_framework.response import Response
 
+
+class QuestionView(ModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
 
 class SurveyResponseView(APIView):
 
