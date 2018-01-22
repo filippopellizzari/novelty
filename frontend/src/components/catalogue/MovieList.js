@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid} from 'semantic-ui-react';
+
 import Poster from '../Poster'
 
 
@@ -12,7 +12,7 @@ class MovieList extends React.Component {
   render(){
     let movies = this.props.movies.map(
       (movie) =>
-      <Grid.Column key={movie.id} >
+      <div className="col-lg-3 col-md-4 col-sm-6" key={movie.id} >
         <Poster
           id={movie.id}
           path={movie.poster}
@@ -20,19 +20,16 @@ class MovieList extends React.Component {
           width="150"
           onClick={this.handleSelect.bind(this, movie)}
         />
-    </Grid.Column>
+    </div>
     );
-
-    var columnsNumber = (movies.length < 4 && movies.length > 0) ?
-    movies.length : 4;
 
     return(
       <div>
-        <Grid>
-          <Grid.Row columns={columnsNumber}>
-            {movies}
-          </Grid.Row>
-        </Grid>
+        <div className="container">
+          <div className="row">
+              {movies}
+          </div>
+        </div>
       </div>
     );
   }

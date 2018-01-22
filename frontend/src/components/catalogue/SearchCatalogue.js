@@ -85,14 +85,16 @@ class SearchCatalogue extends React.Component {
       <div>
         <Row>
           <Col>
-            <Search
-              placeholder="Search"
-              loading={isLoading}
-              onResultSelect={this.handleResultSelect}
-              onSearchChange={this.handleSearchChange}
-              results={results}
-              value={value}
-            />
+            <div style={{marginLeft:20}}>
+              <Search
+                placeholder="Search"
+                loading={isLoading}
+                onResultSelect={this.handleResultSelect}
+                onSearchChange={this.handleSearchChange}
+                results={results}
+                value={value}
+              />
+            </div>
           </Col>
           <Col>
             <div className="sortBy" style={{marginLeft:20}}>
@@ -100,7 +102,8 @@ class SearchCatalogue extends React.Component {
                 onChange={this.updateSort}
                 placeholder='Sort by'
                 selection
-                options={sortOptions} />
+                options={sortOptions}
+              />
             </div>
           </Col>
           <Col>
@@ -120,7 +123,6 @@ class SearchCatalogue extends React.Component {
             onSelectMovie={ (movie) => this.props.onSelectMovie(movie) }
           />
         </Row>
-
       </div>
 
     )
