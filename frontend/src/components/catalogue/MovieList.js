@@ -24,11 +24,9 @@ class MovieList extends React.Component {
     );
 
     return(
-      <div>
-        <div className="container">
-          <div className="row">
-              {movies}
-          </div>
+      <div className="container">
+        <div className="row">
+            {movies}
         </div>
       </div>
     );

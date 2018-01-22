@@ -75,7 +75,7 @@ class SearchCatalogue extends React.Component {
     let filteredMovies = this.props.movies.filter(
       (movie) => {
         return movie.title.toLowerCase()
-          .indexOf(this.state.value.toLowerCase()) !== -1;
+          .indexOf(value.toLowerCase()) !== -1;
       }
     ).sort(
       compareValues(this.state.sortBy, this.state.order)
