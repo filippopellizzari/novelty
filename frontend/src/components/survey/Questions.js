@@ -9,7 +9,7 @@ class Questions extends React.Component {
     questionNumber: 1,
     isValid: false,
     currentAnswer:"",
-    answers:[]
+    responses:[]
   };
 
   currentAnswer = (newAnswer) =>
@@ -18,25 +18,27 @@ class Questions extends React.Component {
   isValid = () =>
     this.setState({isValid:true})
 
-  addAnswer = () => {
-    const answer = {}
-    answer.question_number = this.state.questionNumber;
-    answer.answer_text = this.state.currentAnswer;
+  addResponse = () => {
+    const response = {}
+    const { questionNumber, currentAnswer, responses } = this.state;
+    response.question = this.props.questions[questionNumber-1].text;
+    response.answer = currentAnswer;
     this.setState({
-      answers: [...this.state.answers, answer]
+      responses: [...responses, response]
     })
   }
 
   nextQuestion = () => {
-    this.addAnswer();
+    this.addResponse();
     this.setState({questionNumber: this.state.questionNumber + 1});
     this.setState({isValid: false});
   }
 
   onSubmit = () => {
-    this.addAnswer();
-    this.props.submit(this.state.answers);
+    this.addResponse();
+    this.setState({questionNumber: this.state.questionNumber + 1});
   }
+
 
   render() {
 
@@ -57,7 +59,7 @@ class Questions extends React.Component {
     var nextButton;
     if(questionNumber === numberOfQuestions){
       nextButton =
-      <Button primary href="/thanks" disabled={!isValid} onClick={this.onSubmit}>
+      <Button primary disabled={!isValid} onClick={this.nextQuestion}>
         Submit
       </Button>
     } else {
@@ -65,6 +67,10 @@ class Questions extends React.Component {
       <Button primary disabled={!isValid} onClick={this.nextQuestion}>
         Next
       </Button>
+    }
+
+    if(questionNumber > numberOfQuestions){
+      this.props.submit(this.state.responses);
     }
 
     return(

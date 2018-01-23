@@ -23,17 +23,18 @@ class QuestionAdmin(admin.ModelAdmin):
 class OptionAdmin(admin.ModelAdmin):
     list_display = ('option_id','text',)
 
+class ResponseInline(admin.StackedInline):
+    readonly_fields = ('survey_response','question', 'answer')
+    model = Response
+    extra = 1
 
 class SurveyResponseAdmin(admin.ModelAdmin):
-    readonly_fields = ('survey','username','started_at','completed_at',)
-    list_display = ('survey','username', 'completed_at',)
+    readonly_fields = ('username', 'survey_id','completed_at',)
+    list_display = ('username', 'survey_id', 'completed_at',)
+    inlines = (ResponseInline,)
 
-class ResponseAdmin(admin.ModelAdmin):
-    readonly_fields = ('survey_response','question', 'answer','started_at','completed_at',)
-    list_display = ('survey_response','question', 'answer',)
 
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Option, OptionAdmin)
-admin.site.register(SurveyResponse)
-admin.site.register(Response)
+admin.site.register(SurveyResponse,SurveyResponseAdmin )

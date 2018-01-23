@@ -6,15 +6,15 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from movies.views import MovieList
 from authentication.views import UserCreateView, ValidateTokenResetView, UserList
-#from surveys.views import SurveyResponseView
 from surveys.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^api/movies', MovieList.as_view()),
-    #url(r'^api/surveys', SurveyResponseView.as_view()),
-    url(r'^api/surveys/questions', QuestionView.as_view({'get': 'list'})),
+
+    url(r'^api/surveys/survey-submit/', SurveyResponseView.as_view()),
+
     url(r'^api/users', UserList.as_view()),
 
     url(r'^api/auth/token/obtain/$', TokenObtainPairView.as_view()),

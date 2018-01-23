@@ -11,6 +11,9 @@ class SingleQuestion extends React.Component {
       this.onChange = this.onChange.bind(this);
     }
 
+
+
+
     onChange(e, data){
       this.setState({selectedOption: data.value});
       this.props.onValidChange(true);
@@ -21,8 +24,8 @@ class SingleQuestion extends React.Component {
     render() {
       const question = this.props.question;
       const { selectedOption } = this.state;
-
       var display = (this.props.display) ? " " : "none";
+
 
       return(
         <div style={{display:display}}>

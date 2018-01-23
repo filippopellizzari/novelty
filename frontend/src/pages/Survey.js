@@ -13,16 +13,14 @@ import { submitSurvey } from "../actions/surveyActions";
 
 class Survey extends React.Component {
 
-  submit = answers =>{
+  submit = responses =>{
     const data = {};
-    data.answers = answers;
-    console.log(data);
     data.username = localStorage.username;
-    /*
+    data.survey_id = survey.id;
+    data.responses = responses;
     this.props.submitSurvey(data)
       .then(() => this.props.history.push("/thanks"))
       .catch( (err) => console.log(err));
-    */
   }
 
   render() {

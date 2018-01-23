@@ -5,6 +5,6 @@ axios.defaults.xsrfCookieName = "csrftoken";
 
 export function submitSurvey(data) {
   return dispatch => {
-    return axios.post("/api/surveys", data);
+    return axios.post("/api/surveys/survey-submit/", data);
   }
 }
