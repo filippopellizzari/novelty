@@ -13,6 +13,7 @@ urlpatterns = [
 
     url(r'^api/movies', MovieList.as_view()),
 
+    url(r'^api/surveys/surveys', SurveyView.as_view({'get': 'list'})),
     url(r'^api/surveys/survey-submit/', SurveyResponseView.as_view()),
 
     url(r'^api/users', UserList.as_view()),
