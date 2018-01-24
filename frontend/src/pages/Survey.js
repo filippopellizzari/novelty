@@ -2,6 +2,7 @@ import React from 'react';
 import {Row, Col} from 'react-bootstrap'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import axios from 'axios';
 
 import RecList from '../components/survey/RecList'
 import Questions from '../components/survey/Questions'
@@ -13,10 +14,24 @@ import { submitSurvey } from "../actions/surveyActions";
 
 class Survey extends React.Component {
 
+  constructor(){
+    super();
+    this.state = {
+      surveys: [],
+      survey_id: 1
+    };
+  }
+
+  componentDidMount(){
+    axios.get("/api/surveys/")
+      .then((response) => this.setState({surveys:response.data}))
+      .catch((error) => console.log(error));
+  }
+
   submit = responses =>{
     const data = {};
     data.username = localStorage.username;
-    data.survey_id = survey.id;
+    data.survey_id = this.state.survey_id;
     data.responses = responses;
     this.props.submitSurvey(data)
       .then(() => this.props.history.push("/thanks"))
@@ -24,6 +39,15 @@ class Survey extends React.Component {
   }
 
   render() {
+
+    const currentSurvey = this.state.surveys.filter(
+      (survey) => survey.survey_id === this.state.survey_id
+    )
+
+    console.log(survey);
+    console.log(currentSurvey);
+
+
     return (
       <div className="container">
         <Row>

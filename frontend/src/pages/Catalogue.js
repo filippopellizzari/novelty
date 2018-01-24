@@ -46,7 +46,6 @@ class Catalogue extends React.Component {
   }
 
   render() {
-
     return (
       <div className="container">
         <Row style={{marginTop: 30}}>

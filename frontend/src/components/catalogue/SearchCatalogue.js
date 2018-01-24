@@ -81,6 +81,8 @@ class SearchCatalogue extends React.Component {
       compareValues(this.state.sortBy, this.state.order)
     );
 
+
+
     return(
       <div>
         <Row>

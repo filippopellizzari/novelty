@@ -41,8 +41,8 @@ class Questions extends React.Component {
 
 
   render() {
+    const numberOfQuestions = this.props.questions.length
 
-    const numberOfQuestions = this.props.questions.length;
     const { questionNumber, isValid} = this.state;
 
     const question = this.props.questions.map(
