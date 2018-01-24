@@ -14,17 +14,21 @@ import { submitSurvey } from "../actions/surveyActions";
 
 class Survey extends React.Component {
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
-      surveys: [],
-      survey_id: 1
+      survey: {},
+      survey_id: 200
     };
   }
 
   componentDidMount(){
-    axios.get("/api/surveys/")
-      .then((response) => this.setState({surveys:response.data}))
+    this.getSurvey();
+  }
+
+  getSurvey(){
+    axios.get("/api/surveys/" + this.state.survey_id + "/")
+      .then((response) => this.setState({survey:response.data}))
       .catch((error) => console.log(error));
   }
 
@@ -40,15 +44,8 @@ class Survey extends React.Component {
 
   render() {
 
-    const currentSurvey = this.state.surveys.filter(
-      (survey) => survey.survey_id === this.state.survey_id
-    )
-
-    console.log(survey);
-    console.log(currentSurvey);
-
-
     return (
+
       <div className="container">
         <Row>
           <Col xs={12} md={7} style={{marginTop:30}}>
