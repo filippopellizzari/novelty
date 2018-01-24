@@ -23,6 +23,7 @@ class SingleQuestion extends React.Component {
 
     render() {
       const question = this.props.question;
+      const order = this.props.order;
       const { selectedOption } = this.state;
       var display = (this.props.display) ? " " : "none";
 
@@ -31,17 +32,17 @@ class SingleQuestion extends React.Component {
         <div style={{display:display}}>
           <Form>
             <Form.Field>
-              <h3>{question.id + ". "}{question.text}</h3>
+              <h3>{order + ". "}{question.text}</h3>
             </Form.Field>
             {question.options.map(
               (option) =>
-              <Form.Field key={option.id}>
+              <Form.Field key={option.option_id}>
                 <Checkbox
                   radio
-                  label={option.name}
-                  name="{option.id}"
-                  value={option.name}
-                  checked={selectedOption === option.name}
+                  label={option.text}
+                  name="{option.option_id}"
+                  value={option.text}
+                  checked={selectedOption === option.text}
                   onChange={this.onChange}
                 />
               </Form.Field>

@@ -4,7 +4,7 @@ import {Row, Col} from 'react-bootstrap';
 import {Button} from 'semantic-ui-react';
 import SearchCatalogue from '../components/catalogue/SearchCatalogue'
 import SelectedList from '../components/catalogue/SelectedList'
-import survey from '../data/survey_between.json'
+import admin from '../data/admin.json'
 
 class Catalogue extends React.Component {
 
@@ -28,7 +28,7 @@ class Catalogue extends React.Component {
     * selected movies are limited and are not duplicated
     */
     if(this.state.selectedMovies.indexOf(newMovie) === -1 &&
-    this.state.selects < survey.moviesToSelect){
+    this.state.selects < admin.moviesToSelect){
       this.setState({
         selectedMovies: [...this.state.selectedMovies, newMovie ],
         selects: this.state.selects + 1
@@ -64,7 +64,7 @@ class Catalogue extends React.Component {
               <Button
                 primary
                 href="/survey"
-                hidden={this.state.selects !== survey.moviesToSelect}>Start
+                hidden={this.state.selects !== admin.moviesToSelect}>Start
               </Button>
             </div>
           </Col>

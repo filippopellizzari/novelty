@@ -41,15 +41,17 @@ class Questions extends React.Component {
 
 
   render() {
-    const numberOfQuestions = this.props.questions.length
+
+    const numberOfQuestions = this.props.questions.length > 0 ? this.props.questions.length : 1000000
     const { questionNumber, isValid} = this.state;
 
     const question = this.props.questions.map(
-      (question) =>
+      (question, index) =>
           <SingleQuestion
-            key={question.id}
+            key={index}
+            order={index+1}
             question={question}
-            display={question.id === questionNumber}
+            display={index+1 === questionNumber}
             answer={this.currentAnswer}
             onValidChange={this.isValid}
           />

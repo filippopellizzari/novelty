@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 
 class SurveyList(APIView):
-    def get(self, request, format='json'):
+    def get(self, request):
         surveys = Survey.objects.all()
         serializer = SurveySerializer(surveys, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -19,7 +19,7 @@ class SurveyDetail(APIView):
         except Survey.DoesNotExist:
             raise Http404
 
-    def get(self, request, survey_id, format='json'):
+    def get(self, request, survey_id):
         survey = self.get_object(survey_id)
         serializer = SurveySerializer(survey)
         return Response(serializer.data, status=status.HTTP_200_OK)
