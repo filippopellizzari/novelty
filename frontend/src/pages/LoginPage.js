@@ -10,7 +10,7 @@ class LoginPage extends React.Component{
 
   submit = (data) => {
     localStorage.setItem('username', data.username);
-    this.props.login(data).then(() => this.props.history.push("/welcome"));
+    return this.props.login(data).then(() => this.props.history.push("/welcome"));
   }
 
 
