@@ -16,6 +16,9 @@ class SearchCatalogue extends React.Component {
     this.state = {
       sortBy: 'year',
       order: 'descending',
+      isLoading: false,
+      value:"",
+      results:""
     };
 
     this.updateSort = this.updateSort.bind(this);
@@ -48,8 +51,12 @@ class SearchCatalogue extends React.Component {
 
      setTimeout(() => {
        if (this.state.value.length < 1) return this.resetComponent()
-
-       const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
+       const value = _.escapeRegExp(this.state.value);
+       const re = new RegExp(value, 'iy')
+       /*
+       **TODO exact regex match
+       */
+       //console.log(re);
        const isMatch = result => re.test(result.title)
 
        const source = this.props.movies
@@ -58,7 +65,10 @@ class SearchCatalogue extends React.Component {
          isLoading: false,
          results: _.filter(source, isMatch),
        })
+
+
      }, 200)
+
 
    }
 
@@ -72,6 +82,16 @@ class SearchCatalogue extends React.Component {
       { key: 'imdb_rating', value: 'imdb_rating', text: 'IMDb Rating' }
     ]
 
+    /*
+    **TODO exact word search without bugs
+    */
+    /*
+    let filteredMovies = value.length === 0 ? this.props.movies : results;
+    let sortedMovies = this.props.movies.sort(
+      compareValues(this.state.sortBy, this.state.order)
+    );
+    */
+
     let filteredMovies = this.props.movies.filter(
       (movie) => {
         return movie.title.toLowerCase()
@@ -81,14 +101,13 @@ class SearchCatalogue extends React.Component {
       compareValues(this.state.sortBy, this.state.order)
     );
 
-
-
     return(
       <div>
         <Row>
           <Col>
             <div style={{marginLeft:20}}>
               <Search
+                open={false}
                 placeholder="Search"
                 loading={isLoading}
                 onResultSelect={this.handleResultSelect}
@@ -123,6 +142,7 @@ class SearchCatalogue extends React.Component {
           <MovieList
             movies={filteredMovies}
             onSelectMovie={ (movie) => this.props.onSelectMovie(movie) }
+            selectedMovies={this.props.selectedMovies}
           />
         </Row>
       </div>

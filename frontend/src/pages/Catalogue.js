@@ -53,6 +53,7 @@ class Catalogue extends React.Component {
             <SearchCatalogue
               movies={this.state.movies}
               onSelectMovie={this.addSelect.bind(this)}
+              selectedMovies={this.state.selectedMovies}
             />
           </Col>
           <Col xs={6} md={4} style={{paddingLeft: 50, marginTop:70}}>

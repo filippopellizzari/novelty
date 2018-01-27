@@ -17,6 +17,7 @@ export default (key, order='ascending') => {
       comparison = -1;
     }
 
+
     return (
       (order === 'descending') ? (comparison * -1) : comparison
     );

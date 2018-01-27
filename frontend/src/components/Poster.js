@@ -1,5 +1,4 @@
 import React from 'react';
-//import { Image } from 'react-bootstrap';
 import { Image } from 'semantic-ui-react';
 
 class Poster extends React.Component {
