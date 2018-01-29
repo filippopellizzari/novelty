@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from 'semantic-ui-react';
 
-class Poster extends React.Component {
+class PosterSurvey extends React.Component {
 
   render(){
     return(
@@ -20,4 +20,4 @@ class Poster extends React.Component {
   }
 }
 
-export default Poster;
+export default PosterSurvey;

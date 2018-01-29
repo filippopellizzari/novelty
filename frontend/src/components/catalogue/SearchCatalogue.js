@@ -18,7 +18,7 @@ class SearchCatalogue extends React.Component {
       order: 'descending',
       isLoading: false,
       value:"",
-      results:""
+      results:"",
     };
 
     this.updateSort = this.updateSort.bind(this);
@@ -31,11 +31,13 @@ class SearchCatalogue extends React.Component {
 
   updateSort(e, data){
     this.setState({sortBy: data.value});
+    this.child.resetComponent();
   }
 
   updateOrder(){
     var order = (this.state.order === 'descending') ? 'ascending' : 'descending'
     this.setState({order: order})
+    this.child.resetComponent();
   }
 
   resetComponent = () => {
@@ -69,7 +71,7 @@ class SearchCatalogue extends React.Component {
 
      }, 200)
 
-
+     this.child.resetComponent();
    }
 
   render(){
@@ -141,6 +143,7 @@ class SearchCatalogue extends React.Component {
         <Row style={{marginTop:30}}>
           <MovieList
             movies={filteredMovies}
+            onRef={ref => (this.child = ref)}
             onSelectMovie={ (movie) => this.props.onSelectMovie(movie) }
             selectedMovies={this.props.selectedMovies}
           />

@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import Poster from '../Poster';
+import PosterSurvey from './PosterSurvey';
 import PrevArrow from './PrevArrow';
 import NextArrow from './NextArrow';
 
@@ -25,7 +25,7 @@ class RecList extends React.Component {
       let movies = this.props.recs.map(
         (movie) =>
           <div key={movie.id}>
-            <Poster
+            <PosterSurvey
               id={movie.id}
               path={movie.poster}
               heigth="250"
