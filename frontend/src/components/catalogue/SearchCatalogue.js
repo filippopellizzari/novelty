@@ -1,11 +1,11 @@
 import React from 'react';
 import {Row, Col} from 'react-bootstrap';
-import { Button, Icon } from 'semantic-ui-react'
-import { Dropdown } from 'semantic-ui-react'
-import { Search } from 'semantic-ui-react'
-import _ from 'lodash'
+import { Button, Icon } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
+import { Search } from 'semantic-ui-react';
+import axios from 'axios';
 
-import compareValues from "../../utils/compareValues";
+//import compareValues from "../../utils/compareValues";
 import MovieList from './MovieList';
 
 class SearchCatalogue extends React.Component {
@@ -53,21 +53,15 @@ class SearchCatalogue extends React.Component {
 
      setTimeout(() => {
        if (this.state.value.length < 1) return this.resetComponent()
-       const value = _.escapeRegExp(this.state.value);
-       const re = new RegExp(value, 'iy')
-       /*
-       **TODO exact regex match
-       */
-       //console.log(re);
-       const isMatch = result => re.test(result.title)
-
-       const source = this.props.movies
+       axios.get("https://api.themoviedb.org/3/search/movie?page=1"+
+       "&query="+this.state.value+
+       "&language=en-US&api_key=a070e12e1c6d7b84ebc1b172c841a8bf")
+       .then((response) => this.setState({results:response.data.results}))
+       .catch((error) => console.log(error));
 
        this.setState({
          isLoading: false,
-         results: _.filter(source, isMatch),
-       })
-
+       });
 
      }, 200)
 
@@ -79,21 +73,12 @@ class SearchCatalogue extends React.Component {
     const { isLoading, value, results } = this.state
 
     const sortOptions = [
-      { key: 'year', value: 'year', text: 'Release Year' },
+      { key: 'release_date', value: 'release_date', text: 'Release Year' },
       { key: 'title', value: 'title', text: 'Title' },
-      { key: 'imdb_rating', value: 'imdb_rating', text: 'IMDb Rating' }
+      { key: 'vote_average', value: 'vote_average', text: 'IMDb Rating' }
     ]
 
     /*
-    **TODO exact word search without bugs
-    */
-    /*
-    let filteredMovies = value.length === 0 ? this.props.movies : results;
-    let sortedMovies = this.props.movies.sort(
-      compareValues(this.state.sortBy, this.state.order)
-    );
-    */
-
     let filteredMovies = this.props.movies.filter(
       (movie) => {
         return movie.title.toLowerCase()
@@ -102,6 +87,9 @@ class SearchCatalogue extends React.Component {
     ).sort(
       compareValues(this.state.sortBy, this.state.order)
     );
+    */
+    console.log(results);
+
 
     return(
       <div>
@@ -142,7 +130,6 @@ class SearchCatalogue extends React.Component {
         </Row>
         <Row style={{marginTop:30}}>
           <MovieList
-            movies={filteredMovies}
             onRef={ref => (this.child = ref)}
             onSelectMovie={ (movie) => this.props.onSelectMovie(movie) }
             selectedMovies={this.props.selectedMovies}

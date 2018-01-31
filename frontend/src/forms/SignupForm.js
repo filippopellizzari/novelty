@@ -65,11 +65,14 @@ class SignupForm extends React.Component {
     if (!Validator.isEmail(data.email)) {
       errors.email = "Invalid email.";
     }
-    if (!data.password) {
-      errors.password = "Can't be blank.";
+    if (!data.email) {
+      errors.email = "Can't be blank.";
     }
     if (data.password.length < 8) {
       errors.password = "This password is too short. It must contain at least 8 characters.";
+    }
+    if (!data.password) {
+      errors.password = "Can't be blank.";
     }
     if (data.password !== this.state.passwordConfirmation) {
       errors.passwordConfirmation = "Passwords don't match.";

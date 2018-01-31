@@ -3,9 +3,12 @@ import { Button, Image, List, Icon } from 'semantic-ui-react'
 
 class SelectedItem extends React.Component {
   render(){
+
     return(
       <List.Item>
-        <Image avatar src={this.props.movie.poster} />
+        <Image avatar
+          src={"https://image.tmdb.org/t/p/w500" + this.props.movie.poster_path}
+        />
         <List.Content verticalAlign='middle'>
           <List.Header>
             {this.props.movie.title.substr(0,32)}

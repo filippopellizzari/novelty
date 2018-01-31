@@ -1,16 +1,26 @@
 import React from 'react';
 import { Pagination } from 'semantic-ui-react';
+import axios from 'axios';
 
 import PosterCatalogue from './PosterCatalogue'
 
 
 class MovieList extends React.Component {
 
-  state = { activePage: 1 }
+  state = { movies:[], activePage:1, totalPages:1 }
 
   componentDidMount() {
-    this.props.onRef(this)
+    this.props.onRef(this);
+
+    axios.get("https://api.themoviedb.org/3/movie/popular?page=1"
+    + "&language=en-US&api_key=a070e12e1c6d7b84ebc1b172c841a8bf")
+    .then((response) => this.setState({
+      movies:response.data.results,
+      totalPages:response.data.total_pages
+    }))
+    .catch((error) => console.log(error));
   }
+
   componentWillUnmount() {
     this.props.onRef(undefined)
   }
@@ -19,30 +29,34 @@ class MovieList extends React.Component {
     this.setState({activePage: 1})
   }
 
-  handleInputChange = (e, { value }) => this.setState({ activePage: value })
-
-  handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
+  handlePaginationChange = (e, data) => {
+    this.setState({activePage:data.activePage})
+    axios.get("https://api.themoviedb.org/3/movie/popular?page="+data.activePage
+    + "&language=en-US&api_key=a070e12e1c6d7b84ebc1b172c841a8bf")
+    .then((response) => this.setState({
+      movies:response.data.results
+    }))
+    .catch((error) => console.log(error));
+  }
 
   handleSelect(movie){
     this.props.onSelectMovie(movie);
   }
 
   render(){
-    const movies = this.props.movies;
-    const { activePage } = this.state;
-    const totalPages = Math.ceil(movies.length / 8);
+
+    const { movies, activePage, totalPages} = this.state;
     var display = totalPages < 2 ? "none" : "";
 
-    var lastIndex = activePage * 8;
-    var firstIndex = lastIndex - 8;
-    const moviePage = movies.slice(firstIndex,lastIndex);
+    const moviesPerPage = 8;
+    const moviePage = movies.slice(0,moviesPerPage);
 
     let movieList = moviePage.map(
       (movie) =>
       <div className="col-lg-3 col-md-4 col-sm-6" key={movie.id} >
         <PosterCatalogue
           id={movie.id}
-          path={movie.poster}
+          path={movie.poster_path}
           height="230"
           width="150"
           selectedMovies={this.props.selectedMovies}
@@ -50,17 +64,11 @@ class MovieList extends React.Component {
         />
     </div>
     );
-
-    var noResult = movieList.length < 1 ?
-    <h4>No result found</h4> : null
-
+    
     return(
       <div className="container">
         <div className="row">
             {movieList}
-            <div className="container">
-              {noResult}
-            </div>
         </div>
         <div className="row" style={{marginTop:20}}>
           <Pagination

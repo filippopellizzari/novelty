@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import {Row, Col} from 'react-bootstrap';
 import {Button} from 'semantic-ui-react';
 import SearchCatalogue from '../components/catalogue/SearchCatalogue'
@@ -11,16 +10,9 @@ class Catalogue extends React.Component {
   constructor(){
     super();
     this.state = {
-      movies: [],
       selectedMovies: [],
       selects: 0
     };
-  }
-
-  componentDidMount(){
-    axios.get("/api/movies")
-      .then((response) => this.setState({movies:response.data}))
-      .catch((error) => console.log(error));
   }
 
   addSelect(newMovie){
@@ -51,7 +43,6 @@ class Catalogue extends React.Component {
         <Row style={{marginTop: 30}}>
           <Col xs={12} md={8}>
             <SearchCatalogue
-              movies={this.state.movies}
               onSelectMovie={this.addSelect.bind(this)}
               selectedMovies={this.state.selectedMovies}
             />

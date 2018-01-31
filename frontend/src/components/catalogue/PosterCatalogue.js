@@ -23,7 +23,7 @@ class PosterCatalogue extends React.Component {
     return(
       <Image
         key={this.props.id}
-        src={this.props.path}
+        src={"https://image.tmdb.org/t/p/w500" + this.props.path}
         alt={this.props.id}
         height={this.props.height}
         width={this.props.width}
