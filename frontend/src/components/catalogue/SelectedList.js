@@ -9,9 +9,16 @@ class SelectedList extends React.Component {
   }
 
   render(){
+    const totNumber = this.props.moviesToSelect;
+    const selects = this.props.selects;
+
+    var info = selects < totNumber ?
+    <h3>Select {totNumber-selects} movies that you like</h3> :
+    <h3>My preferences</h3>
+
     return(
       <div>
-        <h3>My Preferences</h3>
+        {info}
         <List celled>
           {this.props.selectedMovies.map(
               (movie) =>

@@ -59,13 +59,15 @@ class Catalogue extends React.Component {
           <Col xs={6} md={4} style={{paddingLeft: 50, marginTop:70}}>
             <SelectedList
               selectedMovies={this.state.selectedMovies}
+              selects={this.state.selects}
+              moviesToSelect={admin.moviesToSelect}
               onRemove={this.removeSelect.bind(this)}
           />
             <div style={{textAlign:'center', marginTop:20}}>
               <Button
                 primary
                 href="/survey"
-                hidden={this.state.selects !== admin.moviesToSelect}>Start
+                hidden={this.state.selects !== admin.moviesToSelect}>Next
               </Button>
             </div>
           </Col>
