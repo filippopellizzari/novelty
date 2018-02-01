@@ -11,7 +11,7 @@ class SelectedItem extends React.Component {
         />
         <List.Content verticalAlign='middle'>
           <List.Header>
-            {this.props.movie.title.substr(0,32)}
+            {this.props.movie.title.substr(0,30)}
           </List.Header>
         </List.Content>
         <List.Content floated='right'>

@@ -5,7 +5,8 @@ import { Dropdown } from 'semantic-ui-react';
 import { Search } from 'semantic-ui-react';
 import axios from 'axios';
 
-//import compareValues from "../../utils/compareValues";
+import compareValues from "../../utils/compareValues";
+import admin from '../../data/admin.json';
 import MovieList from './MovieList';
 
 class SearchCatalogue extends React.Component {
@@ -18,11 +19,25 @@ class SearchCatalogue extends React.Component {
       order: 'descending',
       isLoading: false,
       value:"",
-      results:"",
+      defaultMovies:[],
+      results:[],
+      partialResults:[],
+      totalPages:1,
     };
 
     this.updateSort = this.updateSort.bind(this);
     this.updateOrder = this.updateOrder.bind(this);
+  }
+
+  componentDidMount(){
+    for(var page=2; page<20; page++){
+      axios.get("https://api.themoviedb.org/3/movie/popular?page="+page+
+      "&language=en-US&api_key="+admin.tmdb_key)
+      .then((response) => this.setState({
+        defaultMovies: [...this.state.defaultMovies, response.data.results ],
+        totalPages:response.data.total_pages
+      }));
+    }
   }
 
   componentWillMount() {
@@ -49,47 +64,48 @@ class SearchCatalogue extends React.Component {
    }
 
    handleSearchChange = (e, { value }) => {
-     this.setState({ isLoading: true, value })
+      this.setState({ isLoading: true, value })
+      this.setState({partialResults:[]})
+      setTimeout(() => {
+      if (this.state.value.length < 1) return this.resetComponent()
+      for(var page=2; page<20; page++){
+        axios.get("https://api.themoviedb.org/3/search/movie?include_adult=false"+
+        "&page="+page+"&query="+this.state.value+
+        "&language=en-US&api_key="+admin.tmdb_key)
+        .then((response) => this.setState({
+          partialResults: [...this.state.partialResults, response.data.results ],
+          totalPages:response.data.total_pages
+        }));
+      }
+      this.setState({results:this.state.partialResults});
 
-     setTimeout(() => {
-       if (this.state.value.length < 1) return this.resetComponent()
-       axios.get("https://api.themoviedb.org/3/search/movie?page=1"+
-       "&query="+this.state.value+
-       "&language=en-US&api_key=a070e12e1c6d7b84ebc1b172c841a8bf")
-       .then((response) => this.setState({results:response.data.results}))
-       .catch((error) => console.log(error));
+      this.setState({isLoading: false});
 
-       this.setState({
-         isLoading: false,
-       });
+      }, 200)
 
-     }, 200)
-
-     this.child.resetComponent();
+      this.child.resetComponent();
    }
 
   render(){
 
-    const { isLoading, value, results } = this.state
+    const { isLoading, value, defaultMovies, results, totalPages } = this.state
 
     const sortOptions = [
       { key: 'release_date', value: 'release_date', text: 'Release Year' },
       { key: 'title', value: 'title', text: 'Title' },
-      { key: 'vote_average', value: 'vote_average', text: 'IMDb Rating' }
+      { key: 'vote_average', value: 'vote_average', text: 'Vote Average' }
     ]
 
-    /*
-    let filteredMovies = this.props.movies.filter(
-      (movie) => {
-        return movie.title.toLowerCase()
-          .indexOf(value.toLowerCase()) !== -1;
-      }
-    ).sort(
+    console.log(totalPages)
+    if (totalPages > 20){
+      this.setState({totalPages:20});
+    }
+    const movieList = [].concat.apply([], defaultMovies);
+    const filteredMovies = movieList.sort(
       compareValues(this.state.sortBy, this.state.order)
     );
-    */
-    console.log(results);
 
+    console.log(filteredMovies)
 
     return(
       <div>
@@ -130,6 +146,8 @@ class SearchCatalogue extends React.Component {
         </Row>
         <Row style={{marginTop:30}}>
           <MovieList
+            movies={filteredMovies}
+            totalPages={totalPages}
             onRef={ref => (this.child = ref)}
             onSelectMovie={ (movie) => this.props.onSelectMovie(movie) }
             selectedMovies={this.props.selectedMovies}

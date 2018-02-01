@@ -1,24 +1,15 @@
 import React from 'react';
 import { Pagination } from 'semantic-ui-react';
-import axios from 'axios';
 
 import PosterCatalogue from './PosterCatalogue'
 
 
 class MovieList extends React.Component {
 
-  state = { movies:[], activePage:1, totalPages:1 }
+  state = { activePage:1 }
 
   componentDidMount() {
     this.props.onRef(this);
-
-    axios.get("https://api.themoviedb.org/3/movie/popular?page=1"
-    + "&language=en-US&api_key=a070e12e1c6d7b84ebc1b172c841a8bf")
-    .then((response) => this.setState({
-      movies:response.data.results,
-      totalPages:response.data.total_pages
-    }))
-    .catch((error) => console.log(error));
   }
 
   componentWillUnmount() {
@@ -29,15 +20,7 @@ class MovieList extends React.Component {
     this.setState({activePage: 1})
   }
 
-  handlePaginationChange = (e, data) => {
-    this.setState({activePage:data.activePage})
-    axios.get("https://api.themoviedb.org/3/movie/popular?page="+data.activePage
-    + "&language=en-US&api_key=a070e12e1c6d7b84ebc1b172c841a8bf")
-    .then((response) => this.setState({
-      movies:response.data.results
-    }))
-    .catch((error) => console.log(error));
-  }
+  handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
 
   handleSelect(movie){
     this.props.onSelectMovie(movie);
@@ -45,11 +28,15 @@ class MovieList extends React.Component {
 
   render(){
 
-    const { movies, activePage, totalPages} = this.state;
+    const { activePage } = this.state;
+    const {totalPages, movies}  = this.props;
+    console.log(totalPages)
     var display = totalPages < 2 ? "none" : "";
 
     const moviesPerPage = 8;
-    const moviePage = movies.slice(0,moviesPerPage);
+    var lastIndex = activePage * moviesPerPage;
+    var firstIndex = lastIndex - moviesPerPage;
+    const moviePage = movies.slice(firstIndex,lastIndex);
 
     let movieList = moviePage.map(
       (movie) =>
@@ -64,7 +51,7 @@ class MovieList extends React.Component {
         />
     </div>
     );
-    
+
     return(
       <div className="container">
         <div className="row">
