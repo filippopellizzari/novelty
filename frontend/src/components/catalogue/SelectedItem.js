@@ -4,10 +4,14 @@ import { Button, Image, List, Icon } from 'semantic-ui-react'
 class SelectedItem extends React.Component {
   render(){
 
+    var imageSrc = this.props.movie.poster_path === null
+      ? "https://www.movieinsider.com/images/none_175px.jpg"
+      : "https://image.tmdb.org/t/p/w500" + this.props.movie.poster_path;
+
     return(
       <List.Item>
         <Image avatar
-          src={"https://image.tmdb.org/t/p/w500" + this.props.movie.poster_path}
+          src={imageSrc}
         />
         <List.Content verticalAlign='middle'>
           <List.Header>

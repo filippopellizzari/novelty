@@ -29,11 +29,12 @@ class MovieList extends React.Component {
   render(){
 
     const { activePage } = this.state;
-    const {totalPages, movies}  = this.props;
-    console.log(totalPages)
-    var display = totalPages < 2 ? "none" : "";
+    const { movies }  = this.props;
 
     const moviesPerPage = 8;
+    const totalPages = Math.ceil(movies.length / moviesPerPage);
+    var display = totalPages < 2 ? "none" : "";
+
     var lastIndex = activePage * moviesPerPage;
     var firstIndex = lastIndex - moviesPerPage;
     const moviePage = movies.slice(firstIndex,lastIndex);
@@ -52,10 +53,16 @@ class MovieList extends React.Component {
     </div>
     );
 
+    var noResult = movieList.length < 1 ?
+      <h3>Not found</h3> : null
+
     return(
       <div className="container">
         <div className="row">
             {movieList}
+            <div className="container">
+              {noResult}
+            </div>
         </div>
         <div className="row" style={{marginTop:20}}>
           <Pagination
