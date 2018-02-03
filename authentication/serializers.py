@@ -22,13 +22,14 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = MyUser.objects.create_user(
             validated_data['email'],
-            validated_data['password']
+            validated_data['password'],
+            validated_data['gender'],
             )
         return user
 
     class Meta:
         model = MyUser
-        fields = ('email', 'password')
+        fields = ('email', 'password', 'gender')
 
 
 class ValidateTokenResetSerializer(serializers.Serializer):

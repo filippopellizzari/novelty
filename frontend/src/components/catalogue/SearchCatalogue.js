@@ -83,21 +83,9 @@ class SearchCatalogue extends React.Component {
     const {isLoading, searchResults} = this.state
 
     const sortOptions = [
-      {
-        key: 'popularity',
-        value: 'popularity',
-        text: 'Popularity'
-      },
-      {
-        key: 'release_date',
-        value: 'release_date',
-        text: 'Release Year'
-      },
-      {
-        key: 'title',
-        value: 'title',
-        text: 'Title'
-      }
+      { key: 'popularity', value: 'popularity', text: 'Popularity' },
+      { key: 'release_date', value: 'release_date', text: 'Release Year' },
+      { key: 'title', value: 'title', text: 'Title' }
     ]
 
     const movieList = [].concat.apply([], searchResults);

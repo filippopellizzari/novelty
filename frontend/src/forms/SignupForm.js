@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button} from "semantic-ui-react";
+import { Form, Button, Dropdown } from "semantic-ui-react";
 import Validator from "validator";
 import PropTypes from "prop-types";
 
@@ -9,7 +9,8 @@ class SignupForm extends React.Component {
   state = {
     data: {
       email: "",
-      password: ""
+      password: "",
+      gender:"",
     },
     passwordConfirmation: "",
     loading: false,
@@ -25,6 +26,12 @@ class SignupForm extends React.Component {
 
   onChangePasswordConfirm = e =>
     this.setState({passwordConfirmation: e.target.value});
+
+  onChangeGender = (e,data) =>
+    this.setState({
+      ...this.state,
+      data: { ...this.state.data, gender: data.value }
+    });
 
   onSubmit = e => {
     e.preventDefault();
@@ -77,6 +84,11 @@ class SignupForm extends React.Component {
   render() {
     const { data, passwordConfirmation, errors, loading } = this.state;
 
+    const genderOptions = [
+      { key: 'm', text: 'Male', value: 'Male' },
+      { key: 'f', text: 'Female', value: 'Female' },
+    ]
+
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
         <Form.Field error={!!errors.email}>
@@ -116,6 +128,16 @@ class SignupForm extends React.Component {
           {errors.passwordConfirmation &&
             <InlineError text={errors.passwordConfirmation} />}
         </Form.Field>
+
+        <Form.Field>
+          <label htmlFor="gender">Gender</label>
+            <Dropdown
+              selection
+              options={genderOptions}
+              onChange={this.onChangeGender}
+            />
+        </Form.Field>
+
         <Button primary fluid>Signup</Button>
       </Form>
     );
