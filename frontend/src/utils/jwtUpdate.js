@@ -16,7 +16,7 @@ function refreshUpdate(store){
     if(exp < 10000){ //time in milliseconds
       localStorage.removeItem('jwtAccess');
       localStorage.removeItem('jwtRefresh');
-      localStorage.removeItem('username');
+      localStorage.removeItem('email');
     }
   }
 }

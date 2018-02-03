@@ -33,7 +33,7 @@ class Survey extends React.Component {
 
   submit = responses =>{
     const data = {};
-    data.username = localStorage.username;
+    data.email = localStorage.email;
     data.survey_id = this.state.survey_id;
     data.responses = responses;
     this.props.submitSurvey(data)

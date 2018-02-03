@@ -29,8 +29,8 @@ class ResponseInline(admin.StackedInline):
     extra = 1
 
 class SurveyResponseAdmin(admin.ModelAdmin):
-    readonly_fields = ('username', 'survey_id','completed_at',)
-    list_display = ('username', 'survey_id', 'completed_at',)
+    readonly_fields = ('email', 'survey_id','completed_at',)
+    list_display = ('email', 'survey_id', 'completed_at',)
     inlines = (ResponseInline,)
 
 

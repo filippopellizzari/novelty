@@ -8,7 +8,6 @@ import InlineError from "../messages/InlineError";
 class SignupForm extends React.Component {
   state = {
     data: {
-      username:"",
       email: "",
       password: ""
     },
@@ -43,9 +42,6 @@ class SignupForm extends React.Component {
   serverErrors = data => {
     const errors = {};
 
-    if(data.username) {
-      errors.username = "This username already exists. Please use a different one."
-    }
     if(data.email) {
       errors.email = "This email has already been used."
     }
@@ -59,9 +55,6 @@ class SignupForm extends React.Component {
   validate = data => {
     const errors = {};
 
-    if (!data.username) {
-      errors.username = "Can't be blank.";
-    }
     if (!Validator.isEmail(data.email)) {
       errors.email = "Invalid email.";
     }
@@ -86,17 +79,6 @@ class SignupForm extends React.Component {
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
-        <Form.Field error={!!errors.username}>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={data.username}
-            onChange={this.onChange}
-          />
-        {errors.username && <InlineError text={errors.username} />}
-        </Form.Field>
         <Form.Field error={!!errors.email}>
           <label htmlFor="email">Email</label>
           <input

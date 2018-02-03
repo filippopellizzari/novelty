@@ -40,7 +40,7 @@ class OptionOrder(models.Model):
 
 class SurveyResponse(models.Model):
     survey_id = models.CharField(max_length=30)
-    username = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
     completed_at = models.DateTimeField(auto_now_add=True)
 
 class Response(models.Model):

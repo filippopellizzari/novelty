@@ -9,7 +9,7 @@ import { login } from "../actions/authActions";
 class LoginPage extends React.Component{
 
   submit = (data) => {
-    localStorage.setItem('username', data.username);
+    localStorage.setItem('email', data.email);
     return this.props.login(data).then(() => this.props.history.push("/welcome"));
   }
 

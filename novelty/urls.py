@@ -5,7 +5,7 @@ from rest_framework.schemas import get_schema_view
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from movies.views import MovieList
-from authentication.views import UserCreateView, ValidateTokenResetView, UserList
+from authentication.views import UserCreateView, ValidateTokenResetView
 from surveys.views import *
 
 urlpatterns = [
@@ -16,8 +16,6 @@ urlpatterns = [
     url(r'^api/surveys/$', SurveyList.as_view()),
     url(r'^api/surveys/(?P<survey_id>[0-9]+)/$', SurveyDetail.as_view()),
     url(r'^api/surveys/survey-submit/$', SurveyResponseView.as_view()),
-
-    url(r'^api/users', UserList.as_view()),
 
     url(r'^api/auth/token/obtain/$', TokenObtainPairView.as_view()),
     url(r'^api/auth/token/refresh/$', TokenRefreshView.as_view()),
