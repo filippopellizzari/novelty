@@ -24,12 +24,14 @@ class UserSerializer(serializers.ModelSerializer):
             validated_data['email'],
             validated_data['password'],
             validated_data['gender'],
+            validated_data['age'],
+            validated_data['country'],
             )
         return user
 
     class Meta:
         model = MyUser
-        fields = ('email', 'password', 'gender')
+        fields = ('email', 'password', 'gender', 'age', 'country')
 
 
 class ValidateTokenResetSerializer(serializers.Serializer):

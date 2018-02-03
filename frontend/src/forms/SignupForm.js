@@ -4,6 +4,8 @@ import Validator from "validator";
 import PropTypes from "prop-types";
 
 import InlineError from "../messages/InlineError";
+import { GENDER_OPTIONS, AGE_OPTIONS, COUNTRY_OPTIONS } from "./options";
+import { getCountryName } from "./country";
 
 class SignupForm extends React.Component {
   state = {
@@ -11,6 +13,8 @@ class SignupForm extends React.Component {
       email: "",
       password: "",
       gender:"",
+      age:"",
+      country:""
     },
     passwordConfirmation: "",
     loading: false,
@@ -19,19 +23,26 @@ class SignupForm extends React.Component {
   };
 
   onChange = e =>
-    this.setState({
-      ...this.state,
-      data: { ...this.state.data, [e.target.name]: e.target.value }
-    });
+    this.setState(
+      {...this.state, data: { ...this.state.data, [e.target.name]: e.target.value }}
+    );
 
   onChangePasswordConfirm = e =>
     this.setState({passwordConfirmation: e.target.value});
 
   onChangeGender = (e,data) =>
-    this.setState({
-      ...this.state,
-      data: { ...this.state.data, gender: data.value }
-    });
+    this.setState(
+      {...this.state, data: { ...this.state.data, gender: data.value }}
+    );
+  onChangeAge = (e,data) =>
+    this.setState(
+      {...this.state, data: { ...this.state.data, age: data.value }}
+    );
+  onChangeCountry = (e,data) =>
+    this.setState(
+      {...this.state,
+        data: { ...this.state.data, country: getCountryName(data.value.toUpperCase()) }}
+    );
 
   onSubmit = e => {
     e.preventDefault();
@@ -77,17 +88,21 @@ class SignupForm extends React.Component {
     if (data.password !== this.state.passwordConfirmation) {
       errors.passwordConfirmation = "Passwords don't match.";
     }
+    if (!data.gender) {
+      errors.gender = "Required.";
+    }
+    if (!data.age) {
+      errors.age = "Required.";
+    }
+    if (!data.country) {
+      errors.country = "Required.";
+    }
 
     return errors;
   };
 
   render() {
     const { data, passwordConfirmation, errors, loading } = this.state;
-
-    const genderOptions = [
-      { key: 'm', text: 'Male', value: 'Male' },
-      { key: 'f', text: 'Female', value: 'Female' },
-    ]
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
@@ -129,15 +144,36 @@ class SignupForm extends React.Component {
             <InlineError text={errors.passwordConfirmation} />}
         </Form.Field>
 
-        <Form.Field>
+        <Form.Field error={!!errors.gender}>
           <label htmlFor="gender">Gender</label>
             <Dropdown
               selection
-              options={genderOptions}
+              options={GENDER_OPTIONS}
               onChange={this.onChangeGender}
             />
+          {errors.gender && <InlineError text={errors.gender} />}
         </Form.Field>
 
+        <Form.Field error={!!errors.age}>
+          <label htmlFor="age">Age</label>
+            <Dropdown
+              selection
+              options={AGE_OPTIONS}
+              onChange={this.onChangeAge}
+            />
+          {errors.age && <InlineError text={errors.age} />}
+        </Form.Field>
+
+        <Form.Field error={!!errors.country}>
+          <label htmlFor="country">Country</label>
+            <Dropdown
+              search
+              selection
+              options={COUNTRY_OPTIONS}
+              onChange={this.onChangeCountry}
+            />
+          {errors.country && <InlineError text={errors.country} />}
+        </Form.Field>
         <Button primary fluid>Signup</Button>
       </Form>
     );
