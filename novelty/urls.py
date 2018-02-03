@@ -17,6 +17,8 @@ urlpatterns = [
     url(r'^api/surveys/(?P<survey_id>[0-9]+)/$', SurveyDetail.as_view()),
     url(r'^api/surveys/survey-submit/$', SurveyResponseView.as_view()),
 
+    url(r'^auth/', include('rest_framework_social_oauth2.urls')),
+
     url(r'^api/auth/token/obtain/$', TokenObtainPairView.as_view()),
     url(r'^api/auth/token/refresh/$', TokenRefreshView.as_view()),
     url(r'^api/auth/signup/$', UserCreateView.as_view()),
