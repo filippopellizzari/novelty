@@ -1,3 +1,5 @@
+from import_export.admin import ImportExportModelAdmin
+from import_export.resources import ModelResource
 from django.contrib import admin
 from .models import *
 
@@ -23,18 +25,54 @@ class QuestionAdmin(admin.ModelAdmin):
 class OptionAdmin(admin.ModelAdmin):
     list_display = ('option_id','text',)
 
+
+
 class ResponseInline(admin.StackedInline):
     readonly_fields = ('survey_response','question', 'answer')
     model = Response
     extra = 1
 
-class SurveyResponseAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+class SurveyResponseResource(ModelResource):
+    class Meta:
+        model = SurveyResponse
+        fields = ('id','email', 'survey_id', 'completed_at',)
+        export_order = ('id','email', 'survey_id', 'completed_at',)
+
+class SurveyResponseAdmin(ImportExportModelAdmin):
+
+    resource_class = SurveyResponseResource
+
     readonly_fields = ('email', 'survey_id','completed_at',)
     list_display = ('email', 'survey_id', 'completed_at',)
     inlines = (ResponseInline,)
+    search_fields = ('email','survey_id', )
 
+    def has_add_permission(self, request):
+        return False
+'''
+class ResponseResource(ModelResource):
+    class Meta:
+        model = Response
+        fields = ('id','question', 'answer','email' )
+        export_order = ('id','question', 'answer', 'email')
+class ResponseAdmin(ImportExportModelAdmin):
+    resource_class = ResponseResource
+
+    readonly_fields = ('survey_response','question', 'answer')
+
+    def has_add_permission(self, request):
+        return False
+    def has_delete_permission(self, request, obj=None):
+        return False
+'''
 
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Option, OptionAdmin)
 admin.site.register(SurveyResponse,SurveyResponseAdmin )
+#admin.site.register(Response,ResponseAdmin )

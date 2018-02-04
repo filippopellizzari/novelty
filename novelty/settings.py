@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_auth',
     'surveys',
     'authentication',
+    'import_export',
 
     'oauth2_provider',
     'social_django',
@@ -152,6 +153,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 AUTH_USER_MODEL = 'authentication.MyUser'
 
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 
 REST_FRAMEWORK = {
