@@ -19,8 +19,6 @@ class SurveySerializer(serializers.ModelSerializer):
         model = Survey
         fields = ('survey_id', 'survey_type', 'questions')
 
-
-
 class ResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Response
@@ -35,5 +33,10 @@ class SurveyResponseSerializer(serializers.ModelSerializer):
         responses_data = validated_data.pop('responses')
         surveyResponse = SurveyResponse.objects.create(**validated_data)
         for response_data in responses_data:
-            Response.objects.create(survey_response=surveyResponse, **response_data)
+            Response.objects.create(
+                survey_response=surveyResponse,
+                email=validated_data['email'],
+                survey_id=validated_data['survey_id'],
+                **response_data
+            )
         return surveyResponse

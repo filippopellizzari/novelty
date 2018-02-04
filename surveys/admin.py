@@ -1,5 +1,6 @@
 from import_export.admin import ImportExportModelAdmin
 from import_export.resources import ModelResource
+from import_export import fields, widgets
 from django.contrib import admin
 from .models import *
 
@@ -25,10 +26,8 @@ class QuestionAdmin(admin.ModelAdmin):
 class OptionAdmin(admin.ModelAdmin):
     list_display = ('option_id','text',)
 
-
-
 class ResponseInline(admin.StackedInline):
-    readonly_fields = ('survey_response','question', 'answer')
+    readonly_fields = ('survey_response','question', 'answer', 'survey_id', 'email')
     model = Response
     extra = 1
 
@@ -54,25 +53,26 @@ class SurveyResponseAdmin(ImportExportModelAdmin):
 
     def has_add_permission(self, request):
         return False
-'''
+
 class ResponseResource(ModelResource):
     class Meta:
         model = Response
-        fields = ('id','question', 'answer','email' )
-        export_order = ('id','question', 'answer', 'email')
+        fields = ('id','email','survey_id','completed_at','question', 'answer', )
+        export_order = ('id', 'email','survey_id','completed_at','question', 'answer', )
+
 class ResponseAdmin(ImportExportModelAdmin):
     resource_class = ResponseResource
 
-    readonly_fields = ('survey_response','question', 'answer')
+    readonly_fields = ('email','survey_id','completed_at','question',
+                        'answer','survey_response')
+    list_display = ('email','survey_id','completed_at','question',
+                        'answer')
 
     def has_add_permission(self, request):
         return False
-    def has_delete_permission(self, request, obj=None):
-        return False
-'''
 
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Option, OptionAdmin)
-admin.site.register(SurveyResponse,SurveyResponseAdmin )
-#admin.site.register(Response,ResponseAdmin )
+#admin.site.register(SurveyResponse,SurveyResponseAdmin )
+admin.site.register(Response,ResponseAdmin )
