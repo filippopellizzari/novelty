@@ -11,8 +11,8 @@ from surveys.views import *
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^api/movies/search-by-title/(?P<title>\w+)/(?P<page>[0-9]+)/(?P<itemsPerPage>[0-9]+)/$', SearchByTitle.as_view()),
-    url(r'^api/movies/search-total-results/(?P<title>\w+)/$', SearchTotalResults.as_view()),
+    url(r'^api/movies/search-by-title/(?P<title>[\w\ ]+)/(?P<page>[0-9]+)/(?P<itemsPerPage>[0-9]+)/$', SearchByTitle.as_view()),
+    url(r'^api/movies/search-total-results/(?P<title>[\w\ ]+)/$', SearchTotalResults.as_view()),
     url(r'^api/movies/popular/(?P<page>[0-9]+)/(?P<itemsPerPage>[0-9]+)/$', PopularMovies.as_view()),
 
 

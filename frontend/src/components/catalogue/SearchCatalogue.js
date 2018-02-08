@@ -86,8 +86,7 @@ class SearchCatalogue extends React.Component {
     const {isLoading, searchResults, totalResults, popularMovies, mode} = this.state
 
     var movies = mode==="default" ? popularMovies : searchResults
-    var title = mode==="default" ?
-    <h2>The most popular movies</h2> : null
+    var title = mode==="default" ? <h2>The most popular movies</h2> : null
 
     return (
       <div>

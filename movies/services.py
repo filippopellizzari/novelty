@@ -1,4 +1,6 @@
 import tmdbsimple as tmdb
+from urllib.parse import unquote
+
 API_KEY = 'a070e12e1c6d7b84ebc1b172c841a8bf'
 
 def get_movies_by_title(query,page):
