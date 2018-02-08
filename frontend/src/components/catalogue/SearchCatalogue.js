@@ -34,7 +34,7 @@ class SearchCatalogue extends React.Component {
   }
 
   handleSearch(e){
-    if(e.key==='Enter'){
+    if(e.key==='Enter' && e.target.value.length>0){
       const value = e.target.value
       const moviesPerPage = admin.moviesPerPage
       this.setState({isLoading: true, value:value, mode:"search"})
@@ -66,11 +66,12 @@ class SearchCatalogue extends React.Component {
     const {value, mode} = this.state
     const moviesPerPage = admin.moviesPerPage
     if(mode==="search"){
-      axios.get("api/movies/search-by-title/"+value+"/"+activePage+"/"+moviesPerPage+"/")
-        .then((res) =>
-        this.setState({
-          searchResults: res.data
-        }))
+        axios.get("api/movies/search-by-title/"+value+"/"+activePage+"/"
+          +moviesPerPage+"/")
+          .then((res) =>
+          this.setState({
+            searchResults: res.data
+          }))
     }
     if(mode==="default"){
       axios.get("api/movies/popular/"+activePage+"/"+moviesPerPage+"/")

@@ -3,8 +3,17 @@ import { Image } from 'semantic-ui-react';
 
 class PosterCatalogue extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = { imageStatus: "loading" };
+  }
+
   onClick() {
     this.props.onClick();
+  }
+
+  handleImageLoaded() {
+    this.setState({ imageStatus: "loaded" });
   }
 
   render() {
@@ -35,6 +44,7 @@ class PosterCatalogue extends React.Component {
         width={this.props.width}
         onClick={this.onClick.bind(this)}
         style={{opacity:opacity,cursor:cursor}}
+        onLoad={this.handleImageLoaded.bind(this)}
         bordered
         rounded
       />

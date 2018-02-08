@@ -7,7 +7,7 @@ import admin from '../../data/admin.json';
 
 class MovieList extends React.Component {
 
-  state = { activePage:1}
+  state = { activePage:1, isLoading:true}
 
   componentDidMount() {
     this.props.onRef(this);
