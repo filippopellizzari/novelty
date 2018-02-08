@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'surveys',
     'authentication',
     'import_export',
+    'adminsortable',
 
     'oauth2_provider',
     'social_django',

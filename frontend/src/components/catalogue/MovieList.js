@@ -2,11 +2,12 @@ import React from 'react';
 import { Pagination } from 'semantic-ui-react';
 
 import PosterCatalogue from './PosterCatalogue'
+import admin from '../../data/admin.json';
 
 
 class MovieList extends React.Component {
 
-  state = { activePage:1 }
+  state = { activePage:1}
 
   componentDidMount() {
     this.props.onRef(this);
@@ -20,7 +21,10 @@ class MovieList extends React.Component {
     this.setState({activePage: 1})
   }
 
-  handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
+  handlePaginationChange(e, data){
+    this.setState({activePage: data.activePage });
+    this.props.onPaginationChange(data.activePage);
+  }
 
   handleSelect(movie){
     this.props.onSelectMovie(movie);
@@ -29,17 +33,16 @@ class MovieList extends React.Component {
   render(){
 
     const { activePage } = this.state;
-    const { movies }  = this.props;
+    const { movies, totalResults }  = this.props;
 
-    const moviesPerPage = 8;
-    const totalPages = Math.ceil(movies.length / moviesPerPage);
-    var display = totalPages < 2 ? "none" : "";
+    const moviesPerPage = admin.moviesPerPage
+    const totalPages = Math.ceil(totalResults/moviesPerPage)
 
-    var lastIndex = activePage * moviesPerPage;
-    var firstIndex = lastIndex - moviesPerPage;
-    const moviePage = movies.slice(firstIndex,lastIndex);
+    var display = totalResults < moviesPerPage ? "none" : "";
+    var resultsFound = totalResults < 1 ?
+      <h3>Not found</h3> : null
 
-    let movieList = moviePage.map(
+    let movieList = movies.map(
       (movie) =>
       <div className="col-lg-3 col-md-4 col-sm-6" key={movie.id} >
         <PosterCatalogue
@@ -53,23 +56,20 @@ class MovieList extends React.Component {
     </div>
     );
 
-    var noResult = movieList.length < 1 ?
-      <h3>Not found</h3> : null
-
     return(
       <div className="container">
         <div className="row">
-            {movieList}
             <div className="container">
-              {noResult}
+              {resultsFound}
             </div>
+            {movieList}
         </div>
         <div className="row" style={{marginTop:20}}>
           <Pagination
             style={{margin:"auto", display:display}}
             totalPages={totalPages}
             activePage={activePage}
-            onPageChange={this.handlePaginationChange}
+            onPageChange={this.handlePaginationChange.bind(this)}
             firstItem={null}
             lastItem={null}
           />

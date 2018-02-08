@@ -1,10 +1,8 @@
 import React from 'react';
 import {Row, Col} from 'react-bootstrap';
-import {Button, Icon, Dropdown } from 'semantic-ui-react';
 import {Input} from 'semantic-ui-react';
 import axios from 'axios';
 
-import compareValues from "../../utils/compareValues";
 import admin from '../../data/admin.json';
 import MovieList from './MovieList';
 
@@ -14,129 +12,111 @@ class SearchCatalogue extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sortBy: 'popularity',
-      order: 'descending',
       isLoading: false,
       popularMovies: [],
       searchResults: [],
-      value:""
+      totalResults:'',
+      value:'',
+      mode:"default"
     };
-    this.updateSort = this.updateSort.bind(this);
-    this.updateOrder = this.updateOrder.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.reset = this.reset.bind(this);
+    this.changeMode = this.changeMode.bind(this);
+    this.onPageChange = this.onPageChange.bind(this);
   }
 
   componentDidMount() {
-    this.setState({value:""});
-    for (var page = 2; page < 20; page++) {
-      axios.get("https://api.themoviedb.org/3/movie/popular?page=" + page +
-      "&language=en-US&api_key=" + admin.tmdb_key)
-      .then((response) => this.setState({
-        popularMovies: [
-          ...this.state.popularMovies, response.data.results
-        ],
-        searchResults: [
-          ...this.state.searchResults, response.data.results
-        ],
-      }));
-    }
-  }
-
-  updateSort(e, data) {
-    this.setState({sortBy: data.value});
-    this.child.resetComponent();
-  }
-
-  updateOrder() {
-    var order = (this.state.order === 'descending')
-      ? 'ascending'
-      : 'descending'
-    this.setState({order: order})
-    this.child.resetComponent();
+    const moviesPerPage = admin.moviesPerPage;
+      axios.get("api/movies/popular/1/"+moviesPerPage+"/")
+      .then((res) => this.setState({
+        popularMovies: res.data,
+        totalResults: 80
+        }));
   }
 
   handleSearch(e){
     if(e.key==='Enter'){
       const value = e.target.value
-      this.setState({isLoading: true, value: value})
+      const moviesPerPage = admin.moviesPerPage
+      this.setState({isLoading: true, value:value, mode:"search"})
       setTimeout(() => {
-        axios.get("https://api.themoviedb.org/3/search/movie?include_adult=false" +
-        "&page=1&query=" + value + "&language=en-US&api_key=" + admin.tmdb_key)
-        .then((response) => this.setState({
-          searchResults:response.data.results
-        }))
+        axios.get("api/movies/search-total-results/"+value+"/")
+          .then((res) =>
+          this.setState({
+            totalResults: res.data
+          }))
+        axios.get("api/movies/search-by-title/"+value+"/1/"+moviesPerPage+"/")
+          .then((res) =>
+          this.setState({
+            searchResults: res.data
+          }))
+
       this.setState({isLoading: false});
-      }, 500)
+    }, 500)
       this.child.resetComponent();
     }
   }
 
-  reset(e){
-    if (e.target.value < 1){
-      this.setState({value:"", searchResults:this.state.popularMovies})
+  changeMode(e){
+    if (e.target.value.length < 1){
+      this.setState({mode:"default", totalResults: 40})
+    }
+  }
+
+  onPageChange(activePage){
+    const {value, mode} = this.state
+    const moviesPerPage = admin.moviesPerPage
+    if(mode==="search"){
+      axios.get("api/movies/search-by-title/"+value+"/"+activePage+"/"+moviesPerPage+"/")
+        .then((res) =>
+        this.setState({
+          searchResults: res.data
+        }))
+    }
+    if(mode==="default"){
+      axios.get("api/movies/popular/"+activePage+"/"+moviesPerPage+"/")
+        .then((res) =>
+        this.setState({
+          popularMovies: res.data
+        }))
     }
   }
 
   render() {
 
-    const {isLoading, searchResults} = this.state
+    const {isLoading, searchResults, totalResults, popularMovies, mode} = this.state
 
-    const sortOptions = [
-      { key: 'popularity', value: 'popularity', text: 'Popularity' },
-      { key: 'release_date', value: 'release_date', text: 'Release Year' },
-      { key: 'title', value: 'title', text: 'Title' }
-    ]
+    var movies = mode==="default" ? popularMovies : searchResults
+    var title = mode==="default" ?
+    <h2>The most popular movies</h2> : null
 
-    const movieList = [].concat.apply([], searchResults);
-    const filteredMovies = movieList.sort(
-      compareValues(this.state.sortBy, this.state.order)
-    );
-
-    return (<div>
-      <Row>
-        <Col>
-          <div style={{marginLeft: 20}}>
-            <Input
-              icon='search'
-              placeholder='Search'
-              loading={isLoading}
-              onKeyPress={this.handleSearch}
-              onChange={this.reset}
+    return (
+      <div>
+        <Row>
+          <Col>
+            <div style={{marginLeft: 20}}>
+              <Input
+                icon='search'
+                placeholder='Search by title'
+                loading={isLoading}
+                onKeyPress={this.handleSearch}
+                onChange={this.changeMode}
+              />
+            </div>
+          </Col>
+        </Row>
+        <Row style={{marginTop:30}}>
+            {title}
+            <MovieList
+              movies={movies}
+              totalResults={totalResults}
+              onRef={ref => (this.child = ref)}
+              onPaginationChange={this.onPageChange}
+              onSelectMovie={(movie) => this.props.onSelectMovie(movie)}
+              selectedMovies={this.props.selectedMovies}
             />
-          </div>
-        </Col>
-        <Col>
-          <div className="sortBy" style={{marginLeft: 20}}>
-            <Dropdown
-              onChange={this.updateSort}
-              placeholder='Sort by'
-              selection
-              options={sortOptions}
-            />
-          </div>
-        </Col>
-        <Col>
-          <div className="orderButton" style={{marginLeft: 20}}>
-            <Button
-              icon
-              onClick={this.updateOrder}
-            >
-              <Icon name={"sort content " + this.state.order}/>
-            </Button>
-          </div>
-        </Col>
-      </Row>
-      <Row style={{marginTop:30}}>
-          <MovieList
-            movies={filteredMovies}
-            onRef={ref => (this.child = ref)}
-            onSelectMovie={(movie) => this.props.onSelectMovie(movie)}
-            selectedMovies={this.props.selectedMovies}
-          />
-      </Row>
-    </div>)
-  }
+        </Row>
+      </div>
+    )}
 }
 
 export default SearchCatalogue;
