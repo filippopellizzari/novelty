@@ -33,9 +33,11 @@ class MovieList extends React.Component {
   render(){
 
     const { activePage } = this.state;
-    const { movies, totalResults }  = this.props;
+    const { movies }  = this.props;
 
     const moviesPerPage = admin.moviesPerPage
+    var totalResults = this.props.totalResults < 20000 ? this.props.totalResults : 20000
+
     const totalPages = Math.ceil(totalResults/moviesPerPage)
 
     var display = totalResults < moviesPerPage ? "none" : "";
