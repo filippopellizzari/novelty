@@ -104,7 +104,9 @@ class SearchCatalogue extends React.Component {
           </Col>
         </Row>
         <Row style={{marginTop:30}}>
-            {title}
+            <div className="container">
+              {title}
+            </div>
             <MovieList
               movies={movies}
               totalResults={totalResults}

@@ -15,7 +15,6 @@ urlpatterns = [
     url(r'^api/movies/search-total-results/(?P<title>[\w\ ]+)/$', SearchTotalResults.as_view()),
     url(r'^api/movies/popular/(?P<page>[0-9]+)/(?P<itemsPerPage>[0-9]+)/$', PopularMovies.as_view()),
 
-
     url(r'^api/surveys/$', SurveyList.as_view()),
     url(r'^api/surveys/(?P<survey_id>[0-9]+)/$', SurveyDetail.as_view()),
     url(r'^api/surveys/survey-submit/$', SurveyResponseView.as_view()),
