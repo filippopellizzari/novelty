@@ -82,6 +82,7 @@ class SearchCatalogue extends React.Component {
     }
   }
 
+
   render() {
 
     const {isLoading, searchResults, totalResults, popularMovies, mode} = this.state
@@ -103,9 +104,12 @@ class SearchCatalogue extends React.Component {
               />
             </div>
           </Col>
+          <Col>
+
+          </Col>
         </Row>
         <Row style={{marginTop:30}}>
-            <div className="container">
+            <div className="container" style={{marginBottom:30}}>
               {title}
             </div>
             <MovieList

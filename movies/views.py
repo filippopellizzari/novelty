@@ -16,8 +16,8 @@ class SearchByTitle(APIView):
         itemsPerPage = int(itemsPerPage)
         page_40 = math.ceil((page*itemsPerPage) / 40)
         movies = []
-        movies.append(get_movies_by_title(title,(page_40*2)-1))
-        movies.append(get_movies_by_title(title,page_40*2))
+        movies.append(get_movies_by_title(title, (page_40*2)-1))
+        movies.append(get_movies_by_title(title, page_40*2))
         movies = reduce(lambda x,y: x+y, movies)
         lastIndex = (page*itemsPerPage) % 40
         if (lastIndex == 0):
