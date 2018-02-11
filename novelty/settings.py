@@ -25,7 +25,7 @@ SECRET_KEY = '=e%s=1kdk1_+yur9cmpkw8r-z5gd(owqpxbyl+6^)*10-a3c4v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['novelty-recsys.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -132,6 +132,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+STATICFILES_DIRS = [
+  os.path.join(BASE_DIR, 'build/static'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 WEBPACK_LOADER = {
     'DEFAULT': {
