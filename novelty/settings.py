@@ -25,7 +25,12 @@ SECRET_KEY = '=e%s=1kdk1_+yur9cmpkw8r-z5gd(owqpxbyl+6^)*10-a3c4v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['novelty-recsys.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    'novelty-recsys.herokuapp.com',
+    '127.0.0.1',
+    'localhost',
+    '0.0.0.0'
+]
 
 
 # Application definition
