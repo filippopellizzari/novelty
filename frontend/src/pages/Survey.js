@@ -34,7 +34,7 @@ class Survey extends React.Component {
   submit = responses =>{
     const data = {};
     data.email = localStorage.email;
-    data.survey_id = this.state.survey_id;
+    data.survey_id = parseInt(this.state.survey_id, 10);
     data.responses = responses;
     this.props.submitSurvey(data)
       .then(() => this.props.history.push("/thanks"))

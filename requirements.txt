@@ -29,7 +29,7 @@ MarkupSafe==1.0
 oauthlib==2.0.6
 odfpy==1.3.6
 omdb==0.8.1
-openpyxl==2.5.0
+openpyxl==2.4.8
 optional-django==0.1.0
 psycopg2==2.7.3.2
 PyJWT==1.5.3

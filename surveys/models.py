@@ -20,8 +20,12 @@ class Question(models.Model):
         return str(self.question_id) + ": " + self.text
 
 class Survey(models.Model):
+    TYPE_CHOICES = (
+        ('Between-subject', 'Between-subject'),
+        ('Within-subject', 'Within-subject'),
+    )
     survey_id = models.IntegerField()
-    survey_type = models.CharField(max_length=30)
+    survey_type = models.CharField(max_length=30, choices=TYPE_CHOICES)
     last_update = models.DateTimeField(auto_now=True)
     opening_time = models.DateTimeField(null=True)
     closing_time = models.DateTimeField(null=True, blank=True)
@@ -39,9 +43,9 @@ class OptionOrder(models.Model):
     question = models.ForeignKey(Question, related_name='question_to_option')
 
 class SurveyResponse(models.Model):
-    survey_id = models.CharField(max_length=30)
     email = models.CharField(max_length=100)
     completed_at = models.DateTimeField(auto_now_add=True)
+    survey_id = models.ForeignKey(Survey)
 
 class Response(models.Model):
     survey_response = models.ForeignKey(SurveyResponse, related_name='responses')
