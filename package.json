@@ -3,5 +3,9 @@
   "version": "0.1.0",
   "scripts": {
     "postinstall": "npm install --prefix frontend"
-  }
+  },
+  "engines": {
+    "node": "6.9.1",
+    "npm": "3.10.8"
+  },
 }
