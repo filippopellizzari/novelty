@@ -120,3 +120,4 @@ bundles/
 .DS_Store
 
 /assets
+/staticfiles
