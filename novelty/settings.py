@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -153,11 +154,7 @@ WEBPACK_LOADER = {
             'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
         }
 }
-if not DEBUG:
-    WEBPACK_LOADER.update({
-        'BUNDLE_DIR_NAME': 'bundles/',
-        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.prod.json')
-    })
+
 
 CSRF_COOKIE_NAME = "csrftoken"
 

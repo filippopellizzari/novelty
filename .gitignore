@@ -116,4 +116,7 @@ webpack-stats.prod.json
 build/
 bundles/
 
+
 .DS_Store
+/staticfiles
+/assets
