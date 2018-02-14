@@ -59,6 +59,7 @@ class SearchCatalogue extends React.Component {
   changeMode(e){
     if (e.target.value.length < 1){
       this.setState({mode:"default", totalResults: 40})
+      this.onPageChange(1);
     }
   }
 
