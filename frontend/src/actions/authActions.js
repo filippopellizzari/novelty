@@ -24,6 +24,7 @@ export function login(data) {
   }
 }
 
+
 export function logout() {
   return dispatch => {
     localStorage.removeItem('jwtAccess');

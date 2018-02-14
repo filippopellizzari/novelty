@@ -2,11 +2,12 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import { Icon } from 'semantic-ui-react'
 
-import SocialButton from '../components/SocialButton';
+
 import LoginForm from '../forms/LoginForm';
+import FacebookLogin from '../components/socialLogin/FacebookLogin';
 import { login } from "../actions/authActions";
+
 
 class LoginPage extends React.Component{
 
@@ -15,15 +16,10 @@ class LoginPage extends React.Component{
     return this.props.login(data).then(() => this.props.history.push("/welcome"));
   }
 
-  handleSocialLogin = (user) => {
-    console.error(user);
-    //localStorage.setItem('email', (user.profile.email));
+  socialSubmit = (data) => {
+    localStorage.setItem('email', data.email);
+    localStorage.setItem('accessToken', data.accessToken);
   }
-
-  handleSocialLoginFailure = (err) => {
-    console.error(err)
-  }
-
 
   render(){
 
@@ -32,28 +28,7 @@ class LoginPage extends React.Component{
         <div className="col-lg-4 col-md-6 col-sm-8">
           <div className="card">
             <div className="card-body">
-              <SocialButton
-                color='facebook'
-                provider='facebook'
-                appId='1992158391108754'
-                onLoginSuccess={this.handleSocialLogin}
-                onLoginFailure={this.handleSocialLoginFailure}
-              >
-              <Icon name='facebook'/>
-              Login with Facebook
-              </SocialButton>
-
-              <SocialButton
-                color='google plus'
-                provider='google'
-                appId='343367764215-q26jog9e7ubf2gn5lgc3c3ei2dilm3kt.apps.googleusercontent.com'
-                onLoginSuccess={this.handleSocialLogin}
-                onLoginFailure={this.handleSocialLoginFailure}
-              >
-              <Icon name='google plus'/>
-              Login with Google
-              </SocialButton>
-
+              <FacebookLogin socialSubmit={this.socialSubmit}/>
               <LoginForm submit={this.submit}/>
               <div className="card-footer text-muted text-center">
                 <Link to="/forgot">Forgot Password?</Link>
@@ -77,4 +52,4 @@ LoginPage.propTypes = {
   login: PropTypes.func.isRequired
 };
 
-export default connect(null, { login })(LoginPage);
+export default connect(null, { login})(LoginPage);
