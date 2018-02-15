@@ -24,12 +24,21 @@ export function login(data) {
   }
 }
 
+export function socialLogin(data){
+  return dispatch => {
+    localStorage.setItem('email', data.email);
+    localStorage.setItem('accessToken', data.accessToken);
+    dispatch(setCurrentUser({email:data.email,accessToken:data.accessToken}));
+  }
+}
+
 
 export function logout() {
   return dispatch => {
     localStorage.removeItem('jwtAccess');
     localStorage.removeItem('jwtRefresh');
     localStorage.removeItem('email');
+    localStorage.removeItem('accessToken');
     setAuthorizationToken(false);
     dispatch(setCurrentUser({}));
   }

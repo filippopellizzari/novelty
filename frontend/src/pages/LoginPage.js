@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 
-
 import LoginForm from '../forms/LoginForm';
 import FacebookLogin from '../components/socialLogin/FacebookLogin';
-import { login } from "../actions/authActions";
+import { login, socialLogin} from "../actions/authActions";
 
 
 class LoginPage extends React.Component{
@@ -17,8 +16,8 @@ class LoginPage extends React.Component{
   }
 
   socialSubmit = (data) => {
-    localStorage.setItem('email', data.email);
-    localStorage.setItem('accessToken', data.accessToken);
+    this.props.socialLogin(data);
+    this.props.history.push("/welcome");
   }
 
   render(){
@@ -49,7 +48,8 @@ LoginPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
-  login: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired,
+  socialLogin: PropTypes.func.isRequired
 };
 
-export default connect(null, { login})(LoginPage);
+export default connect(null, { login, socialLogin})(LoginPage);

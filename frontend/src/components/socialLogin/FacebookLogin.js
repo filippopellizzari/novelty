@@ -6,30 +6,16 @@ import PropTypes from "prop-types";
 
 class FacebookLogin extends React.Component {
 
-  constructor(){
-    super();
-    this.state = {
-        email:"",
-        gender:"",
-        accessToken:""
-    }
-
-  }
-
   loadFbLoginApi() {
 
         window.fbAsyncInit = function() {
             FB.init({
                 appId      : 1992158391108754,
-                cookie     : true,  // enable cookies to allow the server to access
-                // the session
-                xfbml      : true,  // parse social plugins on this page
-                version    : 'v2.5' // use version 2.1
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v2.11'
             });
         };
-
-        //console.log("Loading fb api");
-          // Load the SDK asynchronously
         (function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
@@ -48,7 +34,7 @@ class FacebookLogin extends React.Component {
       FB.api('/me', function(response) {
         console.log('Successful login for: ' + response.name);
       });
-      FB.api('/'+authResponse.userID,'GET',{fields:'gender,email,age_range'},
+      FB.api('/'+authResponse.userID,'GET',{fields:'gender,email,age_range,birthday'},
         (res) => {
         console.log(res)
         var data = []
@@ -78,23 +64,26 @@ class FacebookLogin extends React.Component {
       }.bind(this));
     }
 
+
+
     handleFBLogin() {
-        FB.login(this.checkLoginState());
+        FB.login(this.checkLoginState(), {scope: 'public_profile', return_scopes: true});
     }
 
     render() {
-        return (
-                <div>
-                    <Button
-                      fluid
-                      color="facebook"
-                      onClick = {this.handleFBLogin.bind(this)}
-                    >
-                        <Icon name='facebook'/>
-                        Login with Facebook
-                    </Button>
-                </div>
-               );
+
+    return (
+            <div>
+                <Button
+                  fluid
+                  color="facebook"
+                  onClick = {this.handleFBLogin.bind(this)}
+                >
+                    <Icon name='facebook'/>
+                    Login with Facebook
+                </Button>
+            </div>
+           );
     }
 }
 

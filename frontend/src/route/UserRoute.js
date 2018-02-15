@@ -18,7 +18,7 @@ UserRoute.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: state.authReducer.isAuthenticated
+    isAuthenticated: localStorage.jwtRefresh !== undefined || localStorage.accessToken !== undefined//state.authReducer.isAuthenticated
   };
 }
 
