@@ -1,7 +1,7 @@
 
 export const GENDER_OPTIONS = [
-  { key: 'm', text: 'Male', value: 'Male' },
-  { key: 'f', text: 'Female', value: 'Female' },
+  { key: 'm', text: 'Male', value: 'male' },
+  { key: 'f', text: 'Female', value: 'female' },
 ]
 
 export const AGE_OPTIONS = [

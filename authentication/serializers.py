@@ -31,7 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MyUser
-        fields = ('email', 'password', 'gender', 'age', 'country')
+        fields = ('email', 'password','gender', 'age', 'country')
 
 
 class ValidateTokenResetSerializer(serializers.Serializer):

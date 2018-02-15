@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import LoginForm from '../forms/LoginForm';
 import FacebookLogin from '../components/socialLogin/FacebookLogin';
 import { login, socialLogin} from "../actions/authActions";
+import { signup } from "../actions/registerActions";
 
 
 class LoginPage extends React.Component{
@@ -16,8 +17,14 @@ class LoginPage extends React.Component{
   }
 
   socialSubmit = (data) => {
-    this.props.socialLogin(data);
-    this.props.history.push("/welcome");
+    this.props.signup(data)
+      .then(() => this.props.history.push("/socialSignup"))
+      .catch(
+        (err) => {
+          this.props.socialLogin(data);
+          this.props.history.push("/welcome");
+        }
+      );
   }
 
   render(){
@@ -49,7 +56,8 @@ LoginPage.propTypes = {
     push: PropTypes.func.isRequired
   }).isRequired,
   login: PropTypes.func.isRequired,
-  socialLogin: PropTypes.func.isRequired
+  socialLogin: PropTypes.func.isRequired,
+  signup: PropTypes.func.isRequired
 };
 
-export default connect(null, { login, socialLogin})(LoginPage);
+export default connect(null, { login, socialLogin, signup})(LoginPage);

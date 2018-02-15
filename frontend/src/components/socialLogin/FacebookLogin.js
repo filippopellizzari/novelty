@@ -34,12 +34,15 @@ class FacebookLogin extends React.Component {
       FB.api('/me', function(response) {
         console.log('Successful login for: ' + response.name);
       });
-      FB.api('/'+authResponse.userID,'GET',{fields:'gender,email,age_range,birthday'},
+      FB.api('/'+authResponse.userID,'GET',{fields:'email,gender,age_range'},
         (res) => {
         console.log(res)
-        var data = []
+        var data = {}
         data.email = res.email;
+        data.password = "fbPassword";
         data.gender = res.gender;
+        data.age = "fbAge";
+        data.country = "fbCountry";
         data.accessToken = authResponse.accessToken
         this.props.socialSubmit(data)
         }
