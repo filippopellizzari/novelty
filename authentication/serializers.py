@@ -50,3 +50,8 @@ class ValidateTokenResetSerializer(serializers.Serializer):
         if not default_token_generator.check_token(self.user, attrs['token']):
             raise ValidationError({'token': ['Invalid value']})
         return attrs
+
+class SocialUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MyUser
+        fields = ('email','age', 'country')

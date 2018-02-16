@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 
 import SocialSignupForm from "../forms/SocialSignupForm";
+import {completeSocialSignup} from "../actions/registerActions";
 import {socialLogin} from "../actions/authActions";
 
 
@@ -10,6 +11,8 @@ class SocialSignupPage extends React.Component {
 
   submit = data => {
     console.log(data);
+    data.email = localStorage.email;
+    this.props.completeSocialSignup(data);
     this.props.socialLogin(data);
     this.props.history.push("/welcome");
   }
@@ -34,7 +37,9 @@ SocialSignupPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
-  socialLogin: PropTypes.func.isRequired
+  completeSocialSignup: PropTypes.func.isRequired,
+  socialLogin: PropTypes.func.isRequired,
+
 };
 
-export default connect(null, {socialLogin})(SocialSignupPage);
+export default connect(null, {completeSocialSignup,socialLogin})(SocialSignupPage);

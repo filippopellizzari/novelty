@@ -5,7 +5,7 @@ from rest_framework.schemas import get_schema_view
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from movies.views import *
-from authentication.views import UserCreateView, ValidateTokenResetView
+from authentication.views import *
 from surveys.views import *
 
 urlpatterns = [
@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^api/auth/token/obtain/$', TokenObtainPairView.as_view()),
     url(r'^api/auth/token/refresh/$', TokenRefreshView.as_view()),
     url(r'^api/auth/signup/$', UserCreateView.as_view()),
+    url(r'^api/auth/complete-social-signup/$', SocialUserUpdateView.as_view()),
     url(r'^api/auth/validate-token/$', ValidateTokenResetView.as_view()),
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/auth/', include('djoser.urls')),

@@ -17,6 +17,7 @@ class LoginPage extends React.Component{
   }
 
   socialSubmit = (data) => {
+    localStorage.setItem('email', data.email);
     this.props.signup(data)
       .then(() => this.props.history.push("/socialSignup"))
       .catch(

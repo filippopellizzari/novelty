@@ -26,3 +26,9 @@ export function validateToken(data){
     return axios.post("/api/auth/validate-token/", data);
   }
 }
+
+export function completeSocialSignup(data){
+  return dispatch => {
+    return axios.put("/api/auth/complete-social-signup/", data);
+  }
+}
