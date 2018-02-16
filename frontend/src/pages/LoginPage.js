@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
+import {  Divider } from 'semantic-ui-react'
 
 import LoginForm from '../forms/LoginForm';
 import FacebookLogin from '../components/socialLogin/FacebookLogin';
@@ -38,6 +39,7 @@ class LoginPage extends React.Component{
             <div className="card-body">
               <FacebookLogin socialSubmit={this.socialSubmit}/>
               <GoogleLogin socialSubmit={this.socialSubmit}/>
+              <Divider horizontal>Or</Divider>
               <LoginForm submit={this.submit}/>
               <div className="card-footer text-muted text-center">
                 <Link to="/forgot">Forgot Password?</Link>
