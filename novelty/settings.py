@@ -26,6 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'novelty-recsys.herokuapp.com',
+    'novelty-recsys-stage.herokuapp.com',
     '127.0.0.1',
     'localhost',
     '0.0.0.0'
