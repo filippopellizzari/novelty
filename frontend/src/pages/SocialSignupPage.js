@@ -10,8 +10,8 @@ import {socialLogin} from "../actions/authActions";
 class SocialSignupPage extends React.Component {
 
   submit = data => {
-    console.log(data);
     data.email = localStorage.email;
+    console.log(data)
     this.props.completeSocialSignup(data);
     this.props.socialLogin(data);
     this.props.history.push("/welcome");

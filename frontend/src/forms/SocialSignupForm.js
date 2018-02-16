@@ -3,12 +3,13 @@ import { Form, Button, Dropdown } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 import InlineError from "../messages/InlineError";
-import {AGE_OPTIONS, COUNTRY_OPTIONS } from "./options";
+import {GENDER_OPTIONS, AGE_OPTIONS, COUNTRY_OPTIONS } from "./options";
 import { getCountryName } from "./country";
 
 class SocialSignupForm extends React.Component {
   state = {
     data: {
+      gender:"",
       age:"",
       country:""
     },
@@ -17,6 +18,10 @@ class SocialSignupForm extends React.Component {
     serverErrors: {},
   };
 
+  onChangeGender = (e,data) =>
+    this.setState(
+      {...this.state, data: { ...this.state.data, gender: data.value }}
+    );
   onChangeAge = (e,data) =>
     this.setState(
       {...this.state, data: { ...this.state.data, age: data.value }}
@@ -40,6 +45,9 @@ class SocialSignupForm extends React.Component {
   validate = data => {
     const errors = {};
 
+    if (!data.gender) {
+      errors.gender = "Required.";
+    }
     if (!data.age) {
       errors.age = "Required.";
     }
@@ -55,6 +63,16 @@ class SocialSignupForm extends React.Component {
 
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
+        <Form.Field error={!!errors.gender}>
+          <label htmlFor="gender">Gender</label>
+            <Dropdown
+              selection
+              options={GENDER_OPTIONS}
+              onChange={this.onChangeGender}
+            />
+          {errors.gender && <InlineError text={errors.gender} />}
+        </Form.Field>
+
         <Form.Field error={!!errors.age}>
           <label htmlFor="age">Age</label>
             <Dropdown

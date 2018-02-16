@@ -40,7 +40,7 @@ class FacebookLogin extends React.Component {
         var data = {}
         data.email = res.email;
         data.password = "fbPassword";
-        data.gender = res.gender;
+        data.gender = "fbGender";
         data.age = "fbAge";
         data.country = "fbCountry";
         data.accessToken = authResponse.accessToken

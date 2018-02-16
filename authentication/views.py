@@ -35,6 +35,7 @@ class SocialUserUpdateView(UpdateAPIView):
         instance = self.get_user(email=request.data.get("email"))
         if(instance==None):
             return Response( status=status.HTTP_404_NOT_FOUND)
+        instance.gender = request.data.get("gender")
         instance.age = request.data.get("age")
         instance.country = request.data.get("country")
         instance.save()

@@ -54,4 +54,4 @@ class ValidateTokenResetSerializer(serializers.Serializer):
 class SocialUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
-        fields = ('email','age', 'country')
+        fields = ('email','gender','age','country')

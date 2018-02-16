@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 import LoginForm from '../forms/LoginForm';
 import FacebookLogin from '../components/socialLogin/FacebookLogin';
+import GoogleLogin from '../components/socialLogin/GoogleLogin';
 import { login, socialLogin} from "../actions/authActions";
 import { signup } from "../actions/registerActions";
 
@@ -36,6 +37,7 @@ class LoginPage extends React.Component{
           <div className="card">
             <div className="card-body">
               <FacebookLogin socialSubmit={this.socialSubmit}/>
+              <GoogleLogin socialSubmit={this.socialSubmit}/>
               <LoginForm submit={this.submit}/>
               <div className="card-footer text-muted text-center">
                 <Link to="/forgot">Forgot Password?</Link>
