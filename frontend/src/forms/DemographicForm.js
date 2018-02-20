@@ -6,7 +6,7 @@ import InlineError from "../messages/InlineError";
 import {GENDER_OPTIONS, AGE_OPTIONS, COUNTRY_OPTIONS } from "./options";
 import { getCountryName } from "./country";
 
-class SocialSignupForm extends React.Component {
+class DemographicForm extends React.Component {
   state = {
     data: {
       gender:"",
@@ -99,8 +99,8 @@ class SocialSignupForm extends React.Component {
   }
 }
 
-SocialSignupForm.propTypes = {
+DemographicForm.propTypes = {
   submit: PropTypes.func.isRequired
 };
 
-export default SocialSignupForm;
+export default DemographicForm;

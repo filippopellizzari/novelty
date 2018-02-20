@@ -4,18 +4,22 @@ import PropTypes from "prop-types";
 
 import DemographicForm from "../forms/DemographicForm";
 import {completeDemographic} from "../actions/registerActions";
-import {socialLogin} from "../actions/authActions";
+import {login} from "../actions/authActions";
 
 
-class SocialSignupPage extends React.Component {
+
+class CompleteSignupPage extends React.Component {
 
   submit = data => {
     data.email = localStorage.email;
+    data.password = localStorage.password;
     this.props.completeDemographic(data)
       .then(()=>{
-        this.props.socialLogin(data)
-        localStorage.removeItem('password');
-        this.props.history.push("/welcome");
+        this.props.login({email:data.email,password:data.password})
+        .then(()=>{
+          localStorage.removeItem('password');
+          this.props.history.push("/welcome");
+        });
       }
     );
   }
@@ -36,13 +40,12 @@ class SocialSignupPage extends React.Component {
   }
 }
 
-SocialSignupPage.propTypes = {
+CompleteSignupPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
   completeDemographic: PropTypes.func.isRequired,
-  socialLogin: PropTypes.func.isRequired,
-
+  login: PropTypes.func.isRequired,
 };
 
-export default connect(null, {completeDemographic,socialLogin})(SocialSignupPage);
+export default connect(null, {completeDemographic, login})(CompleteSignupPage);

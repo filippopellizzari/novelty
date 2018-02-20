@@ -7,33 +7,6 @@ from rest_framework.exceptions import ValidationError
 
 from .models import MyUser
 
-class UserSerializer(serializers.ModelSerializer):
-
-    email = serializers.EmailField(
-            required=True,
-            validators=[UniqueValidator(queryset=MyUser.objects.all())]
-            )
-    password = serializers.CharField(
-            required=True,
-            min_length=8,
-            write_only=True
-            )
-
-    def create(self, validated_data):
-        user = MyUser.objects.create_user(
-            validated_data['email'],
-            validated_data['password'],
-            validated_data['gender'],
-            validated_data['age'],
-            validated_data['country'],
-            )
-        return user
-
-    class Meta:
-        model = MyUser
-        fields = ('email', 'password','gender', 'age', 'country')
-
-
 class ValidateTokenResetSerializer(serializers.Serializer):
     uid = serializers.CharField()
     token = serializers.CharField()
@@ -51,7 +24,7 @@ class ValidateTokenResetSerializer(serializers.Serializer):
             raise ValidationError({'token': ['Invalid value']})
         return attrs
 
-class SocialUserSerializer(serializers.ModelSerializer):
+class DemographicSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
         fields = ('email','gender','age','country')

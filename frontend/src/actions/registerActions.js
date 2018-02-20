@@ -5,7 +5,9 @@ axios.defaults.xsrfCookieName = "csrftoken";
 
 export function signup(data) {
   return dispatch => {
-    return axios.post("/api/auth/signup/", data);
+    localStorage.setItem('email', data.email);
+    localStorage.setItem('password', data.password);
+    return axios.post("/api/auth/users/create/", {email:data.email, password:data.password});
   }
 }
 
@@ -27,8 +29,8 @@ export function validateToken(data){
   }
 }
 
-export function completeSocialSignup(data){
+export function completeDemographic(data){
   return dispatch => {
-    return axios.put("/api/auth/complete-social-signup/", data);
+    return axios.put("/api/auth/complete-demographic/", data);
   }
 }

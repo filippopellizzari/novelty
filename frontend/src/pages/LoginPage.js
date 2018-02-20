@@ -18,13 +18,14 @@ class LoginPage extends React.Component{
     return this.props.login(data).then(() => this.props.history.push("/welcome"));
   }
 
-  socialSubmit = (data) => {
-    localStorage.setItem('email', data.email);
+  socialSubmit = (data) =>{
+    localStorage.setItem('token', data.accessToken);
     this.props.signup(data)
       .then(() => this.props.history.push("/socialSignup"))
       .catch(
         (err) => {
-          this.props.socialLogin(data);
+          this.props.socialLogin(data)
+          localStorage.removeItem('password');
           this.props.history.push("/welcome");
         }
       );

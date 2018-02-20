@@ -11,9 +11,6 @@ class GoogleLogin extends React.Component{
     var data = {}
     data.email = res._profile.email;
     data.password = "gooPassword";
-    data.gender = "gooGender";
-    data.age = "gooAge";
-    data.country = "gooCountry";
     data.accessToken = res._token.accessToken
     console.log(data)
     this.props.socialSubmit(data)

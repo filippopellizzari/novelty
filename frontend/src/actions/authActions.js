@@ -26,8 +26,10 @@ export function login(data) {
 
 export function socialLogin(data){
   return dispatch => {
-    localStorage.setItem('accessToken', data.accessToken);
-    dispatch(setCurrentUser({email:data.email,accessToken:data.accessToken}));
+    const token = localStorage.token
+    localStorage.setItem('accessToken', token);
+    localStorage.removeItem('token');
+    dispatch(setCurrentUser({email:data.email,accessToken:token}));
   }
 }
 

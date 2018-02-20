@@ -21,8 +21,7 @@ urlpatterns = [
 
     url(r'^api/auth/token/obtain/$', TokenObtainPairView.as_view()),
     url(r'^api/auth/token/refresh/$', TokenRefreshView.as_view()),
-    url(r'^api/auth/signup/$', UserCreateView.as_view()),
-    url(r'^api/auth/complete-social-signup/$', SocialUserUpdateView.as_view()),
+    url(r'^api/auth/complete-demographic/$', DemographicUpdateView.as_view()),
     url(r'^api/auth/validate-token/$', ValidateTokenResetView.as_view()),
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/auth/', include('djoser.urls')),

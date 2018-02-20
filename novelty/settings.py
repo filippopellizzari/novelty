@@ -155,6 +155,8 @@ CSRF_COOKIE_NAME = "csrftoken"
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'reset/{uid}/{token}',
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND' : True,
+    'SEND_ACTIVATION_EMAIL':True,
+    'ACTIVATION_URL' : 'activate/{uid}/{token}'
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
