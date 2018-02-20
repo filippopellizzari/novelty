@@ -41,8 +41,11 @@ class MovieList extends React.Component {
     const totalPages = Math.ceil(totalResults/moviesPerPage)
 
     var display = totalResults < moviesPerPage ? "none" : "";
+
+
     var resultsFound = totalResults < 1 ?
       <h3>Not found</h3> : null
+
 
     let movieList = movies.map(
       (movie) =>

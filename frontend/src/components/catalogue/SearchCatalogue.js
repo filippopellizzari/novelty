@@ -37,7 +37,7 @@ class SearchCatalogue extends React.Component {
     if(e.key==='Enter' && e.target.value.length>0){
       const value = e.target.value
       const moviesPerPage = admin.moviesPerPage
-      this.setState({isLoading: true, value:value, mode:"search"})
+      this.setState({isLoading: true, value:value})
       setTimeout(() => {
         axios.get("api/movies/search-total-results/"+value+"/")
           .then((res) =>
@@ -47,7 +47,8 @@ class SearchCatalogue extends React.Component {
         axios.get("api/movies/search-by-title/"+value+"/1/"+moviesPerPage+"/")
           .then((res) =>
           this.setState({
-            searchResults: res.data
+            searchResults: res.data,
+            mode:"search"
           }))
 
       this.setState({isLoading: false});
@@ -58,8 +59,16 @@ class SearchCatalogue extends React.Component {
 
   changeMode(e){
     if (e.target.value.length < 1){
-      this.setState({mode:"default", totalResults: 40})
-      this.onPageChange(1);
+      const moviesPerPage = admin.moviesPerPage;
+      axios.get("api/movies/popular/1/"+moviesPerPage+"/")
+        .then((res) =>
+        this.setState({
+          popularMovies: res.data,
+          totalResults: 40,
+          value:'',
+          mode:"default"
+        })
+      )
     }
   }
 
