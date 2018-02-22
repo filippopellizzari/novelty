@@ -18,6 +18,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+# Database
+# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
+DATABASES['default'] = dj_database_url.config(
+    default='postgres://shcdesqppcvinr:af64d63257b5e17e5d3bc7c46a43630969781b55ada6b7c612e41a3bd9fde57f@ec2-54-227-251-233.compute-1.amazonaws.com:5432/d3nd3miufut1bg'
+)
+
 WEBPACK_LOADER = {
     'DEFAULT': {
             'BUNDLE_DIR_NAME': 'bundles/',
