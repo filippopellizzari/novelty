@@ -40,7 +40,7 @@ class MovieList extends React.Component {
 
     const totalPages = Math.ceil(totalResults/moviesPerPage)
 
-    var display = totalResults < moviesPerPage ? "none" : "";
+    var display = totalResults <= moviesPerPage ? "none" : "";
 
 
     var resultsFound = totalResults < 1 ?
