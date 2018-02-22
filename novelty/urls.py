@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^api/surveys/(?P<survey_id>[0-9]+)/$', SurveyDetail.as_view()),
     url(r'^api/surveys/survey-submit/$', SurveyResponseView.as_view()),
 
+    url(r'^api/auth/socialSignup/$', UserCreateView.as_view()),
     url(r'^api/auth/token/obtain/$', TokenObtainPairView.as_view()),
     url(r'^api/auth/token/refresh/$', TokenRefreshView.as_view()),
     url(r'^api/auth/complete-demographic/$', DemographicUpdateView.as_view()),

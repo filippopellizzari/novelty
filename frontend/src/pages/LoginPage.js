@@ -8,7 +8,7 @@ import LoginForm from '../forms/LoginForm';
 import FacebookLogin from '../components/socialLogin/FacebookLogin';
 import GoogleLogin from '../components/socialLogin/GoogleLogin';
 import { login, socialLogin} from "../actions/authActions";
-import { signup } from "../actions/registerActions";
+import { signup, socialSignup } from "../actions/registerActions";
 
 
 class LoginPage extends React.Component{
@@ -20,7 +20,7 @@ class LoginPage extends React.Component{
 
   socialSubmit = (data) =>{
     localStorage.setItem('token', data.accessToken);
-    this.props.signup(data)
+    this.props.socialSignup(data)
       .then(() => this.props.history.push("/socialSignup"))
       .catch(
         (err) => {
@@ -63,7 +63,8 @@ LoginPage.propTypes = {
   }).isRequired,
   login: PropTypes.func.isRequired,
   socialLogin: PropTypes.func.isRequired,
-  signup: PropTypes.func.isRequired
+  signup: PropTypes.func.isRequired,
+  socialSignup: PropTypes.func.isRequired
 };
 
-export default connect(null, { login, socialLogin, signup})(LoginPage);
+export default connect(null, { login, socialLogin, signup, socialSignup})(LoginPage);

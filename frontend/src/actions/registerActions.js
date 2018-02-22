@@ -11,6 +11,14 @@ export function signup(data) {
   }
 }
 
+export function socialSignup(data) {
+  return dispatch => {
+    localStorage.setItem('email', data.email);
+    localStorage.setItem('password', data.password);
+    return axios.post("/api/auth/socialSignup/", {email:data.email, password:data.password});
+  }
+}
+
 export function resetPasswordRequest(email){
   return dispatch => {
     return axios.post("/api/auth/password/reset/", email);
