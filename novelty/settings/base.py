@@ -129,16 +129,3 @@ DJOSER = {
 AUTH_USER_MODEL = 'authentication.MyUser'
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
-
-REST_FRAMEWORK = {
-
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    )
-}
-
-AUTHENTICATION_BACKENDS = (
-    # Django
-    'django.contrib.auth.backends.ModelBackend',
-)
