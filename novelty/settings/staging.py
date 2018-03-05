@@ -33,3 +33,11 @@ WEBPACK_LOADER = {
             'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.prod.json'),
         }
 }
+
+#Email backend
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'filippopellizzari'
+EMAIL_HOST_PASSWORD = 'Philpelli93'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
