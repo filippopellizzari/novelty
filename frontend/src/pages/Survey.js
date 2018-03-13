@@ -18,15 +18,17 @@ class Survey extends React.Component {
     super();
     this.state = {
       questions:[],
-      survey_id:""
+      survey_id:"",
+      survey_type:""
     };
   }
 
   componentDidMount(){
     axios.get("/api/surveys/" + admin.survey_id + "/")
-      .then((response)  => this.setState({
-        questions:response.data.questions,
-        survey_id:response.data.survey_id
+      .then((res)  =>this.setState({
+        questions:res.data.questions,
+        survey_id:res.data.survey_id,
+        survey_type:res.data.survey_type
       }))
       .catch( (err) => console.log(err));
   }
@@ -42,12 +44,20 @@ class Survey extends React.Component {
   }
 
   render() {
+    const { survey_type } = this.state
+
+    var reclists = survey_type === "Within-subject" ?
+    <div>
+      <RecList recs={recsA} name="A"/>
+      <RecList recs={recsB} name="B"/>
+    </div>
+    : <RecList recs={recsA} name=""/>
+
     return (
       <div className="container">
         <Row>
           <Col xs={12} md={7} style={{marginTop:30}}>
-            <RecList recs={recsA} name="A"/>
-            <RecList recs={recsB} name="B"/>
+            {reclists}
           </Col>
           <Col xs={6} md={4} style={{marginLeft:50, marginTop:60}}>
             <Questions questions={this.state.questions} submit={this.submit}/>
