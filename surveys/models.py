@@ -24,7 +24,8 @@ class Survey(models.Model):
         ('Between-subject', 'Between-subject'),
         ('Within-subject', 'Within-subject'),
     )
-    survey_id = models.IntegerField()
+    survey_id = models.AutoField(primary_key=True)
+    survey_name = models.CharField(max_length=100)
     survey_type = models.CharField(max_length=30, choices=TYPE_CHOICES)
     last_update = models.DateTimeField(auto_now=True)
     opening_time = models.DateTimeField(null=True)
@@ -32,7 +33,7 @@ class Survey(models.Model):
     questions = models.ManyToManyField(Question, through="QuestionOrder")
 
     def __str__(self):
-        return str(self.survey_id) + ": " + self.survey_type
+        return str(self.survey_id)
 
 class QuestionOrder(models.Model):
     question = models.ForeignKey(Question, related_name='question_to_survey')

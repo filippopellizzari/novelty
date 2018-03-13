@@ -13,8 +13,8 @@ class OptionOrderInline(admin.TabularInline):
     extra = 1
 
 class SurveyAdmin(admin.ModelAdmin):
-    readonly_fields = ('last_update',)
-    list_display = ('survey_id','survey_type', 'last_update',)
+    readonly_fields = ('survey_id','last_update')
+    list_display = ('survey_id','survey_name','survey_type', 'last_update',)
     inlines = (QuestionOrderInline,)
 
 class QuestionAdmin(admin.ModelAdmin):
