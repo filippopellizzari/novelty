@@ -38,13 +38,14 @@ class SearchCatalogue extends React.Component {
       const value = e.target.value
       const moviesPerPage = admin.moviesPerPage
       this.setState({isLoading: true, value:value})
+      var escapedValue = value.replace(/[^\w\s]/gi, ' ')
       setTimeout(() => {
-        axios.get("api/movies/search-total-results/"+value+"/")
+        axios.get("api/movies/search-total-results/"+escapedValue+"/")
           .then((res) =>
           this.setState({
             totalResults: res.data
           }))
-        axios.get("api/movies/search-by-title/"+value+"/1/"+moviesPerPage+"/")
+        axios.get("api/movies/search-by-title/"+ escapedValue+"/1/"+moviesPerPage+"/")
           .then((res) =>
           this.setState({
             searchResults: res.data,
@@ -75,8 +76,9 @@ class SearchCatalogue extends React.Component {
   onPageChange(activePage){
     const {value, mode} = this.state
     const moviesPerPage = admin.moviesPerPage
+    var escapedValue = value.replace(/[^\w\s]/gi, ' ')
     if(mode==="search"){
-        axios.get("api/movies/search-by-title/"+value+"/"+activePage+"/"
+        axios.get("api/movies/search-by-title/"+ escapedValue +"/"+activePage+"/"
           +moviesPerPage+"/")
           .then((res) =>
           this.setState({
