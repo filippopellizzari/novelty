@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'authentication',
     'import_export',
     'adminsortable',
+    'state',
 ]
 
 MIDDLEWARE = [

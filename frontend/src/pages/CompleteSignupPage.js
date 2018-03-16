@@ -5,8 +5,7 @@ import PropTypes from "prop-types";
 import DemographicForm from "../forms/DemographicForm";
 import {completeDemographic} from "../actions/registerActions";
 import {login} from "../actions/authActions";
-
-
+import {createProfile} from "../actions/stateActions";
 
 class CompleteSignupPage extends React.Component {
 
@@ -18,6 +17,7 @@ class CompleteSignupPage extends React.Component {
         this.props.login({email:data.email,password:data.password})
         .then(()=>{
           localStorage.removeItem('password');
+          this.props.createProfile({email:data.email,page:"welcome",questionNumber:1})
           this.props.history.push("/welcome");
         });
       }
@@ -46,6 +46,7 @@ CompleteSignupPage.propTypes = {
   }).isRequired,
   completeDemographic: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  createProfile: PropTypes.func.isRequired,
 };
 
-export default connect(null, {completeDemographic, login})(CompleteSignupPage);
+export default connect(null, {completeDemographic, login, createProfile})(CompleteSignupPage);

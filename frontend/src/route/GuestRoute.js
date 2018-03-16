@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 
+
 const GuestRoute = ({ isAuthenticated, component: Component, ...rest }) => (
   <Route
     {...rest}

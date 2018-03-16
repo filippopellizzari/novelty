@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Dropdown, Icon } from "semantic-ui-react";
@@ -12,7 +11,7 @@ const Navbar = ({isAuthenticated, logout}) => (
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
           <div className="container">
             <div className="navbar-header">
-              <Link to="/" className="navbar-brand">Novelty Survey</Link>
+              <div className="navbar-brand">Novelty Survey</div>
             </div>
             <div className="collapse navbar-collapse">
               <ul className="navbar-nav ml-auto" >

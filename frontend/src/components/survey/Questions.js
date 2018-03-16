@@ -44,7 +44,7 @@ class Questions extends React.Component {
 
     const numberOfQuestions = this.props.questions.length > 0 ? this.props.questions.length : 1000000
     const { questionNumber, isValid} = this.state;
-    
+
     const question = this.props.questions.map(
       (question, index) =>
           <SingleQuestion
@@ -85,7 +85,7 @@ class Questions extends React.Component {
             color='blue'
           />
         </div>
-        <div style={{marginTop:30, textAlign:'center'}}>
+        <div className="container" style={{textAlign:'center'}}>
           {nextButton}
         </div>
       </div>

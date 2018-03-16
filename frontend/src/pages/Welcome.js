@@ -1,9 +1,19 @@
 import React from 'react';
 import { Button} from 'semantic-ui-react';
+import PropTypes from "prop-types";
+import { connect } from 'react-redux';
 
 import admin from '../data/admin.json';
+import { getProfile }   from "../actions/stateActions";
 
 class Welcome extends React.Component {
+
+  componentDidMount() {
+    this.props.getProfile(localStorage.email)
+        .then( (res) => this.props.history.push("/"+res.data.page));
+  }
+
+
   render() {
     return (
       <div>
@@ -21,4 +31,11 @@ class Welcome extends React.Component {
   }
 }
 
-export default Welcome;
+Welcome.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
+  getProfile: PropTypes.func.isRequired,
+};
+
+export default connect(null, { getProfile})(Welcome);

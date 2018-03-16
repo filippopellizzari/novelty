@@ -6,11 +6,11 @@ from .models import *
 
 class QuestionOrderInline(admin.TabularInline):
     model = QuestionOrder
-    extra = 1
+    extra = 0
 
 class OptionOrderInline(admin.TabularInline):
     model = OptionOrder
-    extra = 1
+    extra = 0
 
 class SurveyAdmin(admin.ModelAdmin):
     readonly_fields = ('survey_id','last_update')

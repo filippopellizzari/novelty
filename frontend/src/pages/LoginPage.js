@@ -9,13 +9,20 @@ import FacebookLogin from '../components/socialLogin/FacebookLogin';
 import GoogleLogin from '../components/socialLogin/GoogleLogin';
 import { login, socialLogin} from "../actions/authActions";
 import { signup, socialSignup } from "../actions/registerActions";
+import { getProfile }   from "../actions/stateActions";
 
 
 class LoginPage extends React.Component{
 
+  state = {
+    startingPage: ""
+  };
+
   submit = (data) => {
     localStorage.setItem('email', data.email);
-    return this.props.login(data).then(() => this.props.history.push("/welcome"));
+    this.props.getProfile(data.email)
+      .then( (res) => this.setState({startingPage:res.data.page}));
+    return this.props.login(data).then(() => this.props.history.push("/"+this.state.startingPage));
   }
 
   socialSubmit = (data) =>{
@@ -26,7 +33,8 @@ class LoginPage extends React.Component{
         (err) => {
           this.props.socialLogin(data)
           localStorage.removeItem('password');
-          this.props.history.push("/welcome");
+          this.props.getProfile(data.email)
+            .then( (res) => this.props.history.push("/"+res.data.page));
         }
       );
   }
@@ -64,7 +72,8 @@ LoginPage.propTypes = {
   login: PropTypes.func.isRequired,
   socialLogin: PropTypes.func.isRequired,
   signup: PropTypes.func.isRequired,
-  socialSignup: PropTypes.func.isRequired
+  socialSignup: PropTypes.func.isRequired,
+  getProfile: PropTypes.func.isRequired,
 };
 
-export default connect(null, { login, socialLogin, signup, socialSignup})(LoginPage);
+export default connect(null, { login, socialLogin, signup, socialSignup, getProfile})(LoginPage);

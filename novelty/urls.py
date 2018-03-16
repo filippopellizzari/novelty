@@ -7,6 +7,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from movies.views import *
 from authentication.views import *
 from surveys.views import *
+from state.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,6 +28,10 @@ urlpatterns = [
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/auth/', include('djoser.urls')),
     url(r'^api/rest-auth/', include('rest_auth.urls')),
+
+    url(r'^api/state/create/$', ProfileCreateView.as_view()),
+    url(r'^api/state/update/$', ProfileUpdateView.as_view()),
+    url(r'^api/state/(?P<email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', ProfileDetail.as_view()),
 
     url(r'^api/$', get_schema_view()),
 
