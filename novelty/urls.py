@@ -30,7 +30,8 @@ urlpatterns = [
     url(r'^api/rest-auth/', include('rest_auth.urls')),
 
     url(r'^api/state/create/$', ProfileCreateView.as_view()),
-    url(r'^api/state/update/$', ProfileUpdateView.as_view()),
+    url(r'^api/state/update-page/$', ProfilePageUpdateView.as_view()),
+    url(r'^api/state/update-question-number/$', ProfileQuestionNumberUpdateView.as_view()),
     url(r'^api/state/(?P<email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', ProfileDetail.as_view()),
 
     url(r'^api/$', get_schema_view()),

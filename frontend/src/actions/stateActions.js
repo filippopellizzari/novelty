@@ -16,8 +16,14 @@ export function createProfile(data) {
   }
 }
 
-export function updateProfile(data) {
+export function updatePageProfile(data) {
   return dispatch => {
-    return axios.put("/api/state/update/", data);
+    return axios.put("/api/state/update-page/", data);
+  }
+}
+
+export function updateQuestionNumberProfile(data) {
+  return dispatch => {
+    return axios.put("/api/state/update-question-number/", data);
   }
 }

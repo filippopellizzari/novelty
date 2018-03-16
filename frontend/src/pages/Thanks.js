@@ -1,7 +1,18 @@
 import React from 'react';
 import admin from '../data/admin.json'
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
+import {updatePageProfile,updateQuestionNumberProfile} from "../actions/stateActions";
+
 
 class Thanks extends React.Component {
+
+  componentDidMount(){
+    this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
+    this.props.updateQuestionNumberProfile({email:localStorage.email,questionNumber:1})
+  }
+
   render() {
 
     var survey_code = admin.crowdflower
@@ -30,4 +41,9 @@ class Thanks extends React.Component {
   }
 }
 
-export default Thanks;
+Thanks.propTypes = {
+  updatePageProfile: PropTypes.func.isRequired,
+  updateQuestionNumberProfile: PropTypes.func.isRequired,
+};
+
+export default connect(null, {updateQuestionNumberProfile,updatePageProfile})(Thanks);

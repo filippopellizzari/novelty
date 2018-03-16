@@ -10,7 +10,7 @@ import Questions from '../components/survey/Questions';
 import recsA from '../data/recsA.json';
 import recsB from '../data/recsB.json';
 import { submitSurvey } from "../actions/surveyActions";
-import {updateProfile} from "../actions/stateActions";
+import {updatePageProfile} from "../actions/stateActions";
 import admin from '../data/admin.json';
 
 class Survey extends React.Component {
@@ -33,7 +33,7 @@ class Survey extends React.Component {
       }))
       .catch( (err) => console.log(err));
 
-    this.props.updateProfile({email:localStorage.email,page:"survey",questionNumber:1})
+    this.props.updatePageProfile({email:localStorage.email,page:"survey"})
   }
 
   submit = responses =>{
@@ -76,9 +76,9 @@ Survey.propTypes = {
     push: PropTypes.func.isRequired
   }).isRequired,
   submitSurvey: PropTypes.func.isRequired,
-  updateProfile: PropTypes.func.isRequired,
+  updatePageProfile: PropTypes.func.isRequired,
 };
 
 
 
-export default connect(null, {submitSurvey,updateProfile})(Survey);
+export default connect(null, {submitSurvey,updatePageProfile})(Survey);

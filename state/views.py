@@ -27,7 +27,7 @@ class ProfileCreateView(APIView):
             return Response( status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ProfileUpdateView(UpdateAPIView):
+class ProfilePageUpdateView(UpdateAPIView):
     serializer_class = ProfileSerializer
     def get_profile(self, email):
         try:
@@ -39,6 +39,20 @@ class ProfileUpdateView(UpdateAPIView):
         if(instance==None):
             return Response( status=status.HTTP_404_NOT_FOUND)
         instance.page = request.data.get("page")
+        instance.save()
+        return Response(status=status.HTTP_200_OK)
+
+class ProfileQuestionNumberUpdateView(UpdateAPIView):
+    serializer_class = ProfileSerializer
+    def get_profile(self, email):
+        try:
+            return Profile.objects.get(email=email)
+        except Profile.DoesNotExist:
+            return None
+    def update(self, request, *args, **kwargs):
+        instance = self.get_profile(email=request.data.get("email"))
+        if(instance==None):
+            return Response( status=status.HTTP_404_NOT_FOUND)
         instance.questionNumber = request.data.get("questionNumber")
         instance.save()
         return Response(status=status.HTTP_200_OK)

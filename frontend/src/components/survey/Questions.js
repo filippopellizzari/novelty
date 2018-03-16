@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button, Progress } from 'semantic-ui-react';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import SingleQuestion from './SingleQuestion';
+import {getProfile,updateQuestionNumberProfile} from "../../actions/stateActions";
 
 class Questions extends React.Component {
 
@@ -11,6 +14,11 @@ class Questions extends React.Component {
     currentAnswer:"",
     responses:[]
   };
+
+  componentDidMount(){
+    this.props.getProfile(localStorage.email)
+      .then( (res) => this.setState({questionNumber:res.data.questionNumber}));
+  }
 
   currentAnswer = (newAnswer) =>
     this.setState({currentAnswer:newAnswer})
@@ -31,6 +39,8 @@ class Questions extends React.Component {
   nextQuestion = () => {
     this.addResponse();
     this.setState({questionNumber: this.state.questionNumber + 1});
+    this.props.updateQuestionNumberProfile({email:localStorage.email,
+        questionNumber:this.state.questionNumber+1})
     this.setState({isValid: false});
   }
 
@@ -93,4 +103,9 @@ class Questions extends React.Component {
   }
 }
 
-export default Questions;
+Questions.propTypes = {
+  getProfile: PropTypes.func.isRequired,
+  updateQuestionNumberProfile: PropTypes.func.isRequired,
+};
+
+export default connect(null, {getProfile,updateQuestionNumberProfile})(Questions);
