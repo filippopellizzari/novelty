@@ -73,5 +73,4 @@ class ResponseAdmin(ImportExportModelAdmin):
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Option, OptionAdmin)
-#admin.site.register(SurveyResponse,SurveyResponseAdmin )
 admin.site.register(Response,ResponseAdmin )

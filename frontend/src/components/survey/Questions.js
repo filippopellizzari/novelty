@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import SingleQuestion from './SingleQuestion';
-import {getProfile,updateQuestionNumberProfile} from "../../actions/stateActions";
+import {getProfile,updateQuestionNumberProfile,
+  saveAnswers,getAnswers} from "../../actions/stateActions";
+import admin from '../../data/admin.json';
 
 class Questions extends React.Component {
 
@@ -18,6 +20,19 @@ class Questions extends React.Component {
   componentDidMount(){
     this.props.getProfile(localStorage.email)
       .then( (res) => this.setState({questionNumber:res.data.questionNumber}));
+
+    this.props.getAnswers(localStorage.email)
+      .then((res)=>{
+        //this.setState({responses:[]})
+        for (var key in res.data){
+          const response = {}
+          response.question = res.data[key].question
+          response.answer = res.data[key].answer
+          this.setState({
+            responses: [...this.state.responses, response]
+          })
+        }
+      })
   }
 
   currentAnswer = (newAnswer) =>
@@ -34,6 +49,12 @@ class Questions extends React.Component {
     this.setState({
       responses: [...responses, response]
     })
+    this.props.saveAnswers({
+      email:localStorage.email,
+      survey_id:admin.survey_id,
+      responses:[response]
+    })
+
   }
 
   nextQuestion = () => {
@@ -52,7 +73,8 @@ class Questions extends React.Component {
 
   render() {
 
-    const numberOfQuestions = this.props.questions.length > 0 ? this.props.questions.length : 1000000
+    const numberOfQuestions = this.props.questions.length > 0 ?
+    this.props.questions.length : 1000000
     const { questionNumber, isValid} = this.state;
 
     const question = this.props.questions.map(
@@ -106,6 +128,9 @@ class Questions extends React.Component {
 Questions.propTypes = {
   getProfile: PropTypes.func.isRequired,
   updateQuestionNumberProfile: PropTypes.func.isRequired,
+  saveAnswers: PropTypes.func.isRequired,
+  getAnswers: PropTypes.func.isRequired,
 };
 
-export default connect(null, {getProfile,updateQuestionNumberProfile})(Questions);
+export default connect(null, {getProfile,
+  updateQuestionNumberProfile,saveAnswers,getAnswers})(Questions);

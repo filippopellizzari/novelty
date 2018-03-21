@@ -10,7 +10,7 @@ import Questions from '../components/survey/Questions';
 import recsA from '../data/recsA.json';
 import recsB from '../data/recsB.json';
 import { submitSurvey } from "../actions/surveyActions";
-import {updatePageProfile} from "../actions/stateActions";
+import {updatePageProfile,deleteAnswers} from "../actions/stateActions";
 import admin from '../data/admin.json';
 
 class Survey extends React.Component {
@@ -42,7 +42,10 @@ class Survey extends React.Component {
     data.survey_id = parseInt(this.state.survey_id, 10);
     data.responses = responses;
     this.props.submitSurvey(data)
-      .then(() => this.props.history.push("/thanks"))
+      .then(() => {
+        this.props.history.push("/thanks")
+        this.props.deleteAnswers(localStorage.email)
+      })
       .catch( (err) => console.log(err));
   }
 
@@ -77,8 +80,7 @@ Survey.propTypes = {
   }).isRequired,
   submitSurvey: PropTypes.func.isRequired,
   updatePageProfile: PropTypes.func.isRequired,
+  deleteAnswers: PropTypes.func.isRequired,
 };
 
-
-
-export default connect(null, {submitSurvey,updatePageProfile})(Survey);
+export default connect(null, {submitSurvey,updatePageProfile,deleteAnswers})(Survey);

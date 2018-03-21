@@ -8,13 +8,9 @@ import {updatePageProfile,updateQuestionNumberProfile} from "../actions/stateAct
 
 class Thanks extends React.Component {
 
-  componentDidMount(){
+  render() {
     this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
     this.props.updateQuestionNumberProfile({email:localStorage.email,questionNumber:1})
-  }
-
-  render() {
-
     var survey_code = admin.crowdflower
     ? <div className="card">
         <div className="card-body">
@@ -46,4 +42,4 @@ Thanks.propTypes = {
   updateQuestionNumberProfile: PropTypes.func.isRequired,
 };
 
-export default connect(null, {updateQuestionNumberProfile,updatePageProfile})(Thanks);
+export default connect(null, {updatePageProfile,updateQuestionNumberProfile})(Thanks);

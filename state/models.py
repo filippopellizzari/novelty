@@ -5,3 +5,15 @@ class Profile(models.Model):
     email = models.CharField(max_length=100)
     page = models.CharField(max_length=30)
     questionNumber = models.IntegerField()
+
+
+class SurveyResponse(models.Model):
+    email = models.CharField(max_length=100)
+    survey_id = models.CharField(null=True,max_length=30)
+
+class Answer(models.Model):
+    survey_response = models.ForeignKey(SurveyResponse, related_name='responses')
+    question = models.TextField()
+    answer = models.CharField(max_length=30)
+    email = models.CharField(max_length=100)
+    survey_id = models.CharField(null=True,max_length=30)
