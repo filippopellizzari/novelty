@@ -15,6 +15,10 @@ class Catalogue extends React.Component {
     };
   }
 
+  componentDidMount(){
+    document.title = "Catalogue"
+  }
+
   addSelect(newMovie){
     /*
     * selected movies are limited and are not duplicated

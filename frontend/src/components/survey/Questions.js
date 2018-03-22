@@ -23,7 +23,6 @@ class Questions extends React.Component {
 
     this.props.getAnswers(localStorage.email)
       .then((res)=>{
-        //this.setState({responses:[]})
         for (var key in res.data){
           const response = {}
           response.question = res.data[key].question
@@ -92,7 +91,7 @@ class Questions extends React.Component {
     var nextButton;
     if(questionNumber === numberOfQuestions){
       nextButton =
-      <Button primary disabled={!isValid} onClick={this.nextQuestion}>
+      <Button primary disabled={!isValid} onClick={this.onSubmit}>
         Submit
       </Button>
     } else {
@@ -101,7 +100,7 @@ class Questions extends React.Component {
         Next
       </Button>
     }
-
+    
     if(questionNumber > numberOfQuestions){
       this.props.submit(this.state.responses);
     }

@@ -18,6 +18,10 @@ class LoginPage extends React.Component{
     startingPage: ""
   };
 
+  componentDidMount(){
+    document.title = "Login";
+  }
+
   submit = (data) => {
     localStorage.setItem('email', data.email);
     this.props.getProfile(data.email)

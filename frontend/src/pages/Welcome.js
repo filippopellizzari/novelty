@@ -9,10 +9,10 @@ import { getProfile }   from "../actions/stateActions";
 class Welcome extends React.Component {
 
   componentDidMount() {
+    document.title = "Welcome"
     this.props.getProfile(localStorage.email)
         .then( (res) => this.props.history.push("/"+res.data.page));
   }
-
 
   render() {
     return (

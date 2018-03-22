@@ -10,7 +10,7 @@ import Questions from '../components/survey/Questions';
 import recsA from '../data/recsA.json';
 import recsB from '../data/recsB.json';
 import { submitSurvey } from "../actions/surveyActions";
-import {updatePageProfile,deleteAnswers} from "../actions/stateActions";
+import {updatePageProfile,deleteAnswers,updateQuestionNumberProfile} from "../actions/stateActions";
 import admin from '../data/admin.json';
 
 class Survey extends React.Component {
@@ -25,6 +25,7 @@ class Survey extends React.Component {
   }
 
   componentDidMount(){
+    document.title = "Survey"
     axios.get("/api/surveys/" + admin.survey_id + "/")
       .then((res)  =>this.setState({
         questions:res.data.questions,
@@ -32,8 +33,6 @@ class Survey extends React.Component {
         survey_type:res.data.survey_type
       }))
       .catch( (err) => console.log(err));
-
-    this.props.updatePageProfile({email:localStorage.email,page:"survey"})
   }
 
   submit = responses =>{
@@ -41,17 +40,19 @@ class Survey extends React.Component {
     data.email = localStorage.email;
     data.survey_id = parseInt(this.state.survey_id, 10);
     data.responses = responses;
+    this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
+    this.props.updateQuestionNumberProfile({email:localStorage.email,questionNumber:1})
+    this.props.deleteAnswers(localStorage.email)
     this.props.submitSurvey(data)
       .then(() => {
         this.props.history.push("/thanks")
-        this.props.deleteAnswers(localStorage.email)
       })
       .catch( (err) => console.log(err));
   }
 
   render() {
     const { survey_type } = this.state
-
+    this.props.updatePageProfile({email:localStorage.email,page:"survey"})
     var reclists = survey_type === "Within-subject" ?
     <div>
       <RecList recs={recsA} name="A"/>
@@ -81,6 +82,8 @@ Survey.propTypes = {
   submitSurvey: PropTypes.func.isRequired,
   updatePageProfile: PropTypes.func.isRequired,
   deleteAnswers: PropTypes.func.isRequired,
+  updateQuestionNumberProfile: PropTypes.func.isRequired,
 };
 
-export default connect(null, {submitSurvey,updatePageProfile,deleteAnswers})(Survey);
+export default connect(null, {submitSurvey,updatePageProfile,
+  deleteAnswers,updateQuestionNumberProfile})(Survey);

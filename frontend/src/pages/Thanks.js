@@ -3,10 +3,15 @@ import admin from '../data/admin.json'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import {updatePageProfile,updateQuestionNumberProfile} from "../actions/stateActions";
+import {updateQuestionNumberProfile,updatePageProfile} from "../actions/stateActions";
 
 
 class Thanks extends React.Component {
+
+  componentDidMount() {
+    document.title = "Thanks"
+    this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
+  }
 
   render() {
     this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
@@ -38,8 +43,11 @@ class Thanks extends React.Component {
 }
 
 Thanks.propTypes = {
-  updatePageProfile: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
   updateQuestionNumberProfile: PropTypes.func.isRequired,
+  updatePageProfile: PropTypes.func.isRequired,
 };
 
-export default connect(null, {updatePageProfile,updateQuestionNumberProfile})(Thanks);
+export default connect(null, {updateQuestionNumberProfile,updatePageProfile})(Thanks);
