@@ -8,6 +8,7 @@ import { validateToken } from "../actions/registerActions";
 class ActivateAccountPage extends React.Component {
 
   componentDidMount() {
+    document.title = "Signup"
     const uid = this.props.match.params.uid;
     const token = this.props.match.params.token;
     this.props

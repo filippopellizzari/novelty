@@ -13,6 +13,7 @@ class ResetPasswordPage extends React.Component {
   };
 
   componentDidMount() {
+    document.title = "Password Reset"
     const uid = this.props.match.params.uid;
     const token = this.props.match.params.token;
     this.props

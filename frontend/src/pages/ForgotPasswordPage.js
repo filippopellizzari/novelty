@@ -11,6 +11,10 @@ class ForgotPasswordPage extends React.Component {
     success: false
   };
 
+  componentDidMount() {
+    document.title = "Password Reset"
+  }
+
   submit = data =>
     this.props
       .resetPasswordRequest(data)

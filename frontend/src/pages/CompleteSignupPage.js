@@ -9,6 +9,10 @@ import {createProfile} from "../actions/stateActions";
 
 class CompleteSignupPage extends React.Component {
 
+  componentDidMount() {
+    document.title = "Signup"
+  }
+
   submit = data => {
     data.email = localStorage.email;
     data.password = localStorage.password;

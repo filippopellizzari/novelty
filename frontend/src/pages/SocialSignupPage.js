@@ -10,6 +10,11 @@ import {createProfile} from "../actions/stateActions";
 
 class SocialSignupPage extends React.Component {
 
+  componentDidMount() {
+    document.title = "Signup"
+  }
+
+
   submit = data => {
     data.email = localStorage.email;
 

@@ -13,6 +13,10 @@ class SignupPage extends React.Component {
     success: false
   };
 
+  componentDidMount() {
+    document.title = "Signup"
+  }
+
   submit = data =>
     this.props.signup(data)
       .then(() => this.setState({ success: true }));
