@@ -10,5 +10,5 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display = ('email','survey_id','question', 'answer',)
 
 
-#admin.site.register(Profile, ProfileAdmin)
-#admin.site.register(Answer, AnswerAdmin)
+admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Answer, AnswerAdmin)
