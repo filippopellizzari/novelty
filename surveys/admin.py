@@ -63,9 +63,9 @@ class ResponseAdmin(ImportExportModelAdmin):
     resource_class = ResponseResource
 
     readonly_fields = ('email','survey_id','completed_at','question',
-                        'answer','survey_response')
+                        'answer','survey_response','is_valid')
     list_display = ('email','survey_id','completed_at','question',
-                        'answer')
+                        'answer','is_valid')
 
     def has_add_permission(self, request):
         return False

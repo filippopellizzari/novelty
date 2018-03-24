@@ -36,13 +36,15 @@ class Survey extends React.Component {
   }
 
   submit = responses =>{
-    const data = {};
-    data.email = localStorage.email;
-    data.survey_id = parseInt(this.state.survey_id, 10);
-    data.responses = responses;
     this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
     this.props.updateQuestionNumberProfile({email:localStorage.email,questionNumber:1})
     this.props.deleteAnswers(localStorage.email)
+
+    const data = {};
+    data.is_valid = true;
+    data.email = localStorage.email;
+    data.survey_id = parseInt(this.state.survey_id, 10);
+    data.responses = responses;
     this.props.submitSurvey(data)
       .then(() => {
         this.props.history.push("/thanks")
