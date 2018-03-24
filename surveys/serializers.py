@@ -13,6 +13,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ('question_id', 'genre', 'text', 'options')
 
+
 class SurveySerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True, read_only=True)
     class Meta:

@@ -9,6 +9,9 @@ class Option(models.Model):
     def __str__(self):
         return str(self.option_id) + ": " + self.text
 
+    class Meta:
+        ordering = ('option_id',)
+
 class Question(models.Model):
     question_id = models.IntegerField()
     genre = models.CharField(max_length=30)
@@ -18,6 +21,9 @@ class Question(models.Model):
 
     def __str__(self):
         return str(self.question_id) + ": " + self.text
+
+    class Meta:
+        ordering = ('question_id',)
 
 class Survey(models.Model):
     TYPE_CHOICES = (
