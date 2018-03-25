@@ -2,15 +2,16 @@ from import_export.admin import ImportExportModelAdmin
 from import_export.resources import ModelResource
 from import_export import fields, widgets
 from django.contrib import admin
+from adminsortable2.admin import SortableInlineAdminMixin
 from .models import *
 
-class QuestionOrderInline(admin.TabularInline):
+class QuestionOrderInline(SortableInlineAdminMixin, admin.TabularInline):
     model = QuestionOrder
-    extra = 0
+    extra = 1
 
-class OptionOrderInline(admin.TabularInline):
+class OptionOrderInline(SortableInlineAdminMixin, admin.TabularInline):
     model = OptionOrder
-    extra = 0
+    extra = 1
 
 class SurveyAdmin(admin.ModelAdmin):
     readonly_fields = ('survey_id','last_update')
@@ -18,7 +19,7 @@ class SurveyAdmin(admin.ModelAdmin):
     inlines = (QuestionOrderInline,)
 
 class QuestionAdmin(admin.ModelAdmin):
-    readonly_fields = ('last_update',)
+    readonly_fields = ('last_update','question_id')
     list_display = ('question_id','genre', 'text', 'last_update',)
     inlines = (OptionOrderInline,)
 

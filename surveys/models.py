@@ -3,17 +3,14 @@ from .models import *
 
 
 class Option(models.Model):
-    option_id = models.IntegerField()
+    option_id = models.AutoField(primary_key=True)
     text = models.CharField(max_length=30)
 
     def __str__(self):
         return str(self.option_id) + ": " + self.text
 
-    class Meta:
-        ordering = ('option_id',)
-
 class Question(models.Model):
-    question_id = models.IntegerField()
+    question_id = models.AutoField(primary_key=True)
     genre = models.CharField(max_length=30)
     text = models.TextField()
     last_update = models.DateTimeField(auto_now=True)
@@ -21,9 +18,6 @@ class Question(models.Model):
 
     def __str__(self):
         return str(self.question_id) + ": " + self.text
-
-    class Meta:
-        ordering = ('question_id',)
 
 class Survey(models.Model):
     TYPE_CHOICES = (
@@ -44,10 +38,18 @@ class Survey(models.Model):
 class QuestionOrder(models.Model):
     question = models.ForeignKey(Question, related_name='question_to_survey')
     survey = models.ForeignKey(Survey, related_name='survey_to_question')
+    order = models.PositiveIntegerField(default=0, blank=False, null=False)
+
+    class Meta:
+        ordering = ('order',)
 
 class OptionOrder(models.Model):
     option = models.ForeignKey(Option, related_name='option_to_question')
     question = models.ForeignKey(Question, related_name='question_to_option')
+    order = models.PositiveIntegerField(default=0, blank=False, null=False)
+
+    class Meta:
+        ordering = ('order',)
 
 class SurveyResponse(models.Model):
     email = models.CharField(max_length=100)

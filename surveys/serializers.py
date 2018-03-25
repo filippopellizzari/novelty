@@ -8,14 +8,29 @@ class OptionSerializer(serializers.ModelSerializer):
         fields = ('option_id', 'text')
 
 class QuestionSerializer(serializers.ModelSerializer):
-    options = OptionSerializer(many=True, read_only=True)
+
+    options = serializers.SerializerMethodField('get_option_list')
+
+    def get_option_list(self, instance):
+        ids = OptionOrder.objects.filter(question=instance.question_id)\
+            .order_by('order').values_list('option', flat=True)
+        options = list(map(lambda x: Option.objects.get(option_id=x), ids))
+        return OptionSerializer(options, many=True).data
+
     class Meta:
         model = Question
         fields = ('question_id', 'genre', 'text', 'options')
 
 
 class SurveySerializer(serializers.ModelSerializer):
-    questions = QuestionSerializer(many=True, read_only=True)
+    questions = serializers.SerializerMethodField('get_question_list')
+
+    def get_question_list(self, instance):
+        ids = QuestionOrder.objects.filter(survey=instance.survey_id)\
+            .order_by('order').values_list('question', flat=True)
+        questions = list(map(lambda x: Question.objects.get(question_id=x), ids))
+        return QuestionSerializer(questions, many=True).data
+
     class Meta:
         model = Survey
         fields = ('survey_id', 'survey_type', 'questions')
