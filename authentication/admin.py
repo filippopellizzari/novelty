@@ -3,8 +3,10 @@ from import_export.admin import ImportExportModelAdmin
 from import_export.resources import ModelResource
 from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.admin.actions import delete_selected as delete_selected_
 
 from .models import MyUser
+from state.models import Profile
 
 class MyUserResource(ModelResource):
     class Meta:
@@ -12,6 +14,18 @@ class MyUserResource(ModelResource):
         fields = ('id', 'email', 'gender', 'age', 'country', 'date_joined', 'is_staff' )
         export_order = ('id', 'email', 'gender', 'age', 'country', 'date_joined', 'is_staff' )
 
+def delete_selected(modeladmin, request, queryset):
+    for obj in queryset:
+        email = obj.email
+    if not modeladmin.has_delete_permission(request):
+        raise PermissionDenied
+    if request.POST.get('post'):
+        for obj in queryset:
+            obj.delete()
+    else:
+        Profile.objects.get(email=email).delete()
+        return delete_selected_(modeladmin, request, queryset)
+delete_selected.short_description = "Delete selected users"
 
 @admin.register(MyUser)
 class UserAdmin(ImportExportModelAdmin):
@@ -33,6 +47,7 @@ class UserAdmin(ImportExportModelAdmin):
     readonly_fields = ('email', 'password','gender', 'age', 'country','date_joined')
     search_fields = ('email',)
     ordering = ('email',)
+    actions = [delete_selected]
 
     def has_add_permission(self, request):
         return False

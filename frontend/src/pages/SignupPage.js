@@ -29,8 +29,10 @@ class SignupPage extends React.Component {
           <div className="card">
             <div className="card-body">
               {this.state.success ? (
-                <Message success>Email has been sent to verify you account.
-                  Check your inbox.</Message>
+                <Message success>
+                  <p>Email has been sent to verify you account.</p>
+                  <p>Check your inbox.</p>
+                </Message>
               ) : (
                 <div>
                   <SignupForm submit={this.submit}/>
