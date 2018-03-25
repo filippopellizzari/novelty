@@ -4,7 +4,7 @@ from .models import *
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('email', 'page', 'questionNumber')
+        fields = ('email', 'page', 'questionNumber','valid_survey')
 
 class ProfileCreateSerializer(serializers.ModelSerializer):
     class Meta:

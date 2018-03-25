@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from 'axios';
 
-
 import RecList from '../components/survey/RecList';
 import Questions from '../components/survey/Questions';
 import recsA from '../data/recsA.json';
 import recsB from '../data/recsB.json';
 import { submitSurvey } from "../actions/surveyActions";
-import {updatePageProfile,deleteAnswers,updateQuestionNumberProfile} from "../actions/stateActions";
+import {updatePageProfile,deleteAnswers,
+  updateQuestionNumberProfile,updateValidSurveyProfile} from "../actions/stateActions";
 import admin from '../data/admin.json';
 
 class Survey extends React.Component {
@@ -41,15 +41,31 @@ class Survey extends React.Component {
     this.props.deleteAnswers(localStorage.email)
 
     const data = {};
-    data.is_valid = true;
+    data.is_valid = this.isSurveyValid(responses);
     data.email = localStorage.email;
     data.survey_id = parseInt(this.state.survey_id, 10);
     data.responses = responses;
+
+    this.props.updateValidSurveyProfile({email:localStorage.email,valid_survey:data.is_valid})
+
     this.props.submitSurvey(data)
       .then(() => {
         this.props.history.push("/thanks")
       })
       .catch( (err) => console.log(err));
+  }
+
+  isSurveyValid(responses){
+    for (var i=0; i<responses.length; i++){
+      for (var j=i+1; j<responses.length; j++){
+        if(responses[j].question===responses[i].question){
+          if(responses[j].answer!==responses[i].answer){
+            return false
+          }
+        }
+      }
+    }
+    return true
   }
 
   render() {
@@ -85,7 +101,8 @@ Survey.propTypes = {
   updatePageProfile: PropTypes.func.isRequired,
   deleteAnswers: PropTypes.func.isRequired,
   updateQuestionNumberProfile: PropTypes.func.isRequired,
+  updateValidSurveyProfile: PropTypes.func.isRequired,
 };
 
 export default connect(null, {submitSurvey,updatePageProfile,
-  deleteAnswers,updateQuestionNumberProfile})(Survey);
+  deleteAnswers,updateQuestionNumberProfile,updateValidSurveyProfile})(Survey);

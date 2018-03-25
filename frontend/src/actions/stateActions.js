@@ -28,6 +28,12 @@ export function updateQuestionNumberProfile(data) {
   }
 }
 
+export function updateValidSurveyProfile(data) {
+  return dispatch => {
+    return axios.put("/api/state/update-valid-survey/", data);
+  }
+}
+
 export function saveAnswers(data) {
   return dispatch => {
     return axios.post("/api/state/save-answers/", data);

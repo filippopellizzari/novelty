@@ -5,6 +5,7 @@ class Profile(models.Model):
     email = models.CharField(max_length=100)
     page = models.CharField(max_length=30)
     questionNumber = models.IntegerField()
+    valid_survey = models.BooleanField(default=False)
 
 
 class SurveyResponse(models.Model):

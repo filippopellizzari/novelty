@@ -1,28 +1,43 @@
 import React from 'react';
-import admin from '../data/admin.json'
+import { Message } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import {updateQuestionNumberProfile,updatePageProfile} from "../actions/stateActions";
-
+import {updateQuestionNumberProfile,updatePageProfile,getProfile} from "../actions/stateActions";
+import admin from '../data/admin.json'
 
 class Thanks extends React.Component {
+
+  state = {
+    valid_survey: false,
+  };
 
   componentDidMount() {
     document.title = "Thanks"
     this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
+    this.props.getProfile(localStorage.email)
+        .then( (res) => this.setState({valid_survey:res.data.valid_survey}));
   }
 
   render() {
+    const {valid_survey} = this.state
+    var message = valid_survey===true ?
+    <Message success>
+      <h3>Your Survey Code is</h3>
+      <h2>{admin.survey_code}</h2>
+      <h3>(Copy and submit)</h3>
+    </Message>
+    :<Message negative>
+      <h3>Your survey is not valid, because it is inconsistent.</h3>
+      <h3>The Survey Code is not available.</h3>
+    </Message>
+
     this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
     this.props.updateQuestionNumberProfile({email:localStorage.email,questionNumber:1})
+
     var survey_code = admin.crowdflower
     ? <div className="card">
-        <div className="card-body">
-          <h3>Your Survey Code is</h3>
-          <h2>{admin.survey_code}</h2>
-          <h3>(Copy and submit)</h3>
-        </div>
+        {message}
       </div>
     : null
 
@@ -48,6 +63,7 @@ Thanks.propTypes = {
   }).isRequired,
   updateQuestionNumberProfile: PropTypes.func.isRequired,
   updatePageProfile: PropTypes.func.isRequired,
+  getProfile: PropTypes.func.isRequired,
 };
 
-export default connect(null, {updateQuestionNumberProfile,updatePageProfile})(Thanks);
+export default connect(null, {updateQuestionNumberProfile,updatePageProfile,getProfile})(Thanks);

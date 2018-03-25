@@ -100,7 +100,7 @@ class Questions extends React.Component {
         Next
       </Button>
     }
-    
+
     if(questionNumber > numberOfQuestions){
       this.props.submit(this.state.responses);
     }

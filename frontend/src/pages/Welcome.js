@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import admin from '../data/admin.json';
 import { getProfile }   from "../actions/stateActions";
 
+
 class Welcome extends React.Component {
 
   componentDidMount() {

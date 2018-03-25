@@ -57,6 +57,21 @@ class ProfileQuestionNumberUpdateView(UpdateAPIView):
         instance.save()
         return Response(status=status.HTTP_200_OK)
 
+class ProfileValidSurveyUpdateView(UpdateAPIView):
+    serializer_class = ProfileSerializer
+    def get_profile(self, email):
+        try:
+            return Profile.objects.get(email=email)
+        except Profile.DoesNotExist:
+            return None
+    def update(self, request, *args, **kwargs):
+        instance = self.get_profile(email=request.data.get("email"))
+        if(instance==None):
+            return Response( status=status.HTTP_404_NOT_FOUND)
+        instance.valid_survey = request.data.get("valid_survey")
+        instance.save()
+        return Response(status=status.HTTP_200_OK)
+
 class AnswersPostView(APIView):
     def post(self, request, format='json'):
         serializer = SurveyResponseSerializer(data=request.data)

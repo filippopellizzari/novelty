@@ -56,8 +56,8 @@ class SurveyResponseAdmin(ImportExportModelAdmin):
 class ResponseResource(ModelResource):
     class Meta:
         model = Response
-        fields = ('id','email','survey_id','completed_at','question', 'answer', )
-        export_order = ('id', 'email','survey_id','completed_at','question', 'answer', )
+        fields = ('id','email','survey_id','completed_at','question', 'answer', 'is_valid')
+        export_order = ('id', 'email','survey_id','completed_at','question', 'answer','is_valid' )
 
 class ResponseAdmin(ImportExportModelAdmin):
     resource_class = ResponseResource
