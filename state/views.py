@@ -82,6 +82,7 @@ class AnswersPostView(APIView):
 
 class AnswersDeleteView(APIView):
     def delete(self, request, email):
+        Answer.objects.filter(email=email).delete()
         SurveyResponse.objects.filter(email=email).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

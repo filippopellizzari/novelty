@@ -38,7 +38,6 @@ class Survey extends React.Component {
   submit = responses =>{
     this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
     this.props.updateQuestionNumberProfile({email:localStorage.email,questionNumber:1})
-    this.props.deleteAnswers(localStorage.email)
 
     const data = {};
     data.is_valid = this.isSurveyValid(responses);
@@ -48,11 +47,14 @@ class Survey extends React.Component {
 
     this.props.updateValidSurveyProfile({email:localStorage.email,valid_survey:data.is_valid})
 
-    this.props.submitSurvey(data)
-      .then(() => {
-        this.props.history.push("/thanks")
-      })
-      .catch( (err) => console.log(err));
+    this.props.deleteAnswers(localStorage.email)
+      .then( () => {
+        this.props.submitSurvey(data)
+          .then(() => {
+            this.props.history.push("/thanks")
+          })
+          .catch( (err) => console.log(err));
+        });
   }
 
   isSurveyValid(responses){
