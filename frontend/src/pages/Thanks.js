@@ -14,7 +14,7 @@ class Thanks extends React.Component {
 
   componentDidMount() {
     document.title = "Thanks"
-    this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
+    this.props.updatePageProfile({email:localStorage.email,page:"thanks"})
     this.props.getProfile(localStorage.email)
         .then( (res) => this.setState({valid_survey:res.data.valid_survey}));
   }
@@ -32,7 +32,7 @@ class Thanks extends React.Component {
       <h3>The Survey Code is not available.</h3>
     </Message>
 
-    this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
+    this.props.updatePageProfile({email:localStorage.email,page:"thanks"})
     this.props.updateQuestionNumberProfile({email:localStorage.email,questionNumber:1})
 
     var survey_code = admin.crowdflower

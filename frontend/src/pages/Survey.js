@@ -36,7 +36,7 @@ class Survey extends React.Component {
   }
 
   submit = responses =>{
-    this.props.updatePageProfile({email:localStorage.email,page:"welcome"})
+    this.props.updatePageProfile({email:localStorage.email,page:"thanks"})
     this.props.updateQuestionNumberProfile({email:localStorage.email,questionNumber:1})
 
     const data = {};
