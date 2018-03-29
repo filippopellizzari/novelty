@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
+import RandExp from 'randexp';
 
 import DemographicForm from "../forms/DemographicForm";
 import {completeDemographic} from "../actions/registerActions";
@@ -14,6 +15,8 @@ class CompleteSignupPage extends React.Component {
   }
 
   submit = data => {
+    const surveyCode = new RandExp(
+      /\d{3}k[a-z]{4}\d{2}a\d{2}[a-z]{5}8[a-z]{3}\d{2}[a-z]$/).gen()
     data.email = localStorage.email;
     data.password = localStorage.password;
     this.props.completeDemographic(data)
@@ -21,7 +24,12 @@ class CompleteSignupPage extends React.Component {
         this.props.login({email:data.email,password:data.password})
         .then(()=>{
           localStorage.removeItem('password');
-          this.props.createProfile({email:data.email,page:"welcome",questionNumber:1})
+          this.props.createProfile({
+            email:data.email,
+            page:"welcome",
+            questionNumber:1,
+            survey_code: surveyCode
+          })
           this.props.history.push("/welcome");
         });
       }

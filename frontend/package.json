@@ -39,6 +39,7 @@
     "postcss-loader": "2.0.6",
     "promise": "8.0.1",
     "prop-types": "^15.5.7",
+    "randexp": "^0.4.9",
     "react": "^16.2.0",
     "react-bootstrap": "^0.31.5",
     "react-country-region-selector": "^1.2.3",

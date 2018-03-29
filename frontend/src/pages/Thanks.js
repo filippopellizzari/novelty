@@ -10,6 +10,7 @@ class Thanks extends React.Component {
 
   state = {
     valid_survey: false,
+    survey_code:""
   };
 
   componentDidMount() {
@@ -18,15 +19,18 @@ class Thanks extends React.Component {
     localStorage.setItem('thanks',"survey completed");
     this.props.updatePageProfile({email:localStorage.email,page:"thanks"})
     this.props.getProfile(localStorage.email)
-        .then( (res) => this.setState({valid_survey:res.data.valid_survey}));
+        .then( (res) => this.setState({
+          valid_survey:res.data.valid_survey,
+          survey_code:res.data.survey_code
+        }));
   }
 
   render() {
-    const {valid_survey} = this.state
+    const {valid_survey, survey_code} = this.state
     var message = valid_survey===true ?
     <Message success>
       <h3>Your Survey Code is</h3>
-      <h2>{admin.survey_code}</h2>
+      <h2>{survey_code}</h2>
       <h3>(Copy and submit)</h3>
     </Message>
     :<Message negative>
@@ -37,7 +41,7 @@ class Thanks extends React.Component {
     this.props.updatePageProfile({email:localStorage.email,page:"thanks"})
     this.props.updateQuestionNumberProfile({email:localStorage.email,questionNumber:1})
 
-    var survey_code = admin.crowdflower
+    var surveyCode = admin.crowdflower
     ? <div className="card">
         {message}
       </div>
@@ -52,7 +56,7 @@ class Thanks extends React.Component {
           </div>
         </div>
         <div className="container" style={{textAlign:'center'}}>
-          {survey_code}
+          {surveyCode}
         </div>
       </div>
     );

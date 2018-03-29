@@ -4,12 +4,12 @@ from .models import *
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('email', 'page', 'questionNumber','valid_survey')
+        fields = ('email', 'page', 'questionNumber','survey_code','valid_survey')
 
 class ProfileCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('email', 'page','questionNumber')
+        fields = ('email', 'page','questionNumber','survey_code')
     def create(self, validated_data):
         profile = Profile.objects.create(**validated_data)
         return profile
