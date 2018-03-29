@@ -1,3 +1,4 @@
+from import_export.admin import ExportActionModelAdmin
 from import_export.admin import ImportExportModelAdmin
 from import_export.resources import ModelResource
 from import_export import fields, widgets
@@ -27,41 +28,15 @@ class QuestionAdmin(admin.ModelAdmin):
 class OptionAdmin(admin.ModelAdmin):
     list_display = ('option_id','text',)
 
-class ResponseInline(admin.StackedInline):
-    readonly_fields = ('survey_response','question', 'answer', 'survey_id', 'email')
-    model = Response
-    extra = 1
-
-    def has_add_permission(self, request):
-        return False
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-class SurveyResponseResource(ModelResource):
-    class Meta:
-        model = SurveyResponse
-        fields = ('id','email', 'survey_id', 'completed_at',)
-        export_order = ('id','email', 'survey_id', 'completed_at',)
-
-class SurveyResponseAdmin(ImportExportModelAdmin):
-
-    resource_class = SurveyResponseResource
-
-    readonly_fields = ('email', 'survey_id','completed_at',)
-    list_display = ('email', 'survey_id', 'completed_at',)
-    inlines = (ResponseInline,)
-    search_fields = ('email','survey_id', )
-
-    def has_add_permission(self, request):
-        return False
-
 class ResponseResource(ModelResource):
     class Meta:
         model = Response
-        fields = ('id','email','survey_id','completed_at','question', 'answer', 'is_valid')
-        export_order = ('id', 'email','survey_id','completed_at','question', 'answer','is_valid' )
+        fields = ('id','email','survey_id','completed_at','question',
+                'answer', 'is_valid')
+        export_order = ('id', 'email','survey_id','completed_at','question',
+                        'answer','is_valid' )
 
-class ResponseAdmin(ImportExportModelAdmin):
+class ResponseAdmin(ExportActionModelAdmin):
     resource_class = ResponseResource
 
     readonly_fields = ('email','survey_id','completed_at','question',

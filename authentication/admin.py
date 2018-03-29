@@ -1,5 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ExportActionModelAdmin
 from import_export.resources import ModelResource
 from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
@@ -28,13 +29,13 @@ def delete_selected(modeladmin, request, queryset):
 delete_selected.short_description = "Delete selected users"
 
 @admin.register(MyUser)
-class UserAdmin(ImportExportModelAdmin):
+class UserAdmin(ExportActionModelAdmin):
 
     resource_class = MyUserResource
 
     fieldsets = (
         (None, {'fields': ('email', 'password', 'gender', 'age', 'country')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_superuser','is_staff',)}),
         (_('Important dates'), {'fields': ('date_joined',)}),
     )
     add_fieldsets = (
@@ -44,7 +45,7 @@ class UserAdmin(ImportExportModelAdmin):
         }),
     )
     list_display = ('email', 'is_staff', 'date_joined')
-    readonly_fields = ('email', 'password','gender', 'age', 'country','date_joined')
+    readonly_fields = ('email', 'is_active','is_superuser','password','gender', 'age', 'country','date_joined')
     search_fields = ('email',)
     ordering = ('email',)
     actions = [delete_selected]
