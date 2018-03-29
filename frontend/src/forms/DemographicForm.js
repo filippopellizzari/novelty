@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { Form, Button, Dropdown } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
@@ -17,6 +18,16 @@ class DemographicForm extends React.Component {
     errors: {},
     serverErrors: {},
   };
+
+  componentDidMount(){
+    axios.get("https://freegeoip.net/json/")
+      .then((res)  =>
+        this.setState(
+          {...this.state,
+            data: { ...this.state.data, country: res.data.country_name }}
+        )
+      )
+  }
 
   onChangeGender = (e,data) =>
     this.setState(
@@ -82,7 +93,7 @@ class DemographicForm extends React.Component {
             />
           {errors.age && <InlineError text={errors.age} />}
         </Form.Field>
-
+{/*
         <Form.Field error={!!errors.country}>
           <label htmlFor="country">Country</label>
             <Dropdown
@@ -90,9 +101,11 @@ class DemographicForm extends React.Component {
               selection
               options={COUNTRY_OPTIONS}
               onChange={this.onChangeCountry}
+              defaultSearchQuery="ciao"
             />
           {errors.country && <InlineError text={errors.country} />}
         </Form.Field>
+*/}
         <Button primary fluid>Next</Button>
       </Form>
     );

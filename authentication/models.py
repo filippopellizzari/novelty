@@ -25,6 +25,7 @@ class UserManager(BaseUserManager):
         """Create and save a regular User with the given email and password."""
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
+        extra_fields.setdefault('is_active', False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
@@ -54,8 +55,16 @@ class MyUser(AbstractUser):
 
     objects = UserManager()
 
+def get_profile(email):
+    try:
+        return Profile.objects.get(email=email)
+    except Profile.DoesNotExist:
+        return None
+
 @receiver(pre_delete, sender=MyUser)
 def delete_user(sender, instance, **kwargs):
-    Profile.objects.get(email=instance.email).delete()
+    profile = get_profile(email=instance.email)
+    if(profile!=None):
+        profile.delete()
     if instance.is_superuser:
         raise PermissionDenied

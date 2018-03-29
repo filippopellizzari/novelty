@@ -15,19 +15,6 @@ class MyUserResource(ModelResource):
         fields = ('id', 'email', 'gender', 'age', 'country', 'date_joined', 'is_staff' )
         export_order = ('id', 'email', 'gender', 'age', 'country', 'date_joined', 'is_staff' )
 
-def delete_selected(modeladmin, request, queryset):
-    for obj in queryset:
-        email = obj.email
-    if not modeladmin.has_delete_permission(request):
-        raise PermissionDenied
-    if request.POST.get('post'):
-        for obj in queryset:
-            obj.delete()
-    else:
-        Profile.objects.get(email=email).delete()
-        return delete_selected_(modeladmin, request, queryset)
-delete_selected.short_description = "Delete selected users"
-
 @admin.register(MyUser)
 class UserAdmin(ExportActionModelAdmin):
 
@@ -48,7 +35,6 @@ class UserAdmin(ExportActionModelAdmin):
     readonly_fields = ('email', 'is_active','is_superuser','password','gender', 'age', 'country','date_joined')
     search_fields = ('email',)
     ordering = ('email',)
-    actions = [delete_selected]
 
     def has_add_permission(self, request):
         return False
