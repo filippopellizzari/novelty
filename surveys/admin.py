@@ -23,6 +23,7 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question_id','genre', 'text', 'last_update',)
     inlines = (OptionOrderInline,)
 
+
 class OptionAdmin(admin.ModelAdmin):
     list_display = ('option_id','text',)
 

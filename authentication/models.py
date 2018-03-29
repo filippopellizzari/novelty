@@ -1,6 +1,10 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
+from django.core.exceptions import PermissionDenied
+from state.models import Profile
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
@@ -49,3 +53,9 @@ class MyUser(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+@receiver(pre_delete, sender=MyUser)
+def delete_user(sender, instance, **kwargs):
+    Profile.objects.get(email=instance.email).delete()
+    if instance.is_superuser:
+        raise PermissionDenied
