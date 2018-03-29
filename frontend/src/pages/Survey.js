@@ -26,6 +26,10 @@ class Survey extends React.Component {
 
   componentDidMount(){
     document.title = "Survey"
+    localStorage.setItem('survey', "survey in progress");
+    if(localStorage.thanks !== undefined){
+      this.props.history.push("/thanks")
+    }
     axios.get("/api/surveys/" + admin.survey_id + "/")
       .then((res)  =>this.setState({
         questions:res.data.questions,

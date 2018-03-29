@@ -14,6 +14,8 @@ class Thanks extends React.Component {
 
   componentDidMount() {
     document.title = "Thanks"
+    localStorage.removeItem('survey');
+    localStorage.setItem('thanks',"survey completed");
     this.props.updatePageProfile({email:localStorage.email,page:"thanks"})
     this.props.getProfile(localStorage.email)
         .then( (res) => this.setState({valid_survey:res.data.valid_survey}));

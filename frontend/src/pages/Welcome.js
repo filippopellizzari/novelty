@@ -11,6 +11,7 @@ class Welcome extends React.Component {
 
   componentDidMount() {
     document.title = "Welcome"
+    localStorage.removeItem('thanks');
     this.props.getProfile(localStorage.email)
         .then( (res) => this.props.history.push("/"+res.data.page));
   }

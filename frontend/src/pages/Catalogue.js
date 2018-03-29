@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import {Row, Col} from 'react-bootstrap';
 import {Button} from 'semantic-ui-react';
 import SearchCatalogue from '../components/catalogue/SearchCatalogue'
@@ -17,6 +19,9 @@ class Catalogue extends React.Component {
 
   componentDidMount(){
     document.title = "Catalogue"
+    if(localStorage.survey !== undefined){
+      this.props.history.push("/survey")
+    }
   }
 
   addSelect(newMovie){
@@ -72,4 +77,10 @@ class Catalogue extends React.Component {
   }
 }
 
-export default Catalogue;
+Catalogue.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
+};
+
+export default connect(null)(Catalogue);

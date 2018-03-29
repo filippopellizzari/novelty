@@ -4,7 +4,8 @@ import { Form, Button, Dropdown } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 import InlineError from "../messages/InlineError";
-import {GENDER_OPTIONS, AGE_OPTIONS, COUNTRY_OPTIONS } from "./options";
+import {GENDER_OPTIONS, AGE_OPTIONS} from "./options";
+//import { COUNTRY_OPTIONS } from "./options";
 import { getCountryName } from "./country";
 
 class DemographicForm extends React.Component {
