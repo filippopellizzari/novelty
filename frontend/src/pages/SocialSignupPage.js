@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import RandExp from 'randexp';
+import RandExp from "../utils/randexp/main"
 
 import DemographicForm from "../forms/DemographicForm";
 import {completeDemographic} from "../actions/registerActions";

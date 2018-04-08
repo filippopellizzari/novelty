@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import {  Divider } from 'semantic-ui-react'
 
+
 import LoginForm from '../forms/LoginForm';
 import FacebookLogin from '../components/socialLogin/FacebookLogin';
 import GoogleLogin from '../components/socialLogin/GoogleLogin';
@@ -44,7 +45,6 @@ class LoginPage extends React.Component{
   }
 
   render(){
-
     return (
       <div className="row justify-content-center">
         <div className="col-lg-4 col-md-6 col-sm-8">
