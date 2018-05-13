@@ -3,6 +3,14 @@ import numpy as np
 
 from movies.services import get_movie_by_id
 
+def check_selected_items(items, nitems):
+    #item index must not exceed similarity matrix dimensions
+    new_items = []
+    for item in items:
+        if (item < nitems):
+            new_items.append(item)
+    return new_items
+
 def make_user_profile(prefs,nitems):
     values = np.ones(len(prefs))
     rows = np.zeros(len(prefs))
@@ -26,7 +34,8 @@ def recommend(model_file, selected_items):
 
     model = sps.load_npz(model_file)
     nitems = model.shape[0]
-    user_profile = make_user_profile(selected_items,nitems)
+    new_selected_items = check_selected_items(selected_items,nitems)
+    user_profile = make_user_profile(new_selected_items,nitems)
 
     items = recommend_items(user_profile,model,10)
 

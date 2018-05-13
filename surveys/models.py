@@ -1,6 +1,6 @@
 from django.db import models
 from .models import *
-
+from algos.models import InputModel
 
 class Option(models.Model):
     option_id = models.AutoField(primary_key=True)
@@ -31,9 +31,14 @@ class Survey(models.Model):
     opening_time = models.DateTimeField(null=True)
     closing_time = models.DateTimeField(null=True, blank=True)
     questions = models.ManyToManyField(Question, through="QuestionOrder")
+    algorithms = models.ManyToManyField(InputModel, through="Algorithm")
 
     def __str__(self):
         return str(self.survey_id)
+
+class Algorithm(models.Model):
+    input_model = models.ForeignKey(InputModel, related_name='input_model_to_survey')
+    survey = models.ForeignKey(Survey, related_name='survey_to_input_model')
 
 class QuestionOrder(models.Model):
     question = models.ForeignKey(Question, related_name='question_to_survey')

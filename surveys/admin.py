@@ -14,10 +14,14 @@ class OptionOrderInline(SortableInlineAdminMixin, admin.TabularInline):
     model = OptionOrder
     extra = 1
 
+class AlgorithmInline(admin.TabularInline):
+    model = Algorithm
+    extra = 1
+
 class SurveyAdmin(admin.ModelAdmin):
     readonly_fields = ('survey_id','last_update')
     list_display = ('survey_id','survey_name','survey_type', 'last_update',)
-    inlines = (QuestionOrderInline,)
+    inlines = (QuestionOrderInline, AlgorithmInline)
 
 class QuestionAdmin(admin.ModelAdmin):
     readonly_fields = ('last_update','question_id')

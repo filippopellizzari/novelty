@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import *
-
+from algos.serializers import InputModelSerializer
 
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,6 +24,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class SurveySerializer(serializers.ModelSerializer):
     questions = serializers.SerializerMethodField('get_question_list')
+    algorithms = InputModelSerializer(many=True)
 
     def get_question_list(self, instance):
         ids = QuestionOrder.objects.filter(survey=instance.survey_id)\
@@ -33,7 +34,7 @@ class SurveySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Survey
-        fields = ('survey_id', 'survey_type', 'questions')
+        fields = ('survey_id', 'survey_type', 'questions', 'algorithms')
 
 class ResponseSerializer(serializers.ModelSerializer):
     class Meta:

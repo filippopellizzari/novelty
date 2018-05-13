@@ -6,6 +6,8 @@ class InputModel(models.Model):
     name = models.CharField(max_length=30)
     file_npz = models.FileField(upload_to='algos/input/')
 
+    def __str__(self):
+        return self.name
 
 @receiver(models.signals.post_delete, sender=InputModel)
 def auto_delete_file_on_delete(sender, instance, **kwargs):

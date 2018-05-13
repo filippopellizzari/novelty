@@ -22,7 +22,6 @@ class RecommendView(APIView):
             raise Http404
 
     def post(self, request):
-        #model = self.get_input_model(input_model_id)
         model = self.get_input_model(request.data.get("input_model_id"))
         movies = recommend(model.file_npz,request.data.get("selected_items"))
         serializer = MovieSerializer(movies, many=True)
