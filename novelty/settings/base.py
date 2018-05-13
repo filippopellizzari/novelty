@@ -25,15 +25,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'algos',
+    'authentication',
+    'movies',
+    'surveys',
+    'state',
+
     'webpack_loader',
     'rest_framework',
-    'movies',
     'djoser',
     'rest_auth',
-    'surveys',
-    'authentication',
     'import_export',
-    'state',
     'adminsortable2',
 ]
 
