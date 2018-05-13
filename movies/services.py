@@ -9,6 +9,15 @@ def get_movies_by_title(query,page):
     response = search.movie(query=query,page=page)
     return search.results
 
+def get_movie_by_id(movie_id):
+    tmdb.API_KEY = API_KEY
+    try:
+        response = tmdb.Movies(movie_id).info()
+        return response
+    except:
+        pass
+    return 
+
 def get_total_results(query):
     tmdb.API_KEY = API_KEY
     search = tmdb.Search()
