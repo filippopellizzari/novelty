@@ -6,8 +6,9 @@ import axios from 'axios';
 
 import RecList from '../components/survey/RecList';
 import Questions from '../components/survey/Questions';
-import recsA from '../data/recsA.json';
-import recsB from '../data/recsB.json';
+//import recsA from '../data/recsA.json';
+//import recsB from '../data/recsB.json';
+import { recommend } from "../actions/algosActions";
 import { submitSurvey } from "../actions/surveyActions";
 import {updatePageProfile,deleteAnswers,
   updateQuestionNumberProfile,updateValidSurveyProfile} from "../actions/stateActions";
@@ -19,8 +20,11 @@ class Survey extends React.Component {
     super();
     this.state = {
       questions:[],
+      algorithms:[],
+      recsA:[],
+      recsB:[],
       survey_id:"",
-      survey_type:""
+      survey_type:"",
     };
   }
 
@@ -31,11 +35,20 @@ class Survey extends React.Component {
       this.props.history.push("/thanks")
     }
     axios.get("/api/surveys/" + admin.survey_id + "/")
-      .then((res)  =>this.setState({
+      .then((res)  =>{
+        this.setState({
         questions:res.data.questions,
+        algorithms:res.data.algorithms,
         survey_id:res.data.survey_id,
         survey_type:res.data.survey_type
-      }))
+      })
+      var models = this.selectRandomAlgorithms(res.data.algorithms)
+      var selected = JSON.parse(localStorage.getItem("selected"));
+      this.props.recommend({input_model_id:models[0],selected_items:selected})
+        .then((res) => this.setState({recsA:res.data}))
+      this.props.recommend({input_model_id:models[1],selected_items:selected})
+        .then((res) => this.setState({recsB:res.data}))
+      })
       .catch( (err) => console.log(err));
   }
 
@@ -74,8 +87,24 @@ class Survey extends React.Component {
     return true
   }
 
+  selectRandomAlgorithms(algorithms){
+    var res = []
+    var models = algorithms.map(
+      (algorithm) => algorithm.id
+    )
+    var modelA = models[Math.floor(Math.random() * models.length)];
+    res[0] = modelA
+    var index = models.indexOf(modelA);
+    if (index > -1) {
+      models.splice(index, 1);
+    }
+    var modelB = models[Math.floor(Math.random() * models.length)];
+    res[1] = modelB
+    return res
+  }
+
   render() {
-    const { survey_type } = this.state
+    const { survey_type, recsA, recsB } = this.state
     this.props.updatePageProfile({email:localStorage.email,page:"survey"})
     var reclists = survey_type === "Within-subject" ?
     <div>
@@ -108,7 +137,8 @@ Survey.propTypes = {
   deleteAnswers: PropTypes.func.isRequired,
   updateQuestionNumberProfile: PropTypes.func.isRequired,
   updateValidSurveyProfile: PropTypes.func.isRequired,
+  recommend: PropTypes.func.isRequired,
 };
 
 export default connect(null, {submitSurvey,updatePageProfile,
-  deleteAnswers,updateQuestionNumberProfile,updateValidSurveyProfile})(Survey);
+  deleteAnswers,updateQuestionNumberProfile,updateValidSurveyProfile, recommend})(Survey);

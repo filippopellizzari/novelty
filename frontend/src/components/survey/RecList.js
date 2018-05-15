@@ -27,7 +27,7 @@ class RecList extends React.Component {
           <div key={movie.id}>
             <PosterSurvey
               id={movie.id}
-              path={movie.poster}
+              path={"https://image.tmdb.org/t/p/w500" + movie.poster_path}
               heigth="250"
               width="150"
               onClick={this.handleSelect.bind(this)}

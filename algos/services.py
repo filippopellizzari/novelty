@@ -17,7 +17,7 @@ def make_user_profile(prefs,nitems):
     cols = prefs
     return sps.csr_matrix((values, (rows, cols)),shape= (1,nitems), dtype=np.float32)
 
-def recommend_items(user_profile, model, n=None, exclude_seen=True):
+def recommend_movies(user_profile, model, n=None, exclude_seen=True):
     # compute the scores using the dot product
     assert user_profile.shape[1] == model.shape[0], 'The number of items does not match!'
     scores = user_profile.dot(model).toarray().ravel()
@@ -28,7 +28,18 @@ def recommend_items(user_profile, model, n=None, exclude_seen=True):
         seen = user_profile.indices
         unseen_mask = np.in1d(ranking, seen, assume_unique=True, invert=True)
         ranking = ranking[unseen_mask]
-    return ranking[:n]
+
+    count = 0
+    movies = []
+    for movie_id in ranking:
+        movie = get_movie_by_id(movie_id)
+        if(movie!=None):
+            movies.append(get_movie_by_id(movie_id))
+            count = count + 1
+        if (count == n):
+            break
+
+    return movies
 
 def recommend(model_file, selected_items):
 
@@ -37,12 +48,5 @@ def recommend(model_file, selected_items):
     new_selected_items = check_selected_items(selected_items,nitems)
     user_profile = make_user_profile(new_selected_items,nitems)
 
-    items = recommend_items(user_profile,model,10)
-
-    movies = []
-    for movie_id in items:
-        movie = get_movie_by_id(movie_id)
-        if(movie!=None):
-            movies.append(get_movie_by_id(movie_id))
-
-    return movies[:5]
+    movies = recommend_movies(user_profile,model,5)
+    return movies

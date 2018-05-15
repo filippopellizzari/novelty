@@ -47,6 +47,9 @@ class Catalogue extends React.Component {
   }
 
   render() {
+    localStorage.setItem("selected", JSON.stringify(this.state.selectedMovies.map(
+      (movie) => movie.id
+    )));
     return (
       <div className="container">
         <Row style={{marginTop: 30}}>
@@ -67,6 +70,7 @@ class Catalogue extends React.Component {
               <Button
                 primary
                 href="/survey"
+
                 hidden={this.state.selects !== admin.moviesToSelect}>Next
               </Button>
             </div>
