@@ -12,7 +12,7 @@ import { recommend } from "../actions/algosActions";
 import { submitSurvey } from "../actions/surveyActions";
 import {updatePageProfile,deleteAnswers,
   updateQuestionNumberProfile,updateValidSurveyProfile} from "../actions/stateActions";
-import admin from '../data/admin.json';
+//import admin from '../data/admin.json';
 
 class Survey extends React.Component {
 
@@ -34,7 +34,7 @@ class Survey extends React.Component {
     if(localStorage.thanks !== undefined){
       this.props.history.push("/thanks")
     }
-    axios.get("/api/surveys/" + admin.survey_id + "/")
+    axios.get("/api/surveys/" + localStorage.getItem("survey_id") + "/")
       .then((res)  =>{
         this.setState({
         questions:res.data.questions,

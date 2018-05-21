@@ -1,6 +1,5 @@
 {
-  "survey_id": 5,
-  "moviesToSelect": 3,
+  "moviesToSelect": 5,
   "moviesPerPage":8,
   "crowdflower":true,
   "tmdb_key": "a070e12e1c6d7b84ebc1b172c841a8bf"
