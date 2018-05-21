@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import SingleQuestion from './SingleQuestion';
 import {getProfile,updateQuestionNumberProfile,
   saveAnswers,getAnswers} from "../../actions/stateActions";
-import admin from '../../data/admin.json';
+//import admin from '../../data/admin.json';
 
 class Questions extends React.Component {
 
@@ -50,7 +50,7 @@ class Questions extends React.Component {
     })
     this.props.saveAnswers({
       email:localStorage.email,
-      survey_id:admin.survey_id,
+      survey_id:localStorage.survey_id,
       responses:[response]
     })
 

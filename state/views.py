@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.generics import UpdateAPIView, DestroyAPIView
 from rest_framework import status
+from django.http import Http404
 from rest_framework.response import Response
 from .serializers import *
 from .models import *
