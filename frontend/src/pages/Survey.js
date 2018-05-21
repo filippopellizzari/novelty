@@ -44,10 +44,13 @@ class Survey extends React.Component {
       })
       var models = this.selectRandomAlgorithms(res.data.algorithms)
       var selected = JSON.parse(localStorage.getItem("selected"));
+
       this.props.recommend({input_model_id:models[0],selected_items:selected})
         .then((res) => this.setState({recsA:res.data}))
-      this.props.recommend({input_model_id:models[1],selected_items:selected})
-        .then((res) => this.setState({recsB:res.data}))
+      if(res.data.survey_type==="Within-subject"){
+        this.props.recommend({input_model_id:models[1],selected_items:selected})
+          .then((res) => this.setState({recsB:res.data}))
+      }
       })
       .catch( (err) => console.log(err));
   }
@@ -63,14 +66,14 @@ class Survey extends React.Component {
     data.responses = responses;
 
     this.props.updateValidSurveyProfile({email:localStorage.email,valid_survey:data.is_valid})
-
-    this.props.deleteAnswers(localStorage.email)
       .then( () => {
-        this.props.submitSurvey(data)
-          .then(() => {
-            this.props.history.push("/thanks")
-          })
-          .catch( (err) => console.log(err));
+        this.props.deleteAnswers(localStorage.email)
+          .then( () => {
+            this.props.submitSurvey(data)
+              .then(() => {
+                this.props.history.push("/thanks")
+              })
+            })
         });
   }
 
