@@ -119,7 +119,7 @@ class Survey extends React.Component {
     return (
       <div className="container">
         <Row>
-          <Col xs={12} md={7} style={{marginTop:30}}>
+          <Col xs={12} md={7} style={{marginTop:50}}>
             {reclists}
           </Col>
           <Col xs={6} md={4} style={{marginLeft:50, marginTop:60}}>

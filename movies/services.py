@@ -1,5 +1,7 @@
 import tmdbsimple as tmdb
 from urllib.parse import unquote
+import json
+import requests
 
 API_KEY = 'a070e12e1c6d7b84ebc1b172c841a8bf'
 
@@ -16,7 +18,7 @@ def get_movie_by_id(movie_id):
         return response
     except:
         pass
-    return 
+    return
 
 def get_total_results(query):
     tmdb.API_KEY = API_KEY

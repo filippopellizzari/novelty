@@ -9,3 +9,4 @@ class Movie(models.Model):
     popularity = models.FloatField()
     poster_path = models.CharField(max_length=100)
     release_date = models.CharField(max_length=30)
+    overview = models.TextField(default="")
