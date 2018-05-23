@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import SingleQuestion from './SingleQuestion';
 import {getProfile,updateQuestionNumberProfile,
   saveAnswers,getAnswers} from "../../actions/stateActions";
-//import admin from '../../data/admin.json';
 
 class Questions extends React.Component {
 

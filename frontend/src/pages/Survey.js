@@ -3,16 +3,15 @@ import {Row, Col} from 'react-bootstrap';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from 'axios';
+import { RingLoader } from 'react-spinners';
 
 import RecList from '../components/survey/RecList';
 import Questions from '../components/survey/Questions';
-//import recsA from '../data/recsA.json';
-//import recsB from '../data/recsB.json';
 import { recommend } from "../actions/algosActions";
 import { submitSurvey } from "../actions/surveyActions";
 import {updatePageProfile,deleteAnswers,
   updateQuestionNumberProfile,updateValidSurveyProfile} from "../actions/stateActions";
-//import admin from '../data/admin.json';
+
 
 class Survey extends React.Component {
 
@@ -25,6 +24,8 @@ class Survey extends React.Component {
       recsB:[],
       survey_id:"",
       survey_type:"",
+      loadingA:true,
+      loadingB:true,
     };
   }
 
@@ -46,11 +47,15 @@ class Survey extends React.Component {
       var selected = JSON.parse(localStorage.getItem("selected"));
 
       this.props.recommend({input_model_id:models[0],selected_items:selected})
-        .then((res) => this.setState({recsA:res.data}))
+        .then((res) => this.setState({recsA:res.data, loadingA:false}))
       if(res.data.survey_type==="Within-subject"){
         this.props.recommend({input_model_id:models[1],selected_items:selected})
-          .then((res) => this.setState({recsB:res.data}))
+          .then((res) => this.setState({recsB:res.data, loadingB:false}))
+      }else{
+        this.setState({loadingB:false})
       }
+
+
       })
       .catch( (err) => console.log(err));
   }
@@ -107,7 +112,7 @@ class Survey extends React.Component {
   }
 
   render() {
-    const { survey_type, recsA, recsB } = this.state
+    const { survey_type, recsA, recsB, loadingA, loadingB } = this.state
     this.props.updatePageProfile({email:localStorage.email,page:"survey"})
     var reclists = survey_type === "Within-subject" ?
     <div>
@@ -118,6 +123,14 @@ class Survey extends React.Component {
 
     return (
       <div className="container">
+        {loadingA || loadingB ? (
+        <div className="container" style={{display: 'flex', justifyContent: 'center', marginTop: 250}}>
+            <RingLoader
+              color={'#2c85d0'}
+              loading={loadingA || loadingB}
+              size={100}
+            />
+        </div>):(
         <Row>
           <Col xs={12} md={7} style={{marginTop:50}}>
             {reclists}
@@ -125,7 +138,7 @@ class Survey extends React.Component {
           <Col xs={6} md={4} style={{marginLeft:50, marginTop:60}}>
             <Questions questions={this.state.questions} submit={this.submit}/>
           </Col>
-        </Row>
+        </Row>)}
       </div>
     );
   }

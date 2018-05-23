@@ -2,6 +2,7 @@ import React from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {Input} from 'semantic-ui-react';
 import axios from 'axios';
+import { BounceLoader } from 'react-spinners';
 
 import admin from '../../data/admin.json';
 import MovieList from './MovieList';
@@ -12,7 +13,7 @@ class SearchCatalogue extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      loading:false,
       popularMovies: [],
       searchResults: [],
       totalResults:'',
@@ -26,10 +27,12 @@ class SearchCatalogue extends React.Component {
 
   componentDidMount() {
     const moviesPerPage = admin.moviesPerPage;
+    this.setState({loading:true})
       axios.get("api/movies/popular/1/"+moviesPerPage+"/")
       .then((res) => this.setState({
         popularMovies: res.data,
-        totalResults: 80
+        totalResults: 80,
+        loading:false
         }));
   }
 
@@ -40,6 +43,7 @@ class SearchCatalogue extends React.Component {
       this.setState({isLoading: true, value:value})
       var escapedValue = value.replace(/[^\w\s]/gi, ' ')
       setTimeout(() => {
+        this.setState({loading: true})
         axios.get("api/movies/search-total-results/"+escapedValue+"/")
           .then((res) =>
           this.setState({
@@ -49,10 +53,11 @@ class SearchCatalogue extends React.Component {
           .then((res) =>
           this.setState({
             searchResults: res.data,
-            mode:"search"
+            mode:"search",
+            loading:false,
           }))
 
-      this.setState({isLoading: false});
+      //this.setState({isLoading: false});
     }, 500)
       this.child.resetComponent();
     }
@@ -61,13 +66,15 @@ class SearchCatalogue extends React.Component {
   changeMode(e){
     if (e.target.value.length < 1){
       const moviesPerPage = admin.moviesPerPage;
+      this.setState({loading:true})
       axios.get("api/movies/popular/1/"+moviesPerPage+"/")
         .then((res) =>
         this.setState({
           popularMovies: res.data,
           totalResults: 40,
           value:'',
-          mode:"default"
+          mode:"default",
+          loading:false,
         })
       )
     }
@@ -82,14 +89,16 @@ class SearchCatalogue extends React.Component {
           +moviesPerPage+"/")
           .then((res) =>
           this.setState({
-            searchResults: res.data
+            searchResults: res.data,
+            loading: false
           }))
     }
     if(mode==="default"){
       axios.get("api/movies/popular/"+activePage+"/"+moviesPerPage+"/")
         .then((res) =>
         this.setState({
-          popularMovies: res.data
+          popularMovies: res.data,
+          loading:false
         }))
     }
   }
@@ -97,7 +106,7 @@ class SearchCatalogue extends React.Component {
 
   render() {
 
-    const {isLoading, searchResults, totalResults, popularMovies, mode} = this.state
+    const {loading, searchResults, totalResults, popularMovies, mode} = this.state
 
     var movies = mode==="default" ? popularMovies : searchResults
     var title = mode==="default" ? <h2>The most popular movies</h2> : null
@@ -110,7 +119,6 @@ class SearchCatalogue extends React.Component {
               <Input
                 icon='search'
                 placeholder='Search by title'
-                loading={isLoading}
                 onKeyPress={this.handleSearch}
                 onChange={this.changeMode}
               />
@@ -121,17 +129,27 @@ class SearchCatalogue extends React.Component {
           </Col>
         </Row>
         <Row style={{marginTop:30}}>
-            <div className="container" style={{marginBottom:30}}>
-              {title}
+            {loading ? (
+            <div className='container' style={{marginLeft:330, marginTop:270}}>
+                <BounceLoader
+                  color={'#2c85d0'}
+                  loading={loading}
+                />
+            </div>):(
+            <div>
+              <div className="container" style={{marginBottom:30}}>
+                  {title}
+              </div>
+              <MovieList
+                movies={movies}
+                totalResults={totalResults}
+                onRef={ref => (this.child = ref)}
+                onPaginationChange={this.onPageChange}
+                onSelectMovie={(movie) => this.props.onSelectMovie(movie)}
+                selectedMovies={this.props.selectedMovies}
+              />
             </div>
-            <MovieList
-              movies={movies}
-              totalResults={totalResults}
-              onRef={ref => (this.child = ref)}
-              onPaginationChange={this.onPageChange}
-              onSelectMovie={(movie) => this.props.onSelectMovie(movie)}
-              selectedMovies={this.props.selectedMovies}
-            />
+            )}
         </Row>
       </div>
     )}

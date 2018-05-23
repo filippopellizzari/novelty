@@ -52,6 +52,7 @@
     "react-scripts": "1.0.17",
     "react-slick": "^0.16.0",
     "react-social-login": "^3.4.2",
+    "react-spinners": "^0.3.2",
     "react-transition-group": "^1.2.1",
     "react-validation": "^3.0.7",
     "reactstrap": "^5.0.0-alpha.4",
