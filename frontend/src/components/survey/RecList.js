@@ -56,7 +56,7 @@ class RecList extends React.Component {
       ? <Button href={"https://www.youtube.com/watch?v="+ trailer_key} target="_blank">
           Watch Trailer
         </Button>
-      : <Button disabled>No trailer found</Button>
+      : null
 
       let movies = this.props.recs.map(
         (movie) =>
