@@ -14,6 +14,19 @@ class InputModelList(APIView):
         serializer = InputModelSerializer(models, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class InputModelDetail(APIView):
+    def get_input_model(self, input_model_id):
+        try:
+            return InputModel.objects.get(id=input_model_id)
+        except InputModel.DoesNotExist:
+            raise Http404
+
+    def get(self, request, input_model_id):
+        model = self.get_input_model(input_model_id)
+        serializer = InputModelSerializer(model)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class RecommendView(APIView):
     def get_input_model(self, input_model_id):
         try:

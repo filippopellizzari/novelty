@@ -63,12 +63,14 @@ class SurveyResponse(models.Model):
     completed_at = models.DateTimeField(auto_now_add=True)
     survey_id = models.ForeignKey(Survey)
     is_valid = models.BooleanField(default=True)
+    algorithms = models.CharField(null=True,max_length=100)
 
 class Response(models.Model):
     survey_response = models.ForeignKey(SurveyResponse, related_name='responses')
     question = models.TextField()
     answer = models.CharField(max_length=30)
     survey_id = models.CharField(null=True,max_length=30)
+    algorithms = models.CharField(null=True,max_length=100)
     email = models.CharField(null=True,max_length=100)
     completed_at = models.DateTimeField(auto_now_add=True)
     is_valid = models.BooleanField(default=True)

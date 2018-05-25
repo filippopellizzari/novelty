@@ -41,8 +41,7 @@ urlpatterns = [
 
     url(r'^api/algos/recommend/$', RecommendView.as_view()),
     url(r'^api/algos/inputmodels/$', InputModelList.as_view()),
-
-
+    url(r'^api/algos/inputmodels/(?P<input_model_id>[0-9]+)/$', InputModelDetail.as_view()),
 
     url(r'^api/$', get_schema_view()),
 

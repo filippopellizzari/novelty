@@ -53,8 +53,17 @@ class Survey extends React.Component {
         this.props.recommend({input_model_id:models[1],
           selected_items:selected, reclist_length:res.data.reclist_length})
           .then((res) => this.setState({recsB:res.data, loadingB:false}))
+
+        axios.get("/api/algos/inputmodels/" + models[0] + "/")
+          .then((res) => localStorage.setItem('listA', res.data.name))
+        axios.get("/api/algos/inputmodels/" + models[1] + "/")
+          .then((res) => localStorage.setItem('listB', res.data.name))
       }else{
         this.setState({loadingB:false})
+
+        axios.get("/api/algos/inputmodels/" + models[0] + "/")
+          .then((res) => localStorage.setItem('list', res.data.name))
+
       }
 
 
@@ -71,6 +80,15 @@ class Survey extends React.Component {
     data.email = localStorage.email;
     data.survey_id = parseInt(this.state.survey_id, 10);
     data.responses = responses;
+
+    if(this.state.survey_type==="Between-subject"){
+      data.algorithms = localStorage.list
+      localStorage.removeItem('list');
+    }else{
+      data.algorithms = "A: "+ localStorage.listA + ", B: " + localStorage.listB
+      localStorage.removeItem('listA');
+      localStorage.removeItem('listB');
+    }
 
     this.props.updateValidSurveyProfile({email:localStorage.email,valid_survey:data.is_valid})
       .then( () => {
