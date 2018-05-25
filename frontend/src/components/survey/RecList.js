@@ -65,7 +65,7 @@ class RecList extends React.Component {
             key={movie.id}
             trigger = {<PosterSurvey
                         id={movie.id}
-                        path={"https://image.tmdb.org/t/p/w500" + movie.poster_path}
+                        path={movie.poster_path}
                         heigth="250"
                         width="150"
                         />}
