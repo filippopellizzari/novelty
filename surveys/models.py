@@ -32,6 +32,7 @@ class Survey(models.Model):
     opening_time = models.DateTimeField(null=True)
     closing_time = models.DateTimeField(null=True, blank=True)
     questions = models.ManyToManyField(Question, through="QuestionOrder")
+    reclist_length = models.PositiveIntegerField(default=5, blank=False, null=False)
     algorithms = models.ManyToManyField(InputModel, through="Algorithm")
 
     def __str__(self):

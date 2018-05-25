@@ -41,12 +41,12 @@ def recommend_movies(user_profile, model, n=None, exclude_seen=True):
 
     return movies
 
-def recommend(model_file, selected_items):
+def recommend(model_file, selected_items, reclist_length):
 
     model = sps.load_npz(model_file)
     nitems = model.shape[0]
     new_selected_items = check_selected_items(selected_items,nitems)
     user_profile = make_user_profile(new_selected_items,nitems)
 
-    movies = recommend_movies(user_profile,model,5)
+    movies = recommend_movies(user_profile,model,reclist_length)
     return movies

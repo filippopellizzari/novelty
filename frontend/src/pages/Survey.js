@@ -46,10 +46,12 @@ class Survey extends React.Component {
       var models = this.selectRandomAlgorithms(res.data.algorithms)
       var selected = JSON.parse(localStorage.getItem("selected"));
 
-      this.props.recommend({input_model_id:models[0],selected_items:selected})
+      this.props.recommend({input_model_id:models[0],
+        selected_items:selected, reclist_length:res.data.reclist_length})
         .then((res) => this.setState({recsA:res.data, loadingA:false}))
       if(res.data.survey_type==="Within-subject"){
-        this.props.recommend({input_model_id:models[1],selected_items:selected})
+        this.props.recommend({input_model_id:models[1],
+          selected_items:selected, reclist_length:res.data.reclist_length})
           .then((res) => this.setState({recsB:res.data, loadingB:false}))
       }else{
         this.setState({loadingB:false})

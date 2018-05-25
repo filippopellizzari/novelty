@@ -23,6 +23,6 @@ class RecommendView(APIView):
 
     def post(self, request):
         model = self.get_input_model(request.data.get("input_model_id"))
-        movies = recommend(model.file_npz,request.data.get("selected_items"))
+        movies = recommend(model.file_npz,request.data.get("selected_items"),request.data.get("reclist_length"))
         serializer = MovieSerializer(movies, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
