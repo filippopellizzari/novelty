@@ -3,9 +3,8 @@ import { Message } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-
 import {updateQuestionNumberProfile,updatePageProfile,getProfile} from "../actions/stateActions";
-import admin from '../data/admin.json'
+
 
 class Thanks extends React.Component {
 
@@ -42,7 +41,7 @@ class Thanks extends React.Component {
     this.props.updatePageProfile({email:localStorage.email,page:"thanks"})
     this.props.updateQuestionNumberProfile({email:localStorage.email,questionNumber:1})
 
-    var surveyCode = admin.crowdflower
+    var surveyCode = localStorage.crowdsourcing==='true'
     ? <div className="card">
         {message}
       </div>

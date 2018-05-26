@@ -3,6 +3,14 @@ import {Button} from 'semantic-ui-react'
 
 class Home extends React.Component {
 
+
+  componentDidMount() {
+    localStorage.setItem("survey_id",this.props.match.params.survey_id)
+    var crowd = this.props.match.params.crowd==='1' ? true : false
+    localStorage.setItem("crowdsourcing",crowd)
+
+  }
+
   render() {
     return (
       <div>

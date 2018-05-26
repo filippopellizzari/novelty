@@ -57,7 +57,6 @@ class SearchCatalogue extends React.Component {
             loading:false,
           }))
 
-      //this.setState({isLoading: false});
     }, 500)
       this.child.resetComponent();
     }
