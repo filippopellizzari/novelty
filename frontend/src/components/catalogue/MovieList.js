@@ -46,21 +46,18 @@ class MovieList extends React.Component {
     var resultsFound = totalResults < 1 ?
       <h3>Not found</h3> : null
 
-
     let movieList = movies.map(
-      (movie) =>
-      <div className="col-lg-3 col-md-4 col-sm-6" key={movie.id} >
-        <PosterCatalogue
-          id={movie.id}
-          path={movie.poster_path}
-          height="230"
-          width="150"
-          selectedMovies={this.props.selectedMovies}
-          onClick={this.handleSelect.bind(this, movie)}
-        />
-    </div>
+        (movie) =>
+        <div className="col-lg-3 col-md-4 col-sm-5" key={movie.id} >
+          <PosterCatalogue
+            id={movie.id}
+            path={movie.poster_path}
+            selectedMovies={this.props.selectedMovies}
+            onClick={this.handleSelect.bind(this, movie)}
+          />
+        </div>
     );
-
+    console.log(movies.length)
     return(
       <div className="container">
         <div className="row">

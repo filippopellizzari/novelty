@@ -40,8 +40,6 @@ class PosterCatalogue extends React.Component {
         key={this.props.id}
         src={imageSrc}
         alt={this.props.id}
-        height={this.props.height}
-        width={this.props.width}
         onClick={this.onClick.bind(this)}
         style={{opacity:opacity,cursor:cursor}}
         onLoad={this.handleImageLoaded.bind(this)}
