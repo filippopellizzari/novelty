@@ -37,7 +37,7 @@ class RecList extends React.Component {
        dots: false,
        infinite: false,
        speed: 700,
-       slidesToShow: 4,
+       slidesToShow: 5,
        slidesToScroll: 4,
        prevArrow: <PrevArrow/>,
        nextArrow: <NextArrow/>
@@ -65,6 +65,7 @@ class RecList extends React.Component {
             key={movie.id}
             trigger = {<PosterSurvey
                         id={movie.id}
+                        title={movie.title}
                         path={movie.poster_path}
                         heigth="250"
                         width="150"

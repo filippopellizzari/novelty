@@ -30,16 +30,22 @@ class PosterCatalogue extends React.Component {
   var cursor = isSelected
     ? ""
     : "pointer";
-
+/*
   var imageSrc = this.props.path === null
     ? "https://www.movieinsider.com/images/none_175px.jpg"
     : "https://image.tmdb.org/t/p/w500" + this.props.path;
+
+*/
+
+var imageSrc = this.props.path === null
+  ? null
+  : "https://image.tmdb.org/t/p/w500" + this.props.path;
 
     return(
       <Image
         key={this.props.id}
         src={imageSrc}
-        alt={this.props.id}
+        alt={this.props.title}
         onClick={this.onClick.bind(this)}
         style={{opacity:opacity,cursor:cursor}}
         onLoad={this.handleImageLoaded.bind(this)}

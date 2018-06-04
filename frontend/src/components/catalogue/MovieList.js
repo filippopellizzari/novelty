@@ -51,13 +51,14 @@ class MovieList extends React.Component {
         <div className="col-lg-3 col-md-4 col-sm-5" key={movie.id} >
           <PosterCatalogue
             id={movie.id}
+            title={movie.title}
             path={movie.poster_path}
             selectedMovies={this.props.selectedMovies}
             onClick={this.handleSelect.bind(this, movie)}
           />
         </div>
     );
-    console.log(movies.length)
+
     return(
       <div className="container">
         <div className="row">
