@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'algos',
     'authentication',
     'movies',
+    'recsys',
     'surveys',
     'state',
 

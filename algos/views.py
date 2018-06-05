@@ -27,7 +27,7 @@ class InputModelDetail(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class RecommendView(APIView):
+class AlgosRecommendView(APIView):
     def get_input_model(self, input_model_id):
         try:
             return InputModel.objects.get(id=input_model_id)

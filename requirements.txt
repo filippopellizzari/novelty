@@ -50,6 +50,7 @@ social-auth-app-django==1.2.0
 social-auth-core==1.6.0
 tablib==0.12.1
 tmdbsimple==2.1.0
+tmdbv3api==0.8.0
 unicodecsv==0.14.1
 uritemplate==3.0.0
 urllib3==1.22

@@ -9,6 +9,7 @@ from authentication.views import *
 from surveys.views import *
 from state.views import *
 from algos.views import *
+from recsys.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -39,9 +40,11 @@ urlpatterns = [
     url(r'^api/state/delete-answers/(?P<email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', AnswersDeleteView.as_view()),
     url(r'^api/state/get-answers/(?P<email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', AnswersGetView.as_view()),
 
-    url(r'^api/algos/recommend/$', RecommendView.as_view()),
+    url(r'^api/algos/recommend/$', AlgosRecommendView.as_view()),
     url(r'^api/algos/inputmodels/$', InputModelList.as_view()),
     url(r'^api/algos/inputmodels/(?P<input_model_id>[0-9]+)/$', InputModelDetail.as_view()),
+
+    url(r'^api/recsys/recommend/$', RecommendView.as_view()),
 
     url(r'^api/$', get_schema_view()),
 
