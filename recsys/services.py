@@ -1,6 +1,6 @@
-from tmdbv3api import TMDb, Discover
 import tmdbsimple as tmdb
 import random
+import requests
 
 API_KEY = 'a070e12e1c6d7b84ebc1b172c841a8bf'
 
@@ -13,70 +13,57 @@ def get_movie_by_id(movie_id):
         pass
     return
 
-#TODO
-'''
+
 def exclude_seen(response,selected_items):
     new_response = []
-    for movie_id in selected_items:
-        for movie in response:
-            print(movie)
-            print(movie_id)
-    return response
-'''
+    for movie in response:
+        already_seen = False
+        for movie_id in selected_items:
+            if(movie["id"]==movie_id):
+                already_seen = True
+        if(already_seen==False):
+            new_response.append(movie)
+    return new_response
 
-def top_pop():
-    tmdb.API_KEY = API_KEY
-    movies = tmdb.Movies()
-    response = movies.popular()
-    return movies.results
-
-def top_rated():
+def top_rated(selected_items):
     tmdb.API_KEY = API_KEY
     movies = tmdb.Movies()
     response = movies.top_rated()
-    return movies.results
+    response = exclude_seen(movies.results, selected_items)
+    return response
 
-def top_pop_genre(selected_items):
+def top_pop(selected_items, genres_flag=False, crew_flag=False):
     tmdb.API_KEY = API_KEY
     genres = []
-    for movie_id in selected_items:
-        movie = tmdb.Movies(movie_id).info()
-        for genre in movie["genres"]:
-            genres.append(genre["id"])
-    #OR of genres
-    genres = '|'.join(str(x) for x in genres)
-    print(genres)
-
-    TMDb().api_key = API_KEY
-    discover = Discover()
-
-    response = discover.discover_movies({
-        'with_genres': genres,
-        'sort_by': 'popularity.desc'
-    })
-    return response
-
-def top_pop_crew(selected_items):
-    tmdb.API_KEY = API_KEY
     crew_ids = []
-    for movie_id in selected_items:
-        credits = tmdb.Movies(movie_id).credits()
-        for crew in credits["crew"][0:5]:
-            crew_ids.append(crew["id"])
-    #OR of crew
-    crew_ids = '|'.join(str(x) for x in crew_ids)
-    print(crew_ids)
 
-    TMDb().api_key = API_KEY
-    discover = Discover()
-    response = discover.discover_movies({
-        'with_crew': [crew_ids],
-        'sort_by': 'popularity.desc'
-    })
-    #response = exclude_seen(response,selected_items)
+    if(genres_flag):
+        for movie_id in selected_items:
+            movie = tmdb.Movies(movie_id).info()
+            for genre in movie["genres"]:
+                genres.append(genre["id"])
+        #OR of genres
+        genres = '|'.join(str(x) for x in genres)
+        print("genres: " + genres)
+    if(crew_flag):
+        for movie_id in selected_items:
+            credits = tmdb.Movies(movie_id).credits()
+            for crew in credits["crew"][0:5]:
+                crew_ids.append(crew["id"])
+        #OR of crew
+        crew_ids = '|'.join(str(x) for x in crew_ids)
+        print("crew_ids: " + crew_ids)
+
+    discover = tmdb.Discover()
+    response = discover.movie(
+        with_genres=[genres],
+        with_crew=[crew_ids],
+        sort_by='popularity.desc'
+    )
+    response = exclude_seen(discover.results, selected_items)
     return response
 
-def get_random(reclist_length):
+def get_random(selected_items,reclist_length):
     tmdb.API_KEY = API_KEY
 
     latest_id = tmdb.Movies().latest()["id"]
@@ -92,10 +79,14 @@ def get_random(reclist_length):
         if (count == reclist_length):
             break
 
-    return movies
+    response = exclude_seen(movies, selected_items)
+    return response
 
 
 def recommend(selected_items, reclist_length):
-    movies = top_pop_crew(selected_items)
+    movies = top_pop(selected_items, genres_flag=False, crew_flag=True)
+    #movies = top_rated(selected_items)
+    #movies = get_random(selected_items,reclist_length)
+
     movies = movies[:reclist_length]
     return movies
