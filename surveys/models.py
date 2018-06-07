@@ -19,7 +19,7 @@ class Question(models.Model):
     options = models.ManyToManyField(Option, through="OptionOrder")
 
     def __str__(self):
-        return str(self.question_id) + ": " + self.text
+        return str(self.question_id) + ": "+"("+self.genre+")  " + self.text
 
 class Survey(models.Model):
     TYPE_CHOICES = (
