@@ -21,11 +21,17 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ('question_id', 'genre', 'text', 'options')
 
+class AlgorithmSerializer(serializers.ModelSerializer):
+    rec_id = serializers.IntegerField(source='recommender.rec_id')
+    rec_name = serializers.CharField(source='recommender.name')
 
+    class Meta:
+        model = Algorithm
+        fields = ('rec_id','rec_name','genre', 'crew', 'cast')
 
 class SurveySerializer(serializers.ModelSerializer):
     questions = serializers.SerializerMethodField('get_question_list')
-    algorithms = RecommenderSerializer(many=True)
+    algorithms = AlgorithmSerializer(source='survey_to_recommender', many=True, read_only=True)
 
     def get_question_list(self, instance):
         ids = QuestionOrder.objects.filter(survey=instance.survey_id)\

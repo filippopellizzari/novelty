@@ -40,8 +40,8 @@ class Survey(models.Model):
         return str(self.survey_id)
 
 class Algorithm(models.Model):
-    recommender = models.ForeignKey(Recommender, related_name='input_model_to_survey',null=True)
-    survey = models.ForeignKey(Survey, related_name='survey_to_input_model')
+    recommender = models.ForeignKey(Recommender, related_name='recommender_to_survey',null=True)
+    survey = models.ForeignKey(Survey, related_name='survey_to_recommender')
     genre = models.BooleanField(default=False)
     crew = models.BooleanField(default=False)
     cast = models.BooleanField(default=False)
