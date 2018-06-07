@@ -7,7 +7,7 @@ import { RingLoader } from 'react-spinners';
 
 import RecList from '../components/survey/RecList';
 import Questions from '../components/survey/Questions';
-import { recommend } from "../actions/algosActions";
+import { recommend } from "../actions/recsysActions";
 import { submitSurvey } from "../actions/surveyActions";
 import {updatePageProfile,deleteAnswers,
   updateQuestionNumberProfile,updateValidSurveyProfile} from "../actions/stateActions";
