@@ -43,32 +43,34 @@ class Survey extends React.Component {
         survey_id:res.data.survey_id,
         survey_type:res.data.survey_type
       })
-      var models = this.selectRandomAlgorithms(res.data.algorithms)
+      //var models = this.selectRandomAlgorithms(res.data.algorithms)
       var selected = JSON.parse(localStorage.getItem("selected"));
 
-      this.props.recommend({input_model_id:models[0],
-        selected_items:selected, reclist_length:res.data.reclist_length})
-        .then((res) => this.setState({recsA:res.data, loadingA:false}))
-      if(res.data.survey_type==="Within-subject"){
-        this.props.recommend({input_model_id:models[1],
-          selected_items:selected, reclist_length:res.data.reclist_length})
-          .then((res) => this.setState({recsB:res.data, loadingB:false}))
+      this.props.recommend({
+        algorithm:res.data.algorithms[0],
+        selected_items:selected,
+        reclist_length:res.data.reclist_length
+        })
+        .then(
+          (res) => this.setState({recsA:res.data, loadingA:false})
+        )
 
-        axios.get("/api/algos/inputmodels/" + models[0] + "/")
-          .then((res) => localStorage.setItem('listA', res.data.name))
-        axios.get("/api/algos/inputmodels/" + models[1] + "/")
-          .then((res) => localStorage.setItem('listB', res.data.name))
+      if(res.data.survey_type==="Within-subject"){
+        this.props.recommend({
+          algorithm:res.data.algorithms[1],
+          selected_items:selected,
+          reclist_length:res.data.reclist_length
+          })
+          .then(
+            (res) => this.setState({recsB:res.data, loadingB:false})
+          )
+        localStorage.setItem('listA', res.data.algorithms[0]["rec_name"])
+        localStorage.setItem('listB', res.data.algorithms[1]["rec_name"])
       }else{
         this.setState({loadingB:false})
-
-        axios.get("/api/algos/inputmodels/" + models[0] + "/")
-          .then((res) => localStorage.setItem('list', res.data.name))
-
+        localStorage.setItem('list', res.data.algorithms[0]["rec_name"])
       }
-
-
-      })
-      .catch( (err) => console.log(err));
+    })
   }
 
   submit = responses =>{
@@ -136,8 +138,12 @@ class Survey extends React.Component {
     this.props.updatePageProfile({email:localStorage.email,page:"survey"})
     var reclists = survey_type === "Within-subject" ?
     <div>
-      <RecList recs={recsA} name="A"/>
-      <RecList recs={recsB} name="B"/>
+      <div>
+        <RecList recs={recsA} name="A"/>
+      </div>
+      <div style={{marginTop:20}}>
+        <RecList recs={recsB} name="B"/>
+      </div>
     </div>
     : <RecList recs={recsA} name=""/>
 

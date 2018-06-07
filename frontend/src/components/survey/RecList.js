@@ -30,6 +30,7 @@ class RecList extends React.Component {
           <PosterSurvey
             id={movie.id}
             path={movie.poster_path}
+            title={movie.title}
             heigth="250"
             width="150"
             onClick={this.handleSelect.bind(this)}

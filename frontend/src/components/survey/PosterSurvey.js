@@ -10,6 +10,7 @@ class PosterSurvey extends React.Component {
       : "https://image.tmdb.org/t/p/w500" + this.props.path;
 
     return(
+    
       <Image
         key={this.props.id}
         src={imageSrc}
@@ -21,6 +22,7 @@ class PosterSurvey extends React.Component {
         bordered
         rounded
       />
+
     );
   }
 }
