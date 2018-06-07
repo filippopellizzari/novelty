@@ -4,4 +4,4 @@ from .models import *
 class InputModelAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
-admin.site.register(InputModel, InputModelAdmin)
+#admin.site.register(InputModel, InputModelAdmin)

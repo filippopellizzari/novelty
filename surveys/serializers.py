@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import *
-from algos.serializers import InputModelSerializer
+from recsys.serializers import RecommenderSerializer
 
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,9 +22,10 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ('question_id', 'genre', 'text', 'options')
 
 
+
 class SurveySerializer(serializers.ModelSerializer):
     questions = serializers.SerializerMethodField('get_question_list')
-    algorithms = InputModelSerializer(many=True)
+    algorithms = RecommenderSerializer(many=True)
 
     def get_question_list(self, instance):
         ids = QuestionOrder.objects.filter(survey=instance.survey_id)\
