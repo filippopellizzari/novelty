@@ -43,32 +43,48 @@ class Survey extends React.Component {
         survey_id:res.data.survey_id,
         survey_type:res.data.survey_type
       })
-      //var models = this.selectRandomAlgorithms(res.data.algorithms)
       var selected = JSON.parse(localStorage.getItem("selected"));
 
-      this.props.recommend({
-        algorithm:res.data.algorithms[0],
-        selected_items:selected,
-        reclist_length:res.data.reclist_length
-        })
-        .then(
-          (res) => this.setState({recsA:res.data, loadingA:false})
-        )
-
-      if(res.data.survey_type==="Within-subject"){
-        this.props.recommend({
-          algorithm:res.data.algorithms[1],
-          selected_items:selected,
-          reclist_length:res.data.reclist_length
-          })
-          .then(
-            (res) => this.setState({recsB:res.data, loadingB:false})
-          )
-        localStorage.setItem('listA', res.data.algorithms[0]["rec_name"])
-        localStorage.setItem('listB', res.data.algorithms[1]["rec_name"])
+      if(localStorage.recs_status==='given'){
+          this.setState({recsA:JSON.parse(localStorage.getItem("recsA")), loadingA:false})
+          if(res.data.survey_type==="Within-subject"){
+            this.setState({recsB:JSON.parse(localStorage.getItem("recsB")), loadingB:false})
+          }else{
+            this.setState({loadingB:false})
+          }
       }else{
-        this.setState({loadingB:false})
-        localStorage.setItem('list', res.data.algorithms[0]["rec_name"])
+          this.props.recommend({
+            algorithm:res.data.algorithms[0],
+            selected_items:selected,
+            reclist_length:res.data.reclist_length
+            })
+            .then(
+              (res) => {
+                localStorage.setItem('recsA', JSON.stringify(res.data));
+                this.setState({recsA:res.data, loadingA:false})
+              }
+            )
+
+          if(res.data.survey_type==="Within-subject"){
+            this.props.recommend({
+              algorithm:res.data.algorithms[1],
+              selected_items:selected,
+              reclist_length:res.data.reclist_length
+              })
+              .then(
+                (res) => {
+                  localStorage.setItem('recsB', JSON.stringify(res.data));
+                  localStorage.setItem('recs_status', 'given');
+                  this.setState({recsB:res.data, loadingB:false})
+                }
+              )
+            localStorage.setItem('listA', res.data.algorithms[0]["rec_name"])
+            localStorage.setItem('listB', res.data.algorithms[1]["rec_name"])
+          }else{
+            this.setState({loadingB:false})
+            localStorage.setItem('recs_status', 'given');
+            localStorage.setItem('list', res.data.algorithms[0]["rec_name"])
+          }
       }
     })
   }
@@ -115,22 +131,6 @@ class Survey extends React.Component {
       }
     }
     return true
-  }
-
-  selectRandomAlgorithms(algorithms){
-    var res = []
-    var models = algorithms.map(
-      (algorithm) => algorithm.id
-    )
-    var modelA = models[Math.floor(Math.random() * models.length)];
-    res[0] = modelA
-    var index = models.indexOf(modelA);
-    if (index > -1) {
-      models.splice(index, 1);
-    }
-    var modelB = models[Math.floor(Math.random() * models.length)];
-    res[1] = modelB
-    return res
   }
 
   render() {
