@@ -40,6 +40,7 @@ export function logout() {
     localStorage.removeItem('jwtRefresh');
     localStorage.removeItem('email');
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('survey');
     setAuthorizationToken(false);
     dispatch(setCurrentUser({}));
   }
