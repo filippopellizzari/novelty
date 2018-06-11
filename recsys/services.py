@@ -44,23 +44,23 @@ def top_pop(selected_items, genre=False, crew=False, cast=False):
                 genres_ids.append(genre["id"])
         #OR of genres
         genres_ids = '|'.join(str(x) for x in genres_ids)
-        print("genres: " + genres_ids)
+        print("top_pop genres: " + genres_ids)
     if(crew):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
-            for crew in credits["crew"][0:3]:
+            for crew in credits["crew"][0:1]:
                 crew_ids.append(crew["id"])
         #OR of crew
         crew_ids = '|'.join(str(x) for x in crew_ids)
-        print("crew_ids: " + crew_ids)
+        print("top_pop crew_ids: " + crew_ids)
     if(cast):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
-            for cast in credits["cast"][0:3]:
+            for cast in credits["cast"][0:1]:
                 cast_ids.append(cast["id"])
-        #OR of crew
+        #OR of cast
         cast_ids = '|'.join(str(x) for x in cast_ids)
-        print("cast_ids: " + cast_ids)
+        print("top_pop cast_ids: " + cast_ids)
 
     discover = tmdb.Discover()
     response = discover.movie(
@@ -85,23 +85,23 @@ def get_random(selected_items, reclist_length, genre=False, crew=False, cast=Fal
                 genres_ids.append(genre["id"])
         #OR of genres
         genres_ids = '|'.join(str(x) for x in genres_ids)
-        print("genres: " + genres_ids)
+        print("random genres: " + genres_ids)
     if(crew):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
-            for crew in credits["crew"][0:4]:
+            for crew in credits["crew"][0:1]:
                 crew_ids.append(crew["id"])
         #OR of crew
         crew_ids = '|'.join(str(x) for x in crew_ids)
-        print("crew_ids: " + crew_ids)
+        print("random crew_ids: " + crew_ids)
     if(cast):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
-            for cast in credits["cast"][0:4]:
+            for cast in credits["cast"][0:1]:
                 cast_ids.append(cast["id"])
-        #OR of crew
+        #OR of cast
         cast_ids = '|'.join(str(x) for x in cast_ids)
-        print("cast_ids: " + cast_ids)
+        print("random cast_ids: " + cast_ids)
 
 
     discover = tmdb.Discover()

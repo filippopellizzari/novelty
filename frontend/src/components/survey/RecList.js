@@ -8,10 +8,6 @@ import NextArrow from './NextArrow';
 
 class RecList extends React.Component {
 
-  handleSelect(movie){
-  console.log(movie.title);
-  }
-
   render() {
     var settings = {
      dots: false,
@@ -33,7 +29,6 @@ class RecList extends React.Component {
             title={movie.title}
             heigth="250"
             width="150"
-            onClick={this.handleSelect.bind(this)}
           />
           </a>
       </div>
