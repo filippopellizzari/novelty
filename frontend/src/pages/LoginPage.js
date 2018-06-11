@@ -26,8 +26,10 @@ class LoginPage extends React.Component{
   submit = (data) => {
     localStorage.setItem('email', data.email);
     this.props.getProfile(data.email)
-      .then( (res) => this.setState({startingPage:res.data.page}));
-    return this.props.login(data).then(() => this.props.history.push("/"+this.state.startingPage));
+      .then( (res) =>
+      this.setState({startingPage:res.data.page})
+      )
+    return this.props.login(data).then(() => this.props.history.push("/"+this.state.startingPage))
   }
 
   socialSubmit = (data) =>{

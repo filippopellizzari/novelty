@@ -44,7 +44,7 @@ def top_pop(selected_items, genre=False, crew=False, cast=False):
                 genres_ids.append(genre["id"])
         #OR of genres
         genres_ids = '|'.join(str(x) for x in genres_ids)
-        #print("genres: " + genres_ids)
+        print("genres: " + genres_ids)
     if(crew):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
@@ -52,7 +52,7 @@ def top_pop(selected_items, genre=False, crew=False, cast=False):
                 crew_ids.append(crew["id"])
         #OR of crew
         crew_ids = '|'.join(str(x) for x in crew_ids)
-        #print("crew_ids: " + crew_ids)
+        print("crew_ids: " + crew_ids)
     if(cast):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
@@ -60,7 +60,7 @@ def top_pop(selected_items, genre=False, crew=False, cast=False):
                 cast_ids.append(cast["id"])
         #OR of crew
         cast_ids = '|'.join(str(x) for x in cast_ids)
-        #print("cast_ids: " + cast_ids)
+        print("cast_ids: " + cast_ids)
 
     discover = tmdb.Discover()
     response = discover.movie(
@@ -85,7 +85,7 @@ def get_random(selected_items, reclist_length, genre=False, crew=False, cast=Fal
                 genres_ids.append(genre["id"])
         #OR of genres
         genres_ids = '|'.join(str(x) for x in genres_ids)
-        #print("genres: " + genres_ids)
+        print("genres: " + genres_ids)
     if(crew):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
@@ -93,7 +93,7 @@ def get_random(selected_items, reclist_length, genre=False, crew=False, cast=Fal
                 crew_ids.append(crew["id"])
         #OR of crew
         crew_ids = '|'.join(str(x) for x in crew_ids)
-        #print("crew_ids: " + crew_ids)
+        print("crew_ids: " + crew_ids)
     if(cast):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
@@ -101,7 +101,7 @@ def get_random(selected_items, reclist_length, genre=False, crew=False, cast=Fal
                 cast_ids.append(cast["id"])
         #OR of crew
         cast_ids = '|'.join(str(x) for x in cast_ids)
-        #print("cast_ids: " + cast_ids)
+        print("cast_ids: " + cast_ids)
 
 
     discover = tmdb.Discover()
@@ -158,7 +158,7 @@ def get_random(selected_items, reclist_length, genre=False, crew=False, cast=Fal
 def recommend(algorithm, selected_items, reclist_length):
     rec_name = algorithm.get("rec_name")
     if(rec_name=="top_pop"):
-        #print("TOP_POP")
+        print("TOP_POP")
         movies = top_pop(
             selected_items,
             genre=algorithm.get("genre"),
@@ -166,10 +166,10 @@ def recommend(algorithm, selected_items, reclist_length):
             cast=algorithm.get("cast")
             )
     elif(rec_name=="top_rated"):
-        #print("TOP_RATED")
+        print("TOP_RATED")
         movies = top_rated(selected_items)
     elif(rec_name=="random"):
-        #print("RANDOM")
+        print("RANDOM")
         movies = get_random(
             selected_items,
             reclist_length,
