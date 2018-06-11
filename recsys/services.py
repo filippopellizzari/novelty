@@ -48,7 +48,7 @@ def top_pop(selected_items, genre=False, crew=False, cast=False):
     if(crew):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
-            for crew in credits["crew"][0:1]:
+            for crew in credits["crew"][0:2]:
                 crew_ids.append(crew["id"])
         #OR of crew
         crew_ids = '|'.join(str(x) for x in crew_ids)
@@ -56,7 +56,7 @@ def top_pop(selected_items, genre=False, crew=False, cast=False):
     if(cast):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
-            for cast in credits["cast"][0:1]:
+            for cast in credits["cast"][0:2]:
                 cast_ids.append(cast["id"])
         #OR of cast
         cast_ids = '|'.join(str(x) for x in cast_ids)
