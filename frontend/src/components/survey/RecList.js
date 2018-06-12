@@ -9,16 +9,26 @@ import NextArrow from './NextArrow';
 class RecList extends React.Component {
 
   render() {
-    var settings = {
-     dots: false,
-     infinite: false,
-     speed: 700,
-     slidesToShow: 5,
-     slidesToScroll: 4,
-     prevArrow: <PrevArrow/>,
-     nextArrow: <NextArrow/>
-    };
-
+    var settings;
+    if (this.props.recs.length < 6){
+        settings = {
+         dots: false,
+         infinite: false,
+         speed: 700,
+         slidesToShow: 5,
+         slidesToScroll: 4
+        };
+      } else{
+        settings = {
+         dots: false,
+         infinite: false,
+         speed: 700,
+         slidesToShow: 5,
+         slidesToScroll: 4,
+         prevArrow: <PrevArrow/>,
+         nextArrow: <NextArrow/>
+        };
+      }
     let movies = this.props.recs.map(
       (movie) =>
         <div key={movie.id}>
