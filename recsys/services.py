@@ -13,7 +13,7 @@ def get_movie_by_id(movie_id):
         pass
     return
 
-
+#remove selected items from movie response
 def exclude_seen(response,selected_items):
     new_response = []
     for movie in response:
@@ -25,14 +25,26 @@ def exclude_seen(response,selected_items):
             new_response.append(movie)
     return new_response
 
-def top_rated(selected_items):
+#if there are new items of movies2 different from movies1, return them
+def new_movies(movies1, movies2):
+    new_movies = []
+    for movie2 in movies2:
+        already_taken = False
+        for movie1 in movies1:
+            if movie1 == movie2:
+                already_taken = True
+        if (already_taken==False):
+            new_movies.append(movie2)
+    return new_movies
+
+def top_rated_algo(selected_items):
     tmdb.API_KEY = API_KEY
     movies = tmdb.Movies()
     response = movies.top_rated()
     response = exclude_seen(movies.results, selected_items)
     return response
 
-def top_pop(selected_items, genre=False, crew=False, cast=False):
+def get_top_pop_movies(selected_items, genre=False, crew=False, cast=False, ncrew=1, ncast=1):
     tmdb.API_KEY = API_KEY
     genres_ids = []
     crew_ids = []
@@ -44,23 +56,23 @@ def top_pop(selected_items, genre=False, crew=False, cast=False):
                 genres_ids.append(genre["id"])
         #OR of genres
         genres_ids = '|'.join(str(x) for x in genres_ids)
-        print("top_pop genres: " + genres_ids)
+        #print("top_pop genres: " + genres_ids)
     if(crew):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
-            for crew in credits["crew"][0:3]:
+            for crew in credits["crew"][0:ncrew]:
                 crew_ids.append(crew["id"])
         #OR of crew
         crew_ids = '|'.join(str(x) for x in crew_ids)
-        print("top_pop crew_ids: " + crew_ids)
+        #print("top_pop crew_ids: " + crew_ids)
     if(cast):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
-            for cast in credits["cast"][0:3]:
+            for cast in credits["cast"][0:ncast]:
                 cast_ids.append(cast["id"])
         #OR of cast
         cast_ids = '|'.join(str(x) for x in cast_ids)
-        print("top_pop cast_ids: " + cast_ids)
+        #print("top_pop cast_ids: " + cast_ids)
 
     discover = tmdb.Discover()
     response = discover.movie(
@@ -72,7 +84,19 @@ def top_pop(selected_items, genre=False, crew=False, cast=False):
     response = exclude_seen(discover.results, selected_items)
     return response
 
-def get_random(selected_items, reclist_length, genre=False, crew=False, cast=False):
+def top_pop_algo(selected_items, reclist_length, genre=False, crew=False, cast=False):
+    ncrew = 1
+    ncast = 1
+    movies = get_top_pop_movies(selected_items, genre, crew, cast, ncrew, ncast)
+    while(len(movies)<reclist_length):
+        print("top_pop_movies: " +str(len(movies)))
+        ncrew = ncrew + 5
+        ncast = ncast + 5
+        movies = movies + new_movies(movies,get_top_pop_movies(selected_items, genre, crew, cast, ncrew, ncast))
+    print("top_pop_movies: " +str(len(movies)))
+    return movies
+
+def get_random_movies(selected_items, reclist_length, genre=False, crew=False, cast=False, ncrew=1, ncast=1):
     tmdb.API_KEY = API_KEY
 
     genres_ids = []
@@ -85,23 +109,23 @@ def get_random(selected_items, reclist_length, genre=False, crew=False, cast=Fal
                 genres_ids.append(genre["id"])
         #OR of genres
         genres_ids = '|'.join(str(x) for x in genres_ids)
-        print("random genres: " + genres_ids)
+        #print("random genres: " + genres_ids)
     if(crew):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
-            for crew in credits["crew"][0:4]:
+            for crew in credits["crew"][0:ncrew]:
                 crew_ids.append(crew["id"])
         #OR of crew
         crew_ids = '|'.join(str(x) for x in crew_ids)
-        print("random crew_ids: " + crew_ids)
+        #print("random crew_ids: " + crew_ids)
     if(cast):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
-            for cast in credits["cast"][0:3]:
+            for cast in credits["cast"][0:ncast]:
                 cast_ids.append(cast["id"])
         #OR of cast
         cast_ids = '|'.join(str(x) for x in cast_ids)
-        print("random cast_ids: " + cast_ids)
+        #print("random cast_ids: " + cast_ids)
 
 
     discover = tmdb.Discover()
@@ -140,37 +164,39 @@ def get_random(selected_items, reclist_length, genre=False, crew=False, cast=Fal
             movies.append(random_movie)
             count = count + 1
 
+    response = exclude_seen(movies, selected_items)
+    return response
 
-    movies = exclude_seen(movies, selected_items)
-
+def random_algo(selected_items, reclist_length, genre=False, crew=False, cast=False):
+    ncrew = 1
+    ncast = 1
+    movies = get_random_movies(selected_items, reclist_length,genre, crew, cast, ncrew, ncast)
     while(len(movies)<reclist_length):
-        random_movie = get_movie_by_id(random.randint(1,tmdb.Movies().latest()["id"]))
-        if(random_movie!=None):
-            already_selected=False
-            for movie in movies:
-                if(movie["id"]==random_movie["id"]):
-                    already_selected=True
-            if(already_selected==False):
-                movies.append(random_movie)
-        movies = exclude_seen(movies, selected_items)
+        print("random_movies: " +str(len(movies)))
+        ncrew = ncrew + 5
+        ncast = ncast + 5
+        movies = movies + new_movies(movies,get_random_movies(selected_items,
+                                    reclist_length,genre, crew, cast, ncrew, ncast))
+    print("random_movies: " +str(len(movies)))
     return movies
 
 def recommend(algorithm, selected_items, reclist_length):
     rec_name = algorithm.get("rec_name")
     if(rec_name=="top_pop"):
         print("TOP_POP")
-        movies = top_pop(
+        movies = top_pop_algo(
             selected_items,
+            reclist_length,
             genre=algorithm.get("genre"),
             crew=algorithm.get("crew"),
             cast=algorithm.get("cast")
             )
     elif(rec_name=="top_rated"):
         print("TOP_RATED")
-        movies = top_rated(selected_items)
+        movies = top_rated_algo(selected_items)
     elif(rec_name=="random"):
         print("RANDOM")
-        movies = get_random(
+        movies = random_algo(
             selected_items,
             reclist_length,
             genre=algorithm.get("genre"),
