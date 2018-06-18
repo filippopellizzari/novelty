@@ -1,6 +1,7 @@
 import tmdbsimple as tmdb
 import random
 import requests
+import time
 
 API_KEY = 'a070e12e1c6d7b84ebc1b172c841a8bf'
 
@@ -73,7 +74,6 @@ def get_top_pop_movies(selected_items, genre=False, crew=False, cast=False, ncre
         #OR of cast
         cast_ids = '|'.join(str(x) for x in cast_ids)
         #print("top_pop cast_ids: " + cast_ids)
-
     discover = tmdb.Discover()
     response = discover.movie(
         with_genres=[genres_ids],
@@ -173,8 +173,8 @@ def random_algo(selected_items, reclist_length, genre=False, crew=False, cast=Fa
     movies = get_random_movies(selected_items, reclist_length,genre, crew, cast, ncrew, ncast)
     while(len(movies)<reclist_length):
         print("random_movies: " +str(len(movies)))
-        ncrew = ncrew + 5
-        ncast = ncast + 5
+        ncrew = ncrew + 7
+        ncast = ncast + 7
         movies = movies + new_movies(movies,get_random_movies(selected_items,
                                     reclist_length,genre, crew, cast, ncrew, ncast))
     print("random_movies: " +str(len(movies)))

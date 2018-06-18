@@ -64,6 +64,9 @@ class Survey extends React.Component {
                 this.setState({recsA:res.data, loadingA:false})
               }
             )
+            .catch(
+              (error) => alert("Too many requests! Please, refresh the page only once!")
+            )
 
           if(res.data.survey_type==="Within-subject"){
             this.props.recommend({
@@ -77,6 +80,9 @@ class Survey extends React.Component {
                   localStorage.setItem('recs_status', 'given');
                   this.setState({recsB:res.data, loadingB:false})
                 }
+              )
+              .catch(
+                (error) => alert("Too many requests! Please, refresh the page only once!")
               )
             localStorage.setItem('listA', res.data.algorithms[0]["rec_name"])
             localStorage.setItem('listB', res.data.algorithms[1]["rec_name"])
