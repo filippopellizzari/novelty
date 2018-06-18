@@ -65,7 +65,7 @@ class Survey extends React.Component {
               }
             )
             .catch(
-              (error) => alert("Too many requests! Please, refresh the page only once!")
+              (error) => alert("Too many requests! Please, refresh the page only once.")
             )
 
           if(res.data.survey_type==="Within-subject"){
@@ -82,7 +82,7 @@ class Survey extends React.Component {
                 }
               )
               .catch(
-                (error) => alert("Too many requests! Please, refresh the page only once!")
+                (error) => alert("Too many requests! Please, refresh the page only once.")
               )
             localStorage.setItem('listA', res.data.algorithms[0]["rec_name"])
             localStorage.setItem('listB', res.data.algorithms[1]["rec_name"])

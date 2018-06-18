@@ -42,6 +42,7 @@ def top_rated_algo(selected_items):
     tmdb.API_KEY = API_KEY
     movies = tmdb.Movies()
     response = movies.top_rated()
+    time.sleep(1)
     response = exclude_seen(movies.results, selected_items)
     return response
 
@@ -53,6 +54,7 @@ def get_top_pop_movies(selected_items, genre=False, crew=False, cast=False, ncre
     if(genre):
         for movie_id in selected_items:
             movie = tmdb.Movies(movie_id).info()
+            time.sleep(1)
             for genre in movie["genres"]:
                 genres_ids.append(genre["id"])
         #OR of genres
@@ -61,6 +63,7 @@ def get_top_pop_movies(selected_items, genre=False, crew=False, cast=False, ncre
     if(crew):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
+            time.sleep(1)
             for crew in credits["crew"][0:ncrew]:
                 crew_ids.append(crew["id"])
         #OR of crew
@@ -69,6 +72,7 @@ def get_top_pop_movies(selected_items, genre=False, crew=False, cast=False, ncre
     if(cast):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
+            time.sleep(1)
             for cast in credits["cast"][0:ncast]:
                 cast_ids.append(cast["id"])
         #OR of cast
@@ -81,6 +85,7 @@ def get_top_pop_movies(selected_items, genre=False, crew=False, cast=False, ncre
         with_cast=[cast_ids],
         sort_by='popularity.desc'
     )
+    time.sleep(1)
     response = exclude_seen(discover.results, selected_items)
     return response
 
@@ -105,6 +110,7 @@ def get_random_movies(selected_items, reclist_length, genre=False, crew=False, c
     if(genre):
         for movie_id in selected_items:
             movie = tmdb.Movies(movie_id).info()
+            time.sleep(1)
             for genre in movie["genres"]:
                 genres_ids.append(genre["id"])
         #OR of genres
@@ -113,6 +119,7 @@ def get_random_movies(selected_items, reclist_length, genre=False, crew=False, c
     if(crew):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
+            time.sleep(1)
             for crew in credits["crew"][0:ncrew]:
                 crew_ids.append(crew["id"])
         #OR of crew
@@ -121,6 +128,7 @@ def get_random_movies(selected_items, reclist_length, genre=False, crew=False, c
     if(cast):
         for movie_id in selected_items:
             credits = tmdb.Movies(movie_id).credits()
+            time.sleep(1)
             for cast in credits["cast"][0:ncast]:
                 cast_ids.append(cast["id"])
         #OR of cast
@@ -134,6 +142,7 @@ def get_random_movies(selected_items, reclist_length, genre=False, crew=False, c
         with_crew=[crew_ids],
         with_cast=[cast_ids]
     )
+    time.sleep(1)
 
     #this is due to a tmdb bug!!
     if(discover.total_pages > 1000):
@@ -155,6 +164,7 @@ def get_random_movies(selected_items, reclist_length, genre=False, crew=False, c
             with_cast=[cast_ids],
             page=random_page
         )
+        time.sleep(1)
         random_movie = discover.results[random.randint(0,len(discover.results)-1)]
         already_selected=False
         for movie in movies:
