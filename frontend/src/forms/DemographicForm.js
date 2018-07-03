@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import InlineError from "../messages/InlineError";
 import {GENDER_OPTIONS, AGE_OPTIONS} from "./options";
-//import { COUNTRY_OPTIONS } from "./options";
+import { COUNTRY_OPTIONS } from "./options";
 import { getCountryName } from "./country";
 
 class DemographicForm extends React.Component {
@@ -16,17 +16,25 @@ class DemographicForm extends React.Component {
       country:""
     },
     loading: false,
+    auto_country:true,
     errors: {},
     serverErrors: {},
   };
 
   componentDidMount(){
-    axios.get("https://freegeoip.net/json/")
-      .then((res)  =>
-        this.setState(
-          {...this.state,
-            data: { ...this.state.data, country: res.data.country_name }}
-        )
+    axios.get("http://api.ipstack.com/check?access_key=04d72c168811712c203370b8f269da1b&format=1")
+      .then((res)  =>{
+        if(res.data.country_name!==null){
+          this.setState(
+            {...this.state,
+              data: { ...this.state.data, country: res.data.country_name }}
+          )
+        }else{
+          this.setState(
+            {auto_country:false}
+          )
+        }
+      }
       )
   }
 
@@ -71,8 +79,7 @@ class DemographicForm extends React.Component {
   };
 
   render() {
-    const { errors, loading } = this.state;
-
+    const { errors, loading} = this.state;
     return (
       <Form onSubmit={this.onSubmit} loading={loading}>
         <Form.Field error={!!errors.gender}>
@@ -94,7 +101,8 @@ class DemographicForm extends React.Component {
             />
           {errors.age && <InlineError text={errors.age} />}
         </Form.Field>
-{/*
+
+        {this.state.auto_country===false ?
         <Form.Field error={!!errors.country}>
           <label htmlFor="country">Country</label>
             <Dropdown
@@ -102,11 +110,12 @@ class DemographicForm extends React.Component {
               selection
               options={COUNTRY_OPTIONS}
               onChange={this.onChangeCountry}
-              defaultSearchQuery="ciao"
             />
           {errors.country && <InlineError text={errors.country} />}
         </Form.Field>
-*/}
+        : null
+        }
+
         <Button primary fluid>Next</Button>
       </Form>
     );

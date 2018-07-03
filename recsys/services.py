@@ -180,8 +180,8 @@ def get_random_movies(selected_items, reclist_length, genre=False, crew=False, c
     return response
 
 def random_algo(selected_items, reclist_length, genre=False, crew=False, cast=False):
-    ncrew = 15
-    ncast = 15
+    ncrew = 20
+    ncast = 20
     movies = get_random_movies(selected_items, reclist_length,genre, crew, cast, ncrew, ncast)
     '''
     while(len(movies)<reclist_length):
