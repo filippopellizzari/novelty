@@ -22,7 +22,7 @@ class DemographicForm extends React.Component {
   };
 
   componentDidMount(){
-    axios.get("http://api.ipstack.com/check?access_key=04d72c168811712c203370b8f269da1b&format=1")
+    axios.get("https://ipapi.co/json/")
       .then((res)  =>{
         if(res.data.country_name!==null){
           this.setState(
@@ -115,6 +115,7 @@ class DemographicForm extends React.Component {
         </Form.Field>
         : null
         }
+
 
         <Button primary fluid>Next</Button>
       </Form>
