@@ -21,10 +21,17 @@ class LoginPage extends React.Component{
 
   componentDidMount(){
     document.title = "Login";
+    if(localStorage.socialSignup==="true"){
+      this.props.history.push("/socialSignup")
+    }
+    if(localStorage.normalSignup==="true"){
+      this.props.history.push("/completeSignup")
+    }
   }
 
   submit = (data) => {
     localStorage.setItem('email', data.email);
+
     this.props.getProfile(data.email)
       .then( (res) =>
       this.setState({startingPage:res.data.page})

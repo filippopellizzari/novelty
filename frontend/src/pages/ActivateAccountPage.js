@@ -14,6 +14,7 @@ class ActivateAccountPage extends React.Component {
     this.props
       .validateToken({"uid":uid, "token":token} )
       .catch(() => this.props.history.push("/signup"));
+    localStorage.setItem('normalSignup', "true")
   }
 
   render() {

@@ -13,6 +13,7 @@ class SocialSignupPage extends React.Component {
 
   componentDidMount() {
     document.title = "Signup"
+    localStorage.setItem('socialSignup',"true");
   }
 
 
