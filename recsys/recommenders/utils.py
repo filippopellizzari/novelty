@@ -32,6 +32,6 @@ def check_rate_limit(res):
     rate_limit = res.headers['X-RateLimit-Remaining']
     print(rate_limit)
 
-    if(int(rate_limit)<5):
+    if(int(rate_limit)<10):
         print("waiting")
-        time.sleep(10)
+        time.sleep(15)
