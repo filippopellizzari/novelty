@@ -45,8 +45,13 @@ class Top_Pop_Recommender:
 
         url = "https://api.themoviedb.org/3/discover/movie?"\
         "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
-        "&sort_by=popularity.desc&include_adult=false&page=1"\
-        "&with_genres="+genres_ids+"&with_crew="+crew_ids+"&with_cast="+cast_ids
+        "&sort_by=popularity.desc&include_adult=false&page=1"
+        if(self.genre):
+            url += "&with_genres="+genres_ids
+        if(self.crew):
+            url += "&with_crew="+crew_ids
+        if(self.cast):
+            url += "&with_cast="+cast_ids
         r = requests.get(url)
         check_rate_limit(r)
         results = r.json()["results"]
