@@ -1,7 +1,6 @@
 import tmdbsimple as tmdb
-import requests
 import time
-from .utils import exclude_seen
+from .utils import exclude_seen, check_rate_limit, new_movies
 
 API_KEY = 'a070e12e1c6d7b84ebc1b172c841a8bf'
 
@@ -22,18 +21,21 @@ class Top_Pop_Recommender:
         if(self.genre):
             for movie_id in self.selected_items:
                 movie = tmdb.Movies(movie_id).info()
+                check_rate_limit()
                 for genre in movie["genres"]:
                     genres_ids.append(genre["id"])
             genres_ids = '|'.join(str(x) for x in genres_ids)
         if(self.crew):
             for movie_id in self.selected_items:
                 credits = tmdb.Movies(movie_id).credits()
+                check_rate_limit()
                 for crew in credits["crew"][0:ncrew]:
                     crew_ids.append(crew["id"])
             crew_ids = '|'.join(str(x) for x in crew_ids)
         if(self.cast):
             for movie_id in self.selected_items:
                 credits = tmdb.Movies(movie_id).credits()
+                check_rate_limit()
                 for cast in credits["cast"][0:ncast]:
                     cast_ids.append(cast["id"])
             cast_ids = '|'.join(str(x) for x in cast_ids)
@@ -45,20 +47,21 @@ class Top_Pop_Recommender:
             with_cast=[cast_ids],
             sort_by='popularity.desc'
         )
+        check_rate_limit()
 
         response = exclude_seen(discover.results, self.selected_items)
         return response
 
     def get_movies(self):
-        ncrew = 10
-        ncast = 10
+        ncrew = 1
+        ncast = 1
         movies = self.get_top_pop(ncrew, ncast)
-        '''
+
         while(len(movies)<self.reclist_length):
             print("top_pop_movies: " +str(len(movies)))
             ncrew = ncrew + 5
             ncast = ncast + 5
             movies = movies + new_movies(movies,self.get_top_pop(ncrew, ncast))
-        '''
+
         movies = movies[:self.reclist_length]
         return movies
