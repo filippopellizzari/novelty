@@ -14,6 +14,7 @@ class Welcome extends React.Component {
     localStorage.removeItem('thanks');
     localStorage.removeItem('socialSignup');
     localStorage.removeItem('normalSignup');
+  
     this.props.getProfile(localStorage.email)
         .then( (res) => this.props.history.push("/"+res.data.page));
   }

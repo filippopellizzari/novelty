@@ -22,7 +22,7 @@ class Catalogue extends React.Component {
     if(localStorage.survey !== undefined){
       this.props.history.push("/survey")
     }
-    localStorage.removeItem('recs_status');
+    
   }
 
   addSelect(newMovie){
