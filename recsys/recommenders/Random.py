@@ -1,10 +1,6 @@
-import tmdbsimple as tmdb
 import random
-import time
+import requests
 from .utils import exclude_seen, check_rate_limit, new_movies
-
-API_KEY = 'a070e12e1c6d7b84ebc1b172c841a8bf'
-
 
 class Random_Recommender:
 
@@ -16,48 +12,53 @@ class Random_Recommender:
         self.cast = cast
 
     def get_random(self, ncrew=1, ncast=1):
-        tmdb.API_KEY = API_KEY
         genres_ids = []
         crew_ids = []
         cast_ids = []
         if(self.genre):
             for movie_id in self.selected_items:
-                movie = tmdb.Movies(movie_id).info()
-                check_rate_limit()
-                for genre in movie["genres"]:
+                url = "https://api.themoviedb.org/3/movie/"+str(movie_id)+"?"\
+                "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"
+                r = requests.get(url)
+                check_rate_limit(r)
+                for genre in r.json()["genres"]:
                     genres_ids.append(genre["id"])
             genres_ids = '|'.join(str(x) for x in genres_ids)
         if(self.crew):
             for movie_id in self.selected_items:
-                credits = tmdb.Movies(movie_id).credits()
-                check_rate_limit()
-                for crew in credits["crew"][0:ncrew]:
+                url = "https://api.themoviedb.org/3/movie/"+str(movie_id)+"/credits?"\
+                "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"
+                r = requests.get(url)
+                check_rate_limit(r)
+                for crew in r.json()["crew"][0:ncrew]:
                     crew_ids.append(crew["id"])
             crew_ids = '|'.join(str(x) for x in crew_ids)
         if(self.cast):
             for movie_id in self.selected_items:
-                credits = tmdb.Movies(movie_id).credits()
-                check_rate_limit()
-                for cast in credits["cast"][0:ncast]:
+                url = "https://api.themoviedb.org/3/movie/"+str(movie_id)+"/credits?"\
+                "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"
+                r = requests.get(url)
+                check_rate_limit(r)
+                for cast in r.json()["cast"][0:ncast]:
                     cast_ids.append(cast["id"])
             cast_ids = '|'.join(str(x) for x in cast_ids)
 
 
-        discover = tmdb.Discover()
-        response = discover.movie(
-            with_genres=[genres_ids],
-            with_crew=[crew_ids],
-            with_cast=[cast_ids]
-        )
-        check_rate_limit()
-
+        url = "https://api.themoviedb.org/3/discover/movie?"\
+        "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
+        "&include_adult=false&page=1"\
+        "&with_genres="+genres_ids+"&with_crew="+crew_ids+"&with_cast="+cast_ids
+        r = requests.get(url)
+        check_rate_limit(r)
         #this is due to a tmdb bug!!
-        if(discover.total_pages > 1000):
+        total_pages=r.json()["total_pages"]
+        total_results=r.json()["total_results"]
+        if(total_pages > 1000):
             latest_page=1000
         else:
-            latest_page=discover.total_pages
-        if(discover.total_results<self.reclist_length):
-            max_length=discover.total_results
+            latest_page=total_pages
+        if(total_results<self.reclist_length):
+            max_length=total_results
         else:
             max_length=self.reclist_length
 
@@ -65,14 +66,17 @@ class Random_Recommender:
         count = 0
         while(count < max_length):
             random_page = random.randint(1,latest_page)
-            response = discover.movie(
-                with_genres=[genres_ids],
-                with_crew=[crew_ids],
-                with_cast=[cast_ids],
-                page=random_page
-            )
-            check_rate_limit()
-            random_movie = discover.results[random.randint(0,len(discover.results)-1)]
+
+            url = "https://api.themoviedb.org/3/discover/movie?"\
+            "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
+            "&include_adult=false"\
+            "&page="+str(random_page)+"&with_genres="+genres_ids+"&with_crew="+crew_ids+"&with_cast="+cast_ids
+
+            r = requests.get(url)
+            check_rate_limit(r)
+            results = r.json()["results"]
+
+            random_movie = results[random.randint(0,len(results)-1)]
             already_selected=False
             for movie in movies:
                 if(movie["id"]==random_movie["id"]):

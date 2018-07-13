@@ -27,12 +27,12 @@ def new_movies(movies1, movies2):
     return new_movies
 
 #get rate limit of tmdb server requests
-def check_rate_limit():
-    url = "https://api.themoviedb.org/3/movie/latest?api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"
+def check_rate_limit(res):
 
-    res = requests.request("GET", url)
     rate_limit = res.headers['X-RateLimit-Remaining']
     print(rate_limit)
+
     if(int(rate_limit)<10):
         print("waiting")
         time.sleep(2)
+    

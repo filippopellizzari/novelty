@@ -1,8 +1,5 @@
-import tmdbsimple as tmdb
-import time
+import requests
 from .utils import exclude_seen, check_rate_limit, new_movies
-
-API_KEY = 'a070e12e1c6d7b84ebc1b172c841a8bf'
 
 class Top_Pop_Recommender:
 
@@ -14,42 +11,47 @@ class Top_Pop_Recommender:
         self.cast = cast
 
     def get_top_pop(self, ncrew=1, ncast=1):
-        tmdb.API_KEY = API_KEY
         genres_ids = []
         crew_ids = []
         cast_ids = []
         if(self.genre):
             for movie_id in self.selected_items:
-                movie = tmdb.Movies(movie_id).info()
-                check_rate_limit()
-                for genre in movie["genres"]:
+                url = "https://api.themoviedb.org/3/movie/"+str(movie_id)+"?"\
+                "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"
+                r = requests.get(url)
+                check_rate_limit(r)
+                for genre in r.json()["genres"]:
                     genres_ids.append(genre["id"])
             genres_ids = '|'.join(str(x) for x in genres_ids)
         if(self.crew):
             for movie_id in self.selected_items:
-                credits = tmdb.Movies(movie_id).credits()
-                check_rate_limit()
-                for crew in credits["crew"][0:ncrew]:
+                url = "https://api.themoviedb.org/3/movie/"+str(movie_id)+"/credits?"\
+                "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"
+                r = requests.get(url)
+                check_rate_limit(r)
+                for crew in r.json()["crew"][0:ncrew]:
                     crew_ids.append(crew["id"])
             crew_ids = '|'.join(str(x) for x in crew_ids)
         if(self.cast):
             for movie_id in self.selected_items:
-                credits = tmdb.Movies(movie_id).credits()
-                check_rate_limit()
-                for cast in credits["cast"][0:ncast]:
+                url = "https://api.themoviedb.org/3/movie/"+str(movie_id)+"/credits?"\
+                "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"
+                r = requests.get(url)
+                check_rate_limit(r)
+                for cast in r.json()["cast"][0:ncast]:
                     cast_ids.append(cast["id"])
             cast_ids = '|'.join(str(x) for x in cast_ids)
 
-        discover = tmdb.Discover()
-        response = discover.movie(
-            with_genres=[genres_ids],
-            with_crew=[crew_ids],
-            with_cast=[cast_ids],
-            sort_by='popularity.desc'
-        )
-        check_rate_limit()
 
-        response = exclude_seen(discover.results, self.selected_items)
+        url = "https://api.themoviedb.org/3/discover/movie?"\
+        "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
+        "&sort_by=popularity.desc&include_adult=false&page=1"\
+        "&with_genres="+genres_ids+"&with_crew="+crew_ids+"&with_cast="+cast_ids
+        r = requests.get(url)
+        check_rate_limit(r)
+        results = r.json()["results"]
+
+        response = exclude_seen(results, self.selected_items)
         return response
 
     def get_movies(self):

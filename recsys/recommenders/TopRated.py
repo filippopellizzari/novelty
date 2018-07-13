@@ -1,8 +1,6 @@
-import tmdbsimple as tmdb
-import time
+import requests
 from .utils import exclude_seen, check_rate_limit
 
-API_KEY = 'a070e12e1c6d7b84ebc1b172c841a8bf'
 
 class Top_Rated_Recommender:
 
@@ -11,11 +9,11 @@ class Top_Rated_Recommender:
         self.reclist_length = reclist_length
 
     def get_movies(self):
-        tmdb.API_KEY = API_KEY
-        movies = tmdb.Movies()
-        response = movies.top_rated()
-        check_rate_limit()
-
-        response = exclude_seen(movies.results, self.selected_items)
+        url = "https://api.themoviedb.org/3/movie/top_rated?api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US&page=1"
+        r = requests.get(url)
+        check_rate_limit(r)
+        results = r.json()["results"]
+        response = exclude_seen(results, self.selected_items)
         movies = response[:self.reclist_length]
+
         return movies
