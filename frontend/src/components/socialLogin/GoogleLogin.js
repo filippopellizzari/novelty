@@ -7,12 +7,10 @@ import SocialButton from '../SocialButton';
 class GoogleLogin extends React.Component{
 
   handleSocialLogin = (res) => {
-    console.log(res);
     var data = {}
     data.email = res._profile.email;
     data.password = "gooPassword";
     data.accessToken = res._token.accessToken
-    console.log(data)
     this.props.socialSubmit(data)
   }
 

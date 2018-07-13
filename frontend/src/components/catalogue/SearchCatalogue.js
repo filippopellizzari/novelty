@@ -70,7 +70,7 @@ class SearchCatalogue extends React.Component {
         .then((res) =>
         this.setState({
           popularMovies: res.data,
-          totalResults: 40,
+          totalResults: 80,
           value:'',
           mode:"default",
           loading:false,

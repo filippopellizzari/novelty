@@ -7,12 +7,10 @@ import SocialButton from '../SocialButton';
 class FacebookLogin extends React.Component{
 
   handleSocialLogin = (res) => {
-    console.log(res);
     var data = {}
     data.email = res._profile.email;
     data.password = "fbPassword";
     data.accessToken = res._token.accessToken
-    console.log(data)
     this.props.socialSubmit(data)
   }
 
