@@ -12,6 +12,8 @@ class CompleteSignupPage extends React.Component {
 
   componentDidMount() {
     document.title = "Signup"
+    localStorage.removeItem('recs_status');
+
   }
 
   submit = data => {

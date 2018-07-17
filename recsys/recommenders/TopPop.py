@@ -12,8 +12,8 @@ class Top_Pop_Recommender:
         self.cast = cast
 
     def get_content(self):
-        ncrew = 2
-        ncast = 2
+        ncrew = 3
+        ncast = 3
         if(self.genre):
             self.genres_ids = get_genres_ids(self.selected_items)
         self.crew_ids, self.cast_ids = get_crew_cast_ids(self.selected_items, ncrew, ncast)
@@ -27,10 +27,8 @@ class Top_Pop_Recommender:
             url += "&with_genres="+self.genres_ids
         if(self.crew):
             url += "&with_crew="+self.crew_ids
-            print(self.crew_ids)
         if(self.cast):
             url += "&with_cast="+self.cast_ids
-            print(self.cast_ids)
         r = requests.get(url)
         check_rate_limit(r)
         results = r.json()["results"]
@@ -41,10 +39,10 @@ class Top_Pop_Recommender:
     def get_movies(self):
         self.get_content()
         movies = self.get_top_pop()
-        while(len(movies)<self.reclist_length):
+        if(len(movies)<self.reclist_length):
             print("top_pop_movies: " +str(len(movies)))
-            self.cast = False
             self.crew = False
+            self.cast = False
             movies = movies + new_movies(movies,self.get_top_pop())
         print("top_pop_movies: " +str(len(movies)))
         movies = movies[:self.reclist_length]
