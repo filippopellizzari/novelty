@@ -1,58 +1,35 @@
 import random
 import requests
 from .utils import exclude_seen, check_rate_limit, new_movies
+from .content import get_genres_ids, get_crew_cast_ids
 
 class Random_Recommender:
 
-    def __init__(self, selected_items, reclist_length, genre=False, crew=False, cast=False):
+    def __init__(self, selected_items, reclist_length,genre=False, crew=False, cast=False):
         self.selected_items = selected_items
         self.reclist_length = reclist_length
         self.genre = genre
         self.crew = crew
         self.cast = cast
 
-    def get_random(self, ncrew=1, ncast=1):
-        genres_ids = []
-        crew_ids = []
-        cast_ids = []
+    def get_content(self):
+        ncrew = 3
+        ncast = 3
         if(self.genre):
-            for movie_id in self.selected_items:
-                url = "https://api.themoviedb.org/3/movie/"+str(movie_id)+"?"\
-                "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"
-                r = requests.get(url)
-                check_rate_limit(r)
-                for genre in r.json()["genres"]:
-                    genres_ids.append(genre["id"])
-            genres_ids = '|'.join(str(x) for x in genres_ids)
-        if(self.crew):
-            for movie_id in self.selected_items:
-                url = "https://api.themoviedb.org/3/movie/"+str(movie_id)+"/credits?"\
-                "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"
-                r = requests.get(url)
-                check_rate_limit(r)
-                for crew in r.json()["crew"][0:ncrew]:
-                    crew_ids.append(crew["id"])
-            crew_ids = '|'.join(str(x) for x in crew_ids)
-        if(self.cast):
-            for movie_id in self.selected_items:
-                url = "https://api.themoviedb.org/3/movie/"+str(movie_id)+"/credits?"\
-                "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"
-                r = requests.get(url)
-                check_rate_limit(r)
-                for cast in r.json()["cast"][0:ncast]:
-                    cast_ids.append(cast["id"])
-            cast_ids = '|'.join(str(x) for x in cast_ids)
+            self.genres_ids = get_genres_ids(self.selected_items)
+        self.crew_ids, self.cast_ids = get_crew_cast_ids(self.selected_items, ncrew, ncast)
 
+    def get_random(self):
 
         url = "https://api.themoviedb.org/3/discover/movie?"\
         "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
         "&include_adult=false&page=1"
         if(self.genre):
-            url += "&with_genres="+genres_ids
+            url += "&with_genres="+self.genres_ids
         if(self.crew):
-            url += "&with_crew="+crew_ids
+            url += "&with_crew="+self.crew_ids
         if(self.cast):
-            url += "&with_cast="+cast_ids
+            url += "&with_cast="+self.cast_ids
         r = requests.get(url)
         check_rate_limit(r)
         #this is due to a tmdb bug!!
@@ -76,11 +53,11 @@ class Random_Recommender:
             "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
             "&include_adult=false&page="+str(random_page)
             if(self.genre):
-                url += "&with_genres="+genres_ids
+                url += "&with_genres="+self.genres_ids
             if(self.crew):
-                url += "&with_crew="+crew_ids
+                url += "&with_crew="+self.crew_ids
             if(self.cast):
-                url += "&with_cast="+cast_ids
+                url += "&with_cast="+self.cast_ids
 
             r = requests.get(url)
             check_rate_limit(r)
@@ -99,15 +76,13 @@ class Random_Recommender:
         return response
 
     def get_movies(self):
-        ncrew = 1
-        ncast = 1
-        movies = self.get_random(ncrew, ncast)
-
+        self.get_content()
+        movies = self.get_random()
         while(len(movies)<self.reclist_length):
             print("random_movies: " +str(len(movies)))
-            ncrew = ncrew + 7
-            ncast = ncast + 7
-            movies = movies + new_movies(movies, self.get_random(ncrew, ncast))
-
+            self.cast = False
+            self.crew = False
+            movies = movies + new_movies(movies, self.get_random())
+        print("random_movies: " +str(len(movies)))
         movies = movies[:self.reclist_length]
         return movies
