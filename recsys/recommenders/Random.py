@@ -83,6 +83,10 @@ class Random_Recommender:
             self.crew = False
             self.cast = False
             movies = movies + new_movies(movies, self.get_random())
+        if(len(movies)<self.reclist_length):
+            print("random_movies: " +str(len(movies)))
+            self.genre = False
+            movies = movies + new_movies(movies, self.get_random())
         print("random_movies: " +str(len(movies)))
         movies = movies[:self.reclist_length]
         return movies

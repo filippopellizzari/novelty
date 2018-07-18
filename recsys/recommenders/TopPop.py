@@ -44,6 +44,10 @@ class Top_Pop_Recommender:
             self.crew = False
             self.cast = False
             movies = movies + new_movies(movies,self.get_top_pop())
+        if(len(movies)<self.reclist_length):
+            print("top_pop_movies: " +str(len(movies)))
+            self.genre = False
+            movies = movies + new_movies(movies,self.get_top_pop())
         print("top_pop_movies: " +str(len(movies)))
         movies = movies[:self.reclist_length]
         return movies
