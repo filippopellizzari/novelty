@@ -1,5 +1,6 @@
 import requests
 from .utils import check_rate_limit
+from collections import Counter
 
 def get_genres_ids(selected_items):
     genres_ids = []
@@ -10,7 +11,9 @@ def get_genres_ids(selected_items):
         check_rate_limit(r)
         for genre in r.json()["genres"]:
             genres_ids.append(genre["id"])
-    genres_ids = '|'.join(str(x) for x in genres_ids)
+    cnt = Counter(genres_ids).most_common(2)
+    most_common = [x[0] for x in cnt]
+    genres_ids = '|'.join(str(x) for x in most_common)
     print("genres computed")
     return genres_ids
 
