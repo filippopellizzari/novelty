@@ -1,16 +1,25 @@
 import React from 'react';
-import { Image } from 'semantic-ui-react';
+import { Image,Header } from 'semantic-ui-react';
 
 class PosterSurvey extends React.Component {
 
   render(){
 
     var imageSrc = this.props.path === null
-      ? null
+      ? "https://www.movieinsider.com/images/none_175px.jpg"
       : "https://image.tmdb.org/t/p/w500" + this.props.path;
 
+    var movieTitle = this.props.path === null
+      ?(<Header
+        style={{position: 'relative', top: -200, left: 5, right:-30}}
+        size='small'>
+        {this.props.title}
+      </Header>)
+      : null
+
     return(
-    
+
+    <div>
       <Image
         key={this.props.id}
         src={imageSrc}
@@ -22,6 +31,8 @@ class PosterSurvey extends React.Component {
         bordered
         rounded
       />
+      {movieTitle}
+    </div>
 
     );
   }

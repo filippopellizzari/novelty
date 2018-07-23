@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image,Button,Icon } from 'semantic-ui-react';
+import { Image,Button,Icon,Header } from 'semantic-ui-react';
 
 
 class PosterCatalogue extends React.Component {
@@ -24,8 +24,16 @@ class PosterCatalogue extends React.Component {
     : "pointer";
 
 var imageSrc = this.props.path === null
-  ? null
+  ? "https://www.movieinsider.com/images/none_175px.jpg"
   : "https://image.tmdb.org/t/p/w500" + this.props.path;
+
+var movieTitle = this.props.path === null
+  ?(<Header
+    style={{position: 'absolute', top: 0, left: 18, right:18}}
+    size='small'>
+    {this.props.title}
+  </Header>)
+  : null
 
     return(
       <div>
@@ -45,6 +53,7 @@ var imageSrc = this.props.path === null
           size="mini"
           ><Icon name='info circle'/>
         </Button>
+        {movieTitle}
     </div>
     );
   }
