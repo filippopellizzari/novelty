@@ -55,6 +55,7 @@
     "react-spinners": "^0.3.2",
     "react-transition-group": "^1.2.1",
     "react-validation": "^3.0.7",
+    "reactjs-popup": "^1.1.1",
     "reactstrap": "^5.0.0-alpha.4",
     "redux": "^3.7.2",
     "redux-api-middleware": "^2.0.0-beta.3",
