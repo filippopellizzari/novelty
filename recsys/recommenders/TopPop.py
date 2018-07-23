@@ -12,8 +12,8 @@ class Top_Pop_Recommender:
         self.cast = cast
 
     def get_content(self):
-        ncrew = 3
-        ncast = 3
+        ncrew = 5
+        ncast = 5
         if(self.genre):
             self.genres_ids = get_genres_ids(self.selected_items)
         self.crew_ids, self.cast_ids = get_crew_cast_ids(self.selected_items, ncrew, ncast)

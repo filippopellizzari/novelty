@@ -13,14 +13,12 @@ class Random_Recommender:
         self.cast = cast
 
     def get_content(self):
-        ncrew = 3
-        ncast = 3
+        ncrew = 12
+        ncast = 12
         if(self.genre):
             self.genres_ids = get_genres_ids(self.selected_items)
-            print("genres: "+str(self.genres_ids))
+            print(self.genres_ids)
         self.crew_ids, self.cast_ids = get_crew_cast_ids(self.selected_items, ncrew, ncast)
-        print("crew: "+str(self.crew_ids))
-        print("cast: "+str(self.cast_ids))
 
     def get_random(self):
 
