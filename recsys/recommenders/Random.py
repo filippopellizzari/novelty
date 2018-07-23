@@ -17,13 +17,16 @@ class Random_Recommender:
         ncast = 3
         if(self.genre):
             self.genres_ids = get_genres_ids(self.selected_items)
+            print("genres: "+str(self.genres_ids))
         self.crew_ids, self.cast_ids = get_crew_cast_ids(self.selected_items, ncrew, ncast)
+        print("crew: "+str(self.crew_ids))
+        print("cast: "+str(self.cast_ids))
 
     def get_random(self):
 
         url = "https://api.themoviedb.org/3/discover/movie?"\
         "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
-        "&include_adult=false&page=1"
+        "&include_adult=false&page=1&release_date.lte=2019"
         if(self.genre):
             url += "&with_genres="+self.genres_ids
         if(self.crew):
@@ -51,7 +54,7 @@ class Random_Recommender:
 
             url = "https://api.themoviedb.org/3/discover/movie?"\
             "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
-            "&include_adult=false&page="+str(random_page)
+            "&include_adult=false&page="+str(random_page)+"&release_date.lte=2019"
             if(self.genre):
                 url += "&with_genres="+self.genres_ids
             if(self.crew):

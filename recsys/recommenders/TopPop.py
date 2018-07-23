@@ -22,7 +22,8 @@ class Top_Pop_Recommender:
 
         url = "https://api.themoviedb.org/3/discover/movie?"\
         "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
-        "&sort_by=popularity.desc&include_adult=false&page=1"
+        "&sort_by=popularity.desc&include_adult=false&page=1"\
+        "&release_date.lte=2019"
         if(self.genre):
             url += "&with_genres="+self.genres_ids
         if(self.crew):
