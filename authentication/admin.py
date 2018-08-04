@@ -21,9 +21,7 @@ class UserAdmin(ExportActionModelAdmin):
     resource_class = MyUserResource
 
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'gender', 'age', 'country')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_superuser','is_staff',)}),
-        (_('Important dates'), {'fields': ('date_joined',)}),
+        (None, {'fields': ('email', 'password', 'gender', 'age', 'country','date_joined')}),
     )
     add_fieldsets = (
         (None, {

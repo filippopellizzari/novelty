@@ -14,7 +14,7 @@ class Welcome extends React.Component {
     localStorage.removeItem('thanks');
     localStorage.removeItem('socialSignup');
     localStorage.removeItem('normalSignup');
-  
+
     this.props.getProfile(localStorage.email)
         .then( (res) => this.props.history.push("/"+res.data.page));
   }
@@ -26,7 +26,7 @@ class Welcome extends React.Component {
           <div className="jumbotron jumbotron-fluid">
             <div className="container" style={{textAlign:'center'}}>
               <h2 className="display-3">Welcome!</h2>
-              <p className="lead">Before starting the survey,
+              <p className="lead" style={{fontSize:22}}>Before starting the survey,
                 please select {admin.moviesToSelect} movies that you like.</p>
               <Button primary size="large" href="/catalogue">Next</Button>
             </div>
