@@ -41,7 +41,8 @@ class SurveySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Survey
-        fields = ('survey_id', 'survey_type', 'questions', 'algorithms', 'reclist_length')
+        fields = ('survey_id', 'survey_type', 'questions', 'algorithms',
+        'input_length','reclist_length')
 
 class ResponseSerializer(serializers.ModelSerializer):
     class Meta:

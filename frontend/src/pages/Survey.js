@@ -32,6 +32,7 @@ class Survey extends React.Component {
   componentDidMount(){
     document.title = "Survey"
     localStorage.setItem('survey', "survey in progress");
+    localStorage.removeItem('moviesToSelect');
     if(localStorage.thanks !== undefined){
       this.props.history.push("/thanks")
     }

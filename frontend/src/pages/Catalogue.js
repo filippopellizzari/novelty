@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {Row, Col} from 'react-bootstrap';
 import {Button} from 'semantic-ui-react';
+
 import SearchCatalogue from '../components/catalogue/SearchCatalogue'
 import SelectedList from '../components/catalogue/SelectedList'
-import admin from '../data/admin.json'
+//import admin from '../data/admin.json'
 
 class Catalogue extends React.Component {
 
@@ -22,7 +23,6 @@ class Catalogue extends React.Component {
     if(localStorage.survey !== undefined){
       this.props.history.push("/survey")
     }
-    
   }
 
   addSelect(newMovie){
@@ -30,7 +30,7 @@ class Catalogue extends React.Component {
     * selected movies are limited and are not duplicated
     */
     if(this.state.selectedMovies.indexOf(newMovie) === -1 &&
-    this.state.selects < admin.moviesToSelect){
+    this.state.selects < parseInt(localStorage.getItem("moviesToSelect"),10)){
       this.setState({
         selectedMovies: [...this.state.selectedMovies, newMovie ],
         selects: this.state.selects + 1
@@ -64,7 +64,7 @@ class Catalogue extends React.Component {
             <SelectedList
               selectedMovies={this.state.selectedMovies}
               selects={this.state.selects}
-              moviesToSelect={admin.moviesToSelect}
+              moviesToSelect={localStorage.getItem("moviesToSelect")}
               onRemove={this.removeSelect.bind(this)}
           />
             <div style={{textAlign:'center', marginTop:20}}>
@@ -72,7 +72,7 @@ class Catalogue extends React.Component {
                 primary
                 href="/survey"
 
-                hidden={this.state.selects !== admin.moviesToSelect}>Next
+                hidden={this.state.selects !== parseInt(localStorage.getItem("moviesToSelect"),10)}>Next
               </Button>
             </div>
           </Col>

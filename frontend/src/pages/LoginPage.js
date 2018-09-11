@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import {  Divider } from 'semantic-ui-react'
-
+import axios from 'axios';
 
 import LoginForm from '../forms/LoginForm';
 import FacebookLogin from '../components/socialLogin/FacebookLogin';
@@ -27,6 +27,11 @@ class LoginPage extends React.Component{
     if(localStorage.normalSignup==="true"){
       this.props.history.push("/completeSignup")
     }
+
+    axios.get("/api/surveys/" + localStorage.getItem("survey_id") + "/")
+          .then((res)  =>{
+            localStorage.setItem('moviesToSelect', res.data.input_length);
+    });
   }
 
   submit = (data) => {

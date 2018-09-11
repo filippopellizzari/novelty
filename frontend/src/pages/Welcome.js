@@ -3,7 +3,6 @@ import { Button} from 'semantic-ui-react';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 
-import admin from '../data/admin.json';
 import { getProfile }   from "../actions/stateActions";
 
 
@@ -17,6 +16,7 @@ class Welcome extends React.Component {
 
     this.props.getProfile(localStorage.email)
         .then( (res) => this.props.history.push("/"+res.data.page));
+
   }
 
 
@@ -27,7 +27,7 @@ class Welcome extends React.Component {
             <div className="container" style={{textAlign:'center'}}>
               <h2 className="display-3">Welcome!</h2>
               <p className="lead" style={{fontSize:22}}>Before starting the survey,
-                please select {admin.moviesToSelect} movies that you like.</p>
+                please select {localStorage.getItem("moviesToSelect")} movies that you like.</p>
               <Button primary size="large" href="/catalogue">Next</Button>
             </div>
           </div>

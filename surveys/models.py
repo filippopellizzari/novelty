@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from .models import *
 from recsys.models import Recommender
@@ -33,7 +34,12 @@ class Survey(models.Model):
     opening_time = models.DateTimeField(null=True)
     closing_time = models.DateTimeField(null=True, blank=True)
     questions = models.ManyToManyField(Question, through="QuestionOrder")
-    reclist_length = models.PositiveIntegerField(default=5, blank=False, null=False)
+    input_length = models.PositiveIntegerField(default=5, blank=False, null=False,
+    help_text="This is the number of movies to select in the catalogue. Note: value range is from 1 to 10.",
+    validators=[MaxValueValidator(10), MinValueValidator(1)])
+    reclist_length = models.PositiveIntegerField(default=5, blank=False, null=False,
+    help_text="This is the number of movies in the recommendation list. Note: value range is from 1 to 10.",
+    validators=[MaxValueValidator(10), MinValueValidator(1)])
     algorithms = models.ManyToManyField(Recommender, through="Algorithm")
 
     def __str__(self):
