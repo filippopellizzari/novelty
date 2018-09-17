@@ -16,7 +16,8 @@ class Top_Pop_Recommender:
         ncast = 5
         if(self.genre):
             self.genres_ids = get_genres_ids(self.selected_items)
-        self.crew_ids, self.cast_ids = get_crew_cast_ids(self.selected_items, ncrew, ncast)
+        if(self.crew_ids or self.cast_ids):
+            self.crew_ids, self.cast_ids = get_crew_cast_ids(self.selected_items, ncrew, ncast)
 
     def get_top_pop(self):
 
