@@ -19,6 +19,7 @@ class Survey extends React.Component {
     super();
     this.state = {
       questions:[],
+      survey_id:"",
       survey_type:"",
       recsA:[],
       recsB:[],
@@ -38,6 +39,7 @@ class Survey extends React.Component {
       .then((res)  =>{
         this.setState({
         questions:res.data.questions,
+        survey_id:res.data.survey_id,
         survey_type:res.data.survey_type
       })
       localStorage.setItem("survey_type",res.data.survey_type)

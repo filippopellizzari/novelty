@@ -23,7 +23,7 @@ class Top_Pop_Recommender:
             #print("top_pop_genres_ids: " + self.genres_ids)
         if(self.crew):
             self.crew_ids = get_crew_ids(self.content["crew"], ncrew)
-            #print("top_pop_crew_ids: " + self.crew_ids)
+            print("top_pop_crew_ids: " + self.crew_ids)
         if(self.cast):
             self.cast_ids = get_cast_ids(self.content["cast"], ncast)
             #print("top_pop_cast_ids: " + self.cast_ids)

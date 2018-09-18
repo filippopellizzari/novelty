@@ -17,12 +17,16 @@ class Thanks extends React.Component {
     document.title = "Thanks"
     localStorage.removeItem('survey');
     localStorage.removeItem('recs_status');
+    localStorage.removeItem('algorithmA');
+    localStorage.removeItem('algorithmB');
     localStorage.removeItem('recsA');
     localStorage.removeItem('recsB');
     localStorage.removeItem('listA');
     localStorage.removeItem('listB');
     localStorage.removeItem('list');
     localStorage.removeItem('selected');
+    localStorage.removeItem('survey_type');
+    localStorage.removeItem('reclist_length');
     localStorage.setItem('thanks',"survey completed");
     this.props.updatePageProfile({email:localStorage.email,page:"thanks"})
     this.props.getProfile(localStorage.email)
