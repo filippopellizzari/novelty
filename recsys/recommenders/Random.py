@@ -1,25 +1,33 @@
 import random
 import requests
 from .utils import exclude_seen, check_rate_limit, new_movies
-from .content import get_genres_ids, get_crew_cast_ids
+from .content import get_genres_ids, get_crew_ids, get_cast_ids
 
 class Random_Recommender:
 
-    def __init__(self, selected_items, reclist_length,genre=False, crew=False, cast=False):
+    def __init__(self, algorithm, content, selected_items, reclist_length):
+        self.genre = algorithm.get("genre")
+        self.crew = algorithm.get("crew")
+        self.cast = algorithm.get("cast")
+        self.content = content
         self.selected_items = selected_items
         self.reclist_length = reclist_length
-        self.genre = genre
-        self.crew = crew
-        self.cast = cast
+
 
     def get_content(self):
+        ngenres = 2
         ncrew = 12
         ncast = 12
+
         if(self.genre):
-            self.genres_ids = get_genres_ids(self.selected_items)
-            print(self.genres_ids)
-        if(self.crew_ids or self.cast_ids):
-            self.crew_ids, self.cast_ids = get_crew_cast_ids(self.selected_items, ncrew, ncast)
+            self.genres_ids = get_genres_ids(self.content["genres"], ngenres)
+            #print("random_genres_ids: " + self.genres_ids)
+        if(self.crew):
+            self.crew_ids = get_crew_ids(self.content["crew"], ncrew)
+            #print("random_crew_ids: " + self.crew_ids)
+        if(self.cast):
+            self.cast_ids = get_cast_ids(self.content["cast"], ncast)
+            #print("random_cast_ids: " + self.cast_ids)
 
     def get_random(self):
 

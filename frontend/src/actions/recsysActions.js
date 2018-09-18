@@ -9,3 +9,9 @@ export function recommend(data) {
     return axios.post("/api/recsys/recommend/", data);
   }
 }
+
+export function getContent(data) {
+  return dispatch => {
+    return axios.post("/api/recsys/get-content/", data);
+  }
+}

@@ -45,6 +45,7 @@ urlpatterns = [
     url(r'^api/algos/inputmodels/(?P<input_model_id>[0-9]+)/$', InputModelDetail.as_view()),
 
     url(r'^api/recsys/recommend/$', RecommendView.as_view()),
+    url(r'^api/recsys/get-content/$', GetContentView.as_view()),
 
     url(r'^api/$', get_schema_view()),
 

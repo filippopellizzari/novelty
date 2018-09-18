@@ -7,7 +7,7 @@ import { RingLoader } from 'react-spinners';
 
 import RecList from '../components/survey/RecList';
 import Questions from '../components/survey/Questions';
-import { recommend } from "../actions/recsysActions";
+import { recommend, getContent } from "../actions/recsysActions";
 import { submitSurvey } from "../actions/surveyActions";
 import {updatePageProfile,deleteAnswers,
   updateQuestionNumberProfile,updateValidSurveyProfile} from "../actions/stateActions";
@@ -19,11 +19,9 @@ class Survey extends React.Component {
     super();
     this.state = {
       questions:[],
-      algorithms:[],
+      survey_type:"",
       recsA:[],
       recsB:[],
-      survey_id:"",
-      survey_type:"",
       loadingA:true,
       loadingB:true,
     };
@@ -40,58 +38,76 @@ class Survey extends React.Component {
       .then((res)  =>{
         this.setState({
         questions:res.data.questions,
-        algorithms:res.data.algorithms,
-        survey_id:res.data.survey_id,
         survey_type:res.data.survey_type
       })
-      var selected = JSON.parse(localStorage.getItem("selected"));
+      localStorage.setItem("survey_type",res.data.survey_type)
+      localStorage.setItem("reclist_length",res.data.reclist_length)
+      localStorage.setItem("algorithmA",JSON.stringify(res.data.algorithms[0]))
+      if(localStorage.survey_type==="Within-subject"){
+        localStorage.setItem("algorithmB",JSON.stringify(res.data.algorithms[1]))
+      }
+
 
       if(localStorage.recs_status==='given'){
           this.setState({recsA:JSON.parse(localStorage.getItem("recsA")), loadingA:false})
-          if(res.data.survey_type==="Within-subject"){
+          if(localStorage.survey_type==="Within-subject"){
             this.setState({recsB:JSON.parse(localStorage.getItem("recsB")), loadingB:false})
           }else{
             this.setState({loadingB:false})
           }
       }else{
-          this.props.recommend({
-            algorithm:res.data.algorithms[0],
-            selected_items:selected,
-            reclist_length:res.data.reclist_length
-            })
-            .then(
-              (res) => {
-                localStorage.setItem('recsA', JSON.stringify(res.data));
-                this.setState({recsA:res.data, loadingA:false})
-              }
-            )
-            .catch(
-              (error) => alert("Too many requests! Please, refresh the page only once.")
-            )
 
-          if(res.data.survey_type==="Within-subject"){
-            this.props.recommend({
-              algorithm:res.data.algorithms[1],
-              selected_items:selected,
-              reclist_length:res.data.reclist_length
-              })
-              .then(
-                (res) => {
-                  localStorage.setItem('recsB', JSON.stringify(res.data));
-                  localStorage.setItem('recs_status', 'given');
-                  this.setState({recsB:res.data, loadingB:false})
-                }
-              )
-              .catch(
-                (error) => alert("Too many requests! Please, refresh the page only once.")
-              )
-            localStorage.setItem('listA', res.data.algorithms[0]["rec_name"])
-            localStorage.setItem('listB', res.data.algorithms[1]["rec_name"])
-          }else{
-            this.setState({loadingB:false})
-            localStorage.setItem('recs_status', 'given');
-            localStorage.setItem('list', res.data.algorithms[0]["rec_name"])
-          }
+          var selected = JSON.parse(localStorage.getItem("selected"));
+          this.props.getContent({selected_items:selected})
+          .then(
+            (res) => {
+
+              var content = res.data
+              var selected = JSON.parse(localStorage.getItem("selected"));
+
+              var algorithmA = JSON.parse(localStorage.getItem("algorithmA"));
+              this.props.recommend({
+                algorithm:algorithmA,
+                content:content,
+                selected_items:selected,
+                reclist_length:parseInt(localStorage.reclist_length,10),
+                })
+                .then(
+                  (res) => {
+                    localStorage.setItem('recsA', JSON.stringify(res.data));
+                    this.setState({recsA:res.data, loadingA:false})
+                  }
+                )
+                .catch(
+                  (error) => alert("Too many requests! Please, refresh the page only once.")
+                )
+
+              if(localStorage.survey_type==="Within-subject"){
+                var algorithmB = JSON.parse(localStorage.getItem("algorithmB"));
+                this.props.recommend({
+                  algorithm:algorithmB,
+                  content:content,
+                  selected_items:selected,
+                  reclist_length:parseInt(localStorage.reclist_length,10),
+                  })
+                  .then(
+                    (res) => {
+                      localStorage.setItem('recsB', JSON.stringify(res.data));
+                      localStorage.setItem('recs_status', 'given');
+                      this.setState({recsB:res.data, loadingB:false})
+                    }
+                  )
+                  .catch(
+                    (error) => alert("Too many requests! Please, refresh the page only once.")
+                  )
+                localStorage.setItem('listA', algorithmA["rec_name"])
+                localStorage.setItem('listB', algorithmB["rec_name"])
+              }else{
+                this.setState({loadingB:false})
+                localStorage.setItem('recs_status', 'given');
+                localStorage.setItem('list', algorithmA["rec_name"])
+              }
+          })
       }
     })
   }
@@ -141,7 +157,7 @@ class Survey extends React.Component {
   }
 
   render() {
-    const { survey_type, recsA, recsB, loadingA, loadingB } = this.state
+    const { questions, survey_type, recsA, recsB, loadingA, loadingB } = this.state
     this.props.updatePageProfile({email:localStorage.email,page:"survey"})
     var reclists = survey_type === "Within-subject" ?
     <div>
@@ -169,7 +185,7 @@ class Survey extends React.Component {
             {reclists}
           </Col>
           <Col xs={6} md={4} style={{marginLeft:50, marginTop:60}}>
-            <Questions questions={this.state.questions} submit={this.submit}/>
+            <Questions questions={questions} submit={this.submit}/>
           </Col>
         </Row>)}
       </div>
@@ -187,7 +203,8 @@ Survey.propTypes = {
   updateQuestionNumberProfile: PropTypes.func.isRequired,
   updateValidSurveyProfile: PropTypes.func.isRequired,
   recommend: PropTypes.func.isRequired,
+  getContent: PropTypes.func.isRequired,
 };
 
 export default connect(null, {submitSurvey,updatePageProfile,
-  deleteAnswers,updateQuestionNumberProfile,updateValidSurveyProfile, recommend})(Survey);
+  deleteAnswers,updateQuestionNumberProfile,updateValidSurveyProfile, recommend, getContent})(Survey);
