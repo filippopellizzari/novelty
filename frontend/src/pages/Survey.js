@@ -44,6 +44,8 @@ class Survey extends React.Component {
       })
       localStorage.setItem("survey_type",res.data.survey_type)
       localStorage.setItem("reclist_length",res.data.reclist_length)
+      localStorage.setItem("random_first_page",res.data.random_first_page)
+      localStorage.setItem("random_last_page",res.data.random_last_page)
       localStorage.setItem("algorithmA",JSON.stringify(res.data.algorithms[0]))
       if(localStorage.survey_type==="Within-subject"){
         localStorage.setItem("algorithmB",JSON.stringify(res.data.algorithms[1]))
@@ -66,6 +68,10 @@ class Survey extends React.Component {
 
               var content = res.data
               var selected = JSON.parse(localStorage.getItem("selected"));
+              var random_setting = {
+                first_page:parseInt(localStorage.random_first_page,10),
+                last_page:parseInt(localStorage.random_last_page,10)
+              }
 
               var algorithmA = JSON.parse(localStorage.getItem("algorithmA"));
               this.props.recommend({
@@ -73,6 +79,7 @@ class Survey extends React.Component {
                 content:content,
                 selected_items:selected,
                 reclist_length:parseInt(localStorage.reclist_length,10),
+                random_setting:random_setting,
                 })
                 .then(
                   (res) => {
@@ -91,6 +98,7 @@ class Survey extends React.Component {
                   content:content,
                   selected_items:selected,
                   reclist_length:parseInt(localStorage.reclist_length,10),
+                  random_setting:random_setting,
                   })
                   .then(
                     (res) => {

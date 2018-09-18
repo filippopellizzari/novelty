@@ -13,7 +13,8 @@ class RecommendView(APIView):
             request.data.get("algorithm"),
             request.data.get("content"),
             request.data.get("selected_items"),
-            request.data.get("reclist_length")
+            request.data.get("reclist_length"),
+            request.data.get("random_setting"),
             )
         serializer = MovieSerializer(movies, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)

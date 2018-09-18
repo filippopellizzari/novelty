@@ -40,6 +40,12 @@ class Survey(models.Model):
     reclist_length = models.PositiveIntegerField(default=5, blank=False, null=False,
         help_text="This is the number of movies in the recommendation list. Note: value range is from 1 to 10.",
         validators=[MaxValueValidator(10), MinValueValidator(1)])
+    random_first_page = models.PositiveIntegerField(default=1, blank=False, null=False,
+        help_text="This is the first catalogue page used by Random Recommender.",
+        validators=[MinValueValidator(1)])
+    random_last_page = models.PositiveIntegerField(default=1, blank=False, null=False,
+        help_text="This is the last catalogue page used by Random Recommender.",
+        validators=[MinValueValidator(1)])
     algorithms = models.ManyToManyField(Recommender, through="Algorithm")
 
     def __str__(self):

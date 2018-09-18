@@ -4,7 +4,7 @@ from .recommenders.TopPop import Top_Pop_Recommender
 from .recommenders.Random import Random_Recommender
 
 
-def recommend(algorithm, content, selected_items, reclist_length):
+def recommend(algorithm, content, selected_items, reclist_length, random_setting):
     rec_name = algorithm.get("rec_name")
 
     if(rec_name=="top_pop"):
@@ -12,7 +12,7 @@ def recommend(algorithm, content, selected_items, reclist_length):
         recommender = Top_Pop_Recommender(algorithm, content, selected_items, reclist_length)
     elif(rec_name=="random"):
         print("RANDOM")
-        recommender = Random_Recommender(algorithm, content, selected_items, reclist_length)
+        recommender = Random_Recommender(algorithm, content, selected_items, reclist_length, random_setting)
     elif(rec_name=="top_rated"):
         print("TOP_RATED")
         recommender = Top_Rated_Recommender(selected_items, reclist_length)

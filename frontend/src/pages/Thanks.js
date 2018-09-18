@@ -15,6 +15,7 @@ class Thanks extends React.Component {
 
   componentDidMount() {
     document.title = "Thanks"
+
     localStorage.removeItem('survey');
     localStorage.removeItem('recs_status');
     localStorage.removeItem('algorithmA');
@@ -27,6 +28,9 @@ class Thanks extends React.Component {
     localStorage.removeItem('selected');
     localStorage.removeItem('survey_type');
     localStorage.removeItem('reclist_length');
+    localStorage.removeItem('random_first_page');
+    localStorage.removeItem('random_last_page');
+
     localStorage.setItem('thanks',"survey completed");
     this.props.updatePageProfile({email:localStorage.email,page:"thanks"})
     this.props.getProfile(localStorage.email)
