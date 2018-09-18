@@ -27,7 +27,7 @@ class AlgorithmSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Algorithm
-        fields = ('rec_id','rec_name','genre', 'crew', 'cast')
+        fields = ('rec_id','rec_name','genre', 'crew', 'cast','ngenres','ncrew','ncast')
 
 class SurveySerializer(serializers.ModelSerializer):
     questions = serializers.SerializerMethodField('get_question_list')

@@ -35,11 +35,11 @@ class Survey(models.Model):
     closing_time = models.DateTimeField(null=True, blank=True)
     questions = models.ManyToManyField(Question, through="QuestionOrder")
     input_length = models.PositiveIntegerField(default=5, blank=False, null=False,
-    help_text="This is the number of movies to select in the catalogue. Note: value range is from 1 to 10.",
-    validators=[MaxValueValidator(10), MinValueValidator(1)])
+        help_text="This is the number of movies to select in the catalogue. Note: value range is from 1 to 10.",
+        validators=[MaxValueValidator(10), MinValueValidator(1)])
     reclist_length = models.PositiveIntegerField(default=5, blank=False, null=False,
-    help_text="This is the number of movies in the recommendation list. Note: value range is from 1 to 10.",
-    validators=[MaxValueValidator(10), MinValueValidator(1)])
+        help_text="This is the number of movies in the recommendation list. Note: value range is from 1 to 10.",
+        validators=[MaxValueValidator(10), MinValueValidator(1)])
     algorithms = models.ManyToManyField(Recommender, through="Algorithm")
 
     def __str__(self):
@@ -49,8 +49,12 @@ class Algorithm(models.Model):
     recommender = models.ForeignKey(Recommender, related_name='recommender_to_survey',null=True)
     survey = models.ForeignKey(Survey, related_name='survey_to_recommender')
     genre = models.BooleanField(default=False)
+    ngenres = models.PositiveIntegerField(default=1,blank=False, null=False, validators=[MinValueValidator(1)])
     crew = models.BooleanField(default=False)
+    ncrew = models.PositiveIntegerField(default=1,blank=False, null=False, validators=[MinValueValidator(1)])
     cast = models.BooleanField(default=False)
+    ncast = models.PositiveIntegerField(default=1,blank=False, null=False, validators=[MinValueValidator(1)])
+
 
 class QuestionOrder(models.Model):
     question = models.ForeignKey(Question, related_name='question_to_survey')

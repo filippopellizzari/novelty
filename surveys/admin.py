@@ -16,7 +16,7 @@ class OptionOrderInline(SortableInlineAdminMixin, admin.TabularInline):
 
 class AlgorithmInline(admin.TabularInline):
     model = Algorithm
-    extra = 1
+    extra = 0
 
 class SurveyAdmin(admin.ModelAdmin):
     readonly_fields = ('survey_id','last_update')
