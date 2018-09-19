@@ -63,7 +63,7 @@ class Random_Recommender:
             self.last_page = self.first_page
 
         movies = []
-        random_page = random.randint(self.first_page, self.last_page)
+        random_page = random.randint(self.first_page, self.last_page-1)
         print("random_page: "+str(random_page))
         url = "https://api.themoviedb.org/3/discover/movie?"\
         "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
