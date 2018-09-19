@@ -54,16 +54,21 @@ class Random_Recommender:
     def get_random(self):
 
         print("total_random_pages: "+str(self.total_pages))
-        if (self.total_pages < self.first_page):
+
+        if(self.last_page < self.first_page):
+            tmp = self.last_page
+            self.last_page = self.first_page
+            self.first_page = tmp
+
+        if (self.total_pages <= self.first_page):
             self.first_page = 1
         if (self.total_pages < self.last_page):
             self.last_page = self.total_pages
-
-        if(self.last_page < self.first_page):
-            self.last_page = self.first_page
+        if(self.last_page != 1):
+            self.last_page -=1
 
         movies = []
-        random_page = random.randint(self.first_page, self.last_page-1)
+        random_page = random.randint(self.first_page, self.last_page)
         print("random_page: "+str(random_page))
         url = "https://api.themoviedb.org/3/discover/movie?"\
         "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
