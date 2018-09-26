@@ -51,6 +51,7 @@ class Catalogue extends React.Component {
     localStorage.setItem("selected", JSON.stringify(this.state.selectedMovies.map(
       (movie) => movie.id
     )));
+    localStorage.setItem("user_profile", JSON.stringify(this.state.selectedMovies));
     return (
       <div className="container">
         <Row style={{marginTop: 30}}>

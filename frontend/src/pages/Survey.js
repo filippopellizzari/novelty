@@ -110,12 +110,9 @@ class Survey extends React.Component {
                   .catch(
                     (error) => alert("Too many requests! Please, refresh the page only once.")
                   )
-                localStorage.setItem('listA', algorithmA["rec_name"])
-                localStorage.setItem('listB', algorithmB["rec_name"])
               }else{
                 this.setState({loadingB:false})
                 localStorage.setItem('recs_status', 'given');
-                localStorage.setItem('list', algorithmA["rec_name"])
               }
           })
       }
@@ -131,14 +128,17 @@ class Survey extends React.Component {
     data.email = localStorage.email;
     data.survey_id = parseInt(this.state.survey_id, 10);
     data.responses = responses;
+    data.user_profile = localStorage.getItem("user_profile")
 
     if(this.state.survey_type==="Between-subject"){
-      data.algorithms = localStorage.list
-      localStorage.removeItem('list');
+      data.algorithms = localStorage.getItem("algorithmA");
+      data.recommendations = localStorage.getItem("recsA");
     }else{
-      data.algorithms = "A: "+ localStorage.listA + ", B: " + localStorage.listB
-      localStorage.removeItem('listA');
-      localStorage.removeItem('listB');
+      data.algorithms = '{"A":'+ localStorage.getItem("algorithmA") + ',"B":'
+      + localStorage.getItem("algorithmB") + '}';
+      data.recommendations = '{"A":' + localStorage.getItem("recsA") + ',"B":'
+      + localStorage.getItem("recsB") + '}';
+
     }
 
     this.props.updateValidSurveyProfile({email:localStorage.email,valid_survey:data.is_valid})

@@ -22,9 +22,7 @@ class Thanks extends React.Component {
     localStorage.removeItem('algorithmB');
     localStorage.removeItem('recsA');
     localStorage.removeItem('recsB');
-    localStorage.removeItem('listA');
-    localStorage.removeItem('listB');
-    localStorage.removeItem('list');
+    localStorage.removeItem('user_profile');
     localStorage.removeItem('selected');
     localStorage.removeItem('survey_type');
     localStorage.removeItem('reclist_length');

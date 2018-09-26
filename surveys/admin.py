@@ -36,15 +36,15 @@ class ResponseResource(ModelResource):
     class Meta:
         model = Response
         fields = ('id','email','survey_id','completed_at','question',
-                'answer', 'algorithms','is_valid')
+                'answer', 'user_profile','algorithms','recommendations','is_valid')
         export_order = ('id', 'email','survey_id','completed_at','question',
-                        'answer','algorithms','is_valid' )
+                        'answer','user_profile','algorithms','recommendations','is_valid' )
 
 class ResponseAdmin(ExportActionModelAdmin):
     resource_class = ResponseResource
 
     readonly_fields = ('email','survey_id','completed_at','question',
-                        'answer','survey_response','algorithms','is_valid')
+                        'answer','survey_response','user_profile','algorithms','recommendations','is_valid')
     list_display = ('email','survey_id','completed_at','question',
                         'answer','algorithms','is_valid')
 
