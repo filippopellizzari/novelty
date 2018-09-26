@@ -15,5 +15,5 @@ class Top_Rated_Recommender:
         results = r.json()["results"]
         response = exclude_seen(results, self.selected_items)
         movies = response[:self.reclist_length]
-
-        return movies
+        log = ""
+        return movies,log

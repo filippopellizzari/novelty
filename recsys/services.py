@@ -8,18 +8,15 @@ def recommend(algorithm, content, selected_items, reclist_length, random_setting
     rec_name = algorithm.get("rec_name")
 
     if(rec_name=="top_pop"):
-        print("TOP_POP")
         recommender = Top_Pop_Recommender(algorithm, content, selected_items, reclist_length)
     elif(rec_name=="random"):
-        print("RANDOM")
         recommender = Random_Recommender(algorithm, content, selected_items, reclist_length, random_setting)
     elif(rec_name=="top_rated"):
-        print("TOP_RATED")
         recommender = Top_Rated_Recommender(selected_items, reclist_length)
 
 
-    movies = recommender.get_movies()
-    return movies
+    movies,log = recommender.get_movies()
+    return movies,log
 
 def get_content(selected_items):
     genres = get_genres(selected_items)

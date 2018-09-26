@@ -44,9 +44,14 @@ class RecList extends React.Component {
       </div>
     );
 
+    var log_message = localStorage.diagnostics === "true" ?
+    <p>{this.props.log}</p>
+      : null
+
     return (
     <div>
       <h3>List {this.props.name}</h3>
+      {log_message}
       <Slider {...settings}>
         {movies}
       </Slider>

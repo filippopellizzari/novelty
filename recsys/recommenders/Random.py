@@ -101,8 +101,7 @@ class Random_Recommender:
 
         movies = self.get_random()
         movies = movies[:self.reclist_length]
-        log = "RANDOM LOG: "+str(len(movies))+ " RANDOM movies found\n"
+        log = str(len(movies))+ " RANDOM movies found\n"
         log += "with genre="+ str(self.genre) + ", crew=" +str(self.crew)+ ", cast="+ str(self.cast)+ ",\n"
         log += "total_random_pages="+ str(self.total_pages)+ ", selected_random_page="+ str(self.random_page)
-        print(log)
-        return movies
+        return movies,log

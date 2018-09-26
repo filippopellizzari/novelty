@@ -83,8 +83,9 @@ class Survey extends React.Component {
                 })
                 .then(
                   (res) => {
-                    localStorage.setItem('recsA', JSON.stringify(res.data));
-                    this.setState({recsA:res.data, loadingA:false})
+                    localStorage.setItem('logA', res.data[0])
+                    localStorage.setItem('recsA', JSON.stringify(res.data[1]));
+                    this.setState({recsA:res.data[1], loadingA:false})
                   }
                 )
                 .catch(
@@ -102,9 +103,10 @@ class Survey extends React.Component {
                   })
                   .then(
                     (res) => {
-                      localStorage.setItem('recsB', JSON.stringify(res.data));
+                      localStorage.setItem('logB', res.data[0])
+                      localStorage.setItem('recsB', JSON.stringify(res.data[1]));
                       localStorage.setItem('recs_status', 'given');
-                      this.setState({recsB:res.data, loadingB:false})
+                      this.setState({recsB:res.data[1], loadingB:false})
                     }
                   )
                   .catch(
@@ -172,13 +174,13 @@ class Survey extends React.Component {
     var reclists = survey_type === "Within-subject" ?
     <div>
       <div>
-        <RecList recs={recsA} name="A"/>
+        <RecList recs={recsA} log={localStorage.logA} name="A"/>
       </div>
       <div style={{marginTop:20}}>
-        <RecList recs={recsB} name="B"/>
+        <RecList recs={recsB} log={localStorage.logB} name="B"/>
       </div>
     </div>
-    : <RecList recs={recsA} name=""/>
+    : <RecList recs={recsA} log={localStorage.logA} name=""/>
 
     return (
       <div className="container">

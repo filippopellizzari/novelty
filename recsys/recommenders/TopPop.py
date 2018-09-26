@@ -50,14 +50,14 @@ class Top_Pop_Recommender:
     def get_movies(self):
         self.get_content_ids()
         movies = self.get_top_pop()
-        log = "TOP_POP LOG: "+str(len(movies)) + " TOP_POP movies found\n"
-        log += "with genre="+str(self.genre) + ", crew=" +str(self.crew)+ ", cast=" + str(self.cast)+"\n"
+        log = str(len(movies)) + " TOP_POP movies found\n"
+        log += "with genre="+str(self.genre) + ", crew=" +str(self.crew)+ ", cast=" + str(self.cast)+". \n"
         if(len(movies)<self.reclist_length):
             self.crew = False
             self.cast = False
             news = new_movies(movies,self.get_top_pop())
             log += "Some TOP_POP movies found\n"
-            log += "with genre="+str(self.genre) + ", crew=" +str(self.crew)+ ", cast=" + str(self.cast)+"\n"
+            log += "with genre="+str(self.genre) + ", crew=" +str(self.crew)+ ", cast=" + str(self.cast)+". \n"
             movies = movies + news
         if(len(movies)<self.reclist_length):
             self.genre = False
@@ -65,6 +65,5 @@ class Top_Pop_Recommender:
             log += "Some TOP_POP movies found\n"
             log += "with genre="+str(self.genre) + ", crew=" +str(self.crew)+ ", cast=" + str(self.cast)
             movies = movies + news
-        print(log)
         movies = movies[:self.reclist_length]
-        return movies
+        return movies,log

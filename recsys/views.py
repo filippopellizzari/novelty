@@ -9,7 +9,7 @@ from movies.serializers import *
 
 class RecommendView(APIView):
     def post(self, request):
-        movies = recommend(
+        movies,log = recommend(
             request.data.get("algorithm"),
             request.data.get("content"),
             request.data.get("selected_items"),
@@ -17,7 +17,7 @@ class RecommendView(APIView):
             request.data.get("random_setting"),
             )
         serializer = MovieSerializer(movies, many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response([log, serializer.data], status=status.HTTP_200_OK)
 
 class GetContentView(APIView):
     def post(self, request):
