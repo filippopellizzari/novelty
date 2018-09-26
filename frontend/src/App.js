@@ -21,7 +21,7 @@ import GuestRoute from './route/GuestRoute';
 const App = ({location}) => (
         <div>
             <Navbar />
-            <GuestRoute location={location} exact path="/home/:survey_id/:crowd/" component={Home} />
+            <GuestRoute location={location} exact path="/home/:survey_id/:crowd/:diag?" component={Home} />
             <GuestRoute location={location} path="/login" component={LoginPage} />
             <GuestRoute location={location} path="/signup" component={SignupPage} />
             <GuestRoute location={location} path="/socialSignup" component={SocialSignupPage} />

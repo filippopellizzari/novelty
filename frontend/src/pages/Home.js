@@ -8,6 +8,8 @@ class Home extends React.Component {
     localStorage.setItem("survey_id",this.props.match.params.survey_id)
     var crowd = this.props.match.params.crowd==='1' ? true : false
     localStorage.setItem("crowdsourcing",crowd)
+    var diag = this.props.match.params.diag==='d' ? true : false
+    localStorage.setItem("diagnostics",diag)
   }
 
   render() {

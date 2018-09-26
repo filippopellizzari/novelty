@@ -53,8 +53,6 @@ class Random_Recommender:
 
     def get_random(self):
 
-        print("total_random_pages: "+str(self.total_pages))
-
         if(self.last_page < self.first_page):
             tmp = self.last_page
             self.last_page = self.first_page
@@ -68,17 +66,17 @@ class Random_Recommender:
             self.last_page -=1
 
         movies = []
-        random_page = random.randint(self.first_page, self.last_page)
-        print("random_page: "+str(random_page))
+        self.random_page = random.randint(self.first_page, self.last_page)
         url = "https://api.themoviedb.org/3/discover/movie?"\
         "api_key=a070e12e1c6d7b84ebc1b172c841a8bf&language=en-US"\
-        "&include_adult=false&page="+str(random_page)+"&release_date.lte=2019"
+        "&include_adult=false&page="+str(self.random_page)+"&release_date.lte=2019"
         if(self.genre):
             url += "&with_genres="+self.genres_ids
         if(self.crew):
             url += "&with_crew="+self.crew_ids
         if(self.cast):
             url += "&with_cast="+self.cast_ids
+
 
         r = requests.get(url)
         check_rate_limit(r)
@@ -102,6 +100,9 @@ class Random_Recommender:
             self.get_total_results()
 
         movies = self.get_random()
-        print("random_movies: " +str(len(movies)))
         movies = movies[:self.reclist_length]
+        log = "RANDOM LOG: "+str(len(movies))+ " RANDOM movies found\n"
+        log += "with genre="+ str(self.genre) + ", crew=" +str(self.crew)+ ", cast="+ str(self.cast)+ ",\n"
+        log += "total_random_pages="+ str(self.total_pages)+ ", selected_random_page="+ str(self.random_page)
+        print(log)
         return movies
