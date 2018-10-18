@@ -100,8 +100,10 @@ class Random_Recommender:
             self.get_total_results()
 
         movies = self.get_random()
+        total_movies = len(movies)
         movies = movies[:self.reclist_length]
-        log = str(len(movies))+ " RANDOM movies found\n"
+        log = str(total_movies)+ " RANDOM movies found\n"
         log += "with genre="+ str(self.genre) + ", crew=" +str(self.crew)+ ", cast="+ str(self.cast)+ ",\n"
-        log += "total_random_pages="+ str(self.total_pages)+ ", selected_random_page="+ str(self.random_page)
+        log += "total_random_pages="+ str(self.total_pages)+ ", first_random_page="+ str(self.first_page)+",\n"
+        log += "last_random_page="+ str(self.last_page)+ ", selected_random_page="+ str(self.random_page)
         return movies,log
