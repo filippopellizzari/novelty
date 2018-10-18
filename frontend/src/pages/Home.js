@@ -18,7 +18,7 @@ class Home extends React.Component {
         <div>
             <div className="jumbotron jumbotron-fluid">
               <div className="container" style={{textAlign:'center'}}>
-                <h2 className="display-3">Novelty Survey</h2>
+                <h2 className="display-3">Movie Survey</h2>
                 <form className="form-inline">
                   <div className="container" style={{textAlign:'center',marginTop:20}}>
                     <Button primary size="large"  href="/login">Login</Button>

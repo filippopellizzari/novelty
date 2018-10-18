@@ -11,7 +11,7 @@ const Navbar = ({isAuthenticated, logout}) => (
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
           <div className="container">
             <div className="navbar-header">
-              <div className="navbar-brand">Novelty Survey</div>
+              <div className="navbar-brand">Movie Survey</div>
             </div>
             <div className="collapse navbar-collapse">
               <ul className="navbar-nav ml-auto" >
