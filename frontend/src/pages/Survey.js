@@ -46,11 +46,17 @@ class Survey extends React.Component {
       localStorage.setItem("reclist_length",res.data.reclist_length)
       localStorage.setItem("random_first_page",res.data.random_first_page)
       localStorage.setItem("random_last_page",res.data.random_last_page)
-      localStorage.setItem("algorithmA",JSON.stringify(res.data.algorithms[0]))
-      if(localStorage.survey_type==="Within-subject"){
-        localStorage.setItem("algorithmB",JSON.stringify(res.data.algorithms[1]))
-      }
 
+/*
+      var random_value = Math.floor(Math.random() * 2) //random value between 0 and 1
+      var algorithm_A = res.data.algorithms[random_value]
+      var algorithm_B = res.data.algorithms[1-random_value]
+
+      localStorage.setItem("algorithmA",JSON.stringify(algorithm_A))
+      if(localStorage.survey_type==="Within-subject"){
+        localStorage.setItem("algorithmB",JSON.stringify(algorithm_B))
+      }
+*/
 
       if(localStorage.recs_status==='given'){
           this.setState({recsA:JSON.parse(localStorage.getItem("recsA")), loadingA:false})
@@ -60,6 +66,15 @@ class Survey extends React.Component {
             this.setState({loadingB:false})
           }
       }else{
+
+          var random_value = Math.floor(Math.random() * 2) //random value between 0 and 1
+          var algorithm_A = res.data.algorithms[random_value]
+          var algorithm_B = res.data.algorithms[1-random_value]
+
+          localStorage.setItem("algorithmA",JSON.stringify(algorithm_A))
+          if(localStorage.survey_type==="Within-subject"){
+            localStorage.setItem("algorithmB",JSON.stringify(algorithm_B))
+          }
 
           var selected = JSON.parse(localStorage.getItem("selected"));
           this.props.getContent({selected_items:selected})
