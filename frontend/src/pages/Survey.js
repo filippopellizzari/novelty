@@ -47,17 +47,6 @@ class Survey extends React.Component {
       localStorage.setItem("random_first_page",res.data.random_first_page)
       localStorage.setItem("random_last_page",res.data.random_last_page)
 
-/*
-      var random_value = Math.floor(Math.random() * 2) //random value between 0 and 1
-      var algorithm_A = res.data.algorithms[random_value]
-      var algorithm_B = res.data.algorithms[1-random_value]
-
-      localStorage.setItem("algorithmA",JSON.stringify(algorithm_A))
-      if(localStorage.survey_type==="Within-subject"){
-        localStorage.setItem("algorithmB",JSON.stringify(algorithm_B))
-      }
-*/
-
       if(localStorage.recs_status==='given'){
           this.setState({recsA:JSON.parse(localStorage.getItem("recsA")), loadingA:false})
           if(localStorage.survey_type==="Within-subject"){
