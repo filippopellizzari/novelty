@@ -37,7 +37,8 @@ WEBPACK_LOADER = {
 #Email backend
 
 EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'filippopellizzari'
-EMAIL_HOST_PASSWORD = 'Philpelli93'
+#insert sendgrid username and password
+#EMAIL_HOST_USER = 'USERNAME'
+#EMAIL_HOST_PASSWORD = 'PASSWORD'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
