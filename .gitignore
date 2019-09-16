@@ -122,3 +122,4 @@ bundles/
 /assets
 /staticfiles
 /algos/input
+/frontend/package-lock.json
